@@ -335,7 +335,14 @@ def refresh_readme_personas() -> bool:
         cur = p.read_text()
     except OSError:
         return False
-    new = render.splice_personas(cur)
+    try:
+        new = render.splice_personas(cur)
+    except workspace.CannotCheck as e:
+        # The roster's memory column counts each persona's memory directory. One it could not
+        # list is no count to write into a committed file, so README is left as it is and the
+        # directory is named (#1084) — it used to go in as 0.
+        workspace.say_unread(e.unread)
+        return False
     if new is None or new == cur:
         return False
     try:
@@ -3098,6 +3105,11 @@ def cmd_recall(args) -> int:
                     persona_name=getattr(args, "persona", None),
                     workspace_name=getattr(args, "workspace", None), scopes=scopes,
                     since=since, all_workspaces=all_ws)
+    # A base it could not read is named, and every count below says it was not searched (#1084):
+    # "No memories match" of a search that did not look reads as the fact not existing.
+    workspace.say_unread(got.unread)
+    skipped = (f"; {len(got.unread)} base(s) not searched — charter could not read them"
+               if got.unread else "")
     truncated = bool(limit) and len(got.hits) > limit
     results = got.hits[:limit] if limit else got.hits
     if not results:
@@ -3115,7 +3127,8 @@ def cmd_recall(args) -> int:
                 return 0
         where = "every workspace" if all_ws else ", ".join(scopes)
         when = f" recorded since {since}" if since else ""
-        util.info(f"No memories {'match ' + repr(q) if q else 'yet'} across {where}{when}.")
+        util.info(f"No memories {'match ' + repr(q) if q else 'yet'} across {where}{when}"
+                  f"{skipped}.")
         if got.undated:
             util.info(f"{got.undated} undated memory(ies) skipped — no recorded date to compare.")
         return 0
@@ -3151,7 +3164,7 @@ def cmd_recall(args) -> int:
             if snip:
                 print(f"{hang}{snip}")
     where = "every workspace" if all_ws else ", ".join(scopes)
-    util.info(f"{len(results)} memory(ies) across {where}."
+    util.info(f"{len(results)} memory(ies) across {where}{skipped}."
               + ("" if full else "  Pass --full for a line of each body."))
     if truncated:
         util.info(f"Showing {len(results)} — pass --limit 0 for all.")

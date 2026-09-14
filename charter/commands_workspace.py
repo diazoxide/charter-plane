@@ -708,7 +708,12 @@ def cmd_workspace_optimize(args) -> int:
         mdir = workspace.memory_dir(n)
         if not mdir.exists():
             continue
-        rep = curate.report(mdir, stale_days=stale_days)
+        try:
+            rep = curate.report(mdir, stale_days=stale_days)
+        except workspace.CannotCheck as e:
+            # Named, and the next one read (#1084) — `cmd_persona_optimize`'s rule.
+            workspace.say_unread(e.unread)
+            continue
         if rep["total"] == 0:
             continue
         print(f"\n◆ {n}  ({rep['total']} memories · {len(rep['exact_dups'])} exact-dup "
@@ -1551,10 +1556,17 @@ def _list_todos(name: str, query: str | None) -> int:
 
 
 def cmd_workspace_recall(args) -> int:
-    """Search this workspace's memories (--query) or list them all chronologically."""
+    """Search this workspace's memories (--query) or list them all chronologically.
+
+    A memory directory it could not read is named, and neither "no memories match" nor "no
+    memories yet" is said over it (#1084)."""
     name = getattr(args, "workspace", None) or workspace.resolve()
     query = getattr(args, "query", None)
-    results = workspace.recall(name, query)
+    unread: list = []
+    results = workspace.recall(name, query, unread=unread)
+    workspace.say_unread(unread)
+    if unread:
+        return 0          # its one directory: nothing was read, and the sentence said so
     if not results:
         if query:
             util.info(f"No memories in '{name}' match '{query}'.")

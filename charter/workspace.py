@@ -3014,6 +3014,45 @@ def cannot_check_workspace(name: str, code: int | None) -> str:
             f"{uncheckable_fix(code, wd, wd)}.")
 
 
+def cannot_check(path: Path, code: int | None) -> str:
+    """`doctor`'s clause for a path it could not check — ``<path> cannot be checked — <what
+    clears it>`` — with no full stop, so a row can join several.
+
+    The one wording for a directory charter could not look at (#1043): `doctor` joins these
+    beside a verdict, and since #1084 a command that searched or listed around one prints it as a
+    sentence (:class:`CannotCheck`). *path* is named from the plane's root when it is inside it."""
+    try:
+        named = Path(path).relative_to(config.ROOT).as_posix()
+    except ValueError:
+        named = str(path)
+    return f"{named} cannot be checked — {uncheckable_fix(code, path)}"
+
+
+def say_unread(unread) -> None:
+    """Print :func:`cannot_check`'s sentence on stderr for each ``(path, errno)`` in *unread* — for
+    a command that searched or listed around what it could not read (#1084)."""
+    for path, code in unread:
+        util.err(f"{cannot_check(path, code)}.")
+
+
+class CannotCheck(OSError):
+    """A reader that has no partial answer to give met a directory it could not look at (#1084).
+
+    Raised where "nothing there" was the answer before — `memstore.files` of a `memory/` it may
+    not list, `change.all_for` of such a `changes/` — so no caller can take "could not look" for
+    "found nothing" without deciding to. An `OSError`, so a caller that already degrades on one
+    still does. Its text is :func:`cannot_check`'s sentence, one per path, which is what the CLI
+    prints for a command that lets it through. *unread* is ``(path, errno)`` pairs."""
+
+    def __init__(self, unread: list[tuple[Path, int | None]]):
+        path, code = unread[0]
+        super().__init__(code, " ".join(f"{cannot_check(p, c)}." for p, c in unread), str(path))
+        self.unread = list(unread)
+
+    def __str__(self) -> str:
+        return self.strerror
+
+
 # --------------------------------------------------------------------------- #
 # guest checkouts — the layer one directory deeper, hidden in the checkout's     #
 # own `info/exclude` (#870). See this section's header comment for the boundary. #
@@ -4156,13 +4195,17 @@ def note(name: str, text: str) -> Path:
     return remember(name, text)
 
 
-def recall(name: str, query: str | None = None, limit: int = 8) -> list[tuple[Path, str, int]]:
+def recall(name: str, query: str | None = None, limit: int = 8,
+           unread: list | None = None) -> list[tuple[Path, str, int]]:
     """Search the workspace's memories by keyword, or (no query) list them all
-    chronologically. Returns [(path, title, score)]."""
+    chronologically. Returns [(path, title, score)].
+
+    A memory directory it could not list goes to *unread*, or raises `CannotCheck` without one
+    (`memstore.search`'s rule, #1084)."""
     from . import memstore
     if query:
-        return memstore.search([memory_dir(name)], query, limit)
-    return [(p, t, 0) for p, t, _tx in memstore.entries(memory_dir(name))]
+        return memstore.search([memory_dir(name)], query, limit, unread=unread)
+    return [(p, t, 0) for p, t, _tx in memstore.gather([memory_dir(name)], unread)]
 
 
 def forget_memory(name: str, ident: str):

@@ -357,9 +357,16 @@ def cmd_change_forget(args) -> int:
 
 
 def cmd_change_list(args) -> int:
-    """Every change in the workspace, one row each."""
+    """Every change in the workspace, one row each.
+
+    A `changes/` it could not list is named, with what clears it, and is never "No changes"
+    (#1084): the listing is not complete, so it exits 1 as it does for a record it could not
+    read."""
     ws = _workspace(args)
-    records, refused = change.all_for(ws)
+    records, refused, unread = change.read_all(ws)
+    if unread:
+        workspace.say_unread(unread)
+        return 1
     if not records and not refused:
         util.info(f"No changes in workspace '{ws}'. "
                   "Create one: charter change create <slug> --why \"…\"")
@@ -626,7 +633,10 @@ def stray_branches(ws: str) -> list[str]:
     separately and `doctor` says so — because guessing at branch names from a record that
     did not parse is the unearned diagnosis ADR 0009 forbids.
     """
-    records, _refused = change.all_for(ws)
+    # `read_all`, not `all_for`: a `changes/` it could not list contributes no names either, and
+    # `doctor`, this function's caller, has already named it from its own read (#1084) rather
+    # than losing the whole row to it here.
+    records, _refused, _unread = change.read_all(ws)
     wanted: dict[str, str] = {}          # branch name → the change that declares it
     members: set[str] = set()
     for rec in records:

@@ -25,6 +25,7 @@ from . import (
     statusline,
     toolgate,
     util,
+    workspace,
 )
 from .browser import PINNED as _PLAYWRIGHT_PIN
 from .forge.registry import KINDS as _FORGE_KINDS
@@ -2252,6 +2253,13 @@ def main(argv=None) -> int:
         # charter — the same distinction `ProcTimeout` draws below, one noun over. Falling
         # through to the crash reporter would file a report against charter for it and
         # send whoever reads it looking in the wrong repository (#349).
+        util.err(str(e))
+        return 1
+    except workspace.CannotCheck as e:
+        # A directory charter could not look at, reaching a command with no partial answer to
+        # give (#1084) — `persona dedupe`, `ws todo`, `persona stats`. A condition of the plane's
+        # modes, like `Refused` above, so it is said in the one sentence for it, not filed as a
+        # charter crash; before, those commands answered "none" over what they had not read.
         util.err(str(e))
         return 1
     except util.ProcTimeout as e:

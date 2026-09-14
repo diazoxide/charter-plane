@@ -431,17 +431,35 @@ def all_for(ws: str) -> tuple[list[dict], list[tuple[str, str]]]:
     it silently passes off as absent. One bad file must not take the listing down, and it
     must not disappear either — those are the two failure modes, and returning only the
     good half picks one of them by accident.
+
+    A `changes/` it could not list raises `workspace.CannotCheck` (#1084): it read as an empty
+    list, so every change command said there were no changes. A caller that names what it could
+    not read asks :func:`read_all`.
+    """
+    records, refused, unread = read_all(ws)
+    if unread:
+        raise workspace.CannotCheck(unread)
+    return records, refused
+
+
+def read_all(ws: str) -> tuple[list[dict], list[tuple[str, str]], list[tuple[Path, int | None]]]:
+    """:func:`all_for`, and beside it the `changes/` it could not list, with its errno —
+    ``(records, refused, unread)`` (#1084).
+
+    Listed through `workspace.read_directory`, whose "not there" is the lazy-creation case (no
+    `changes/` yet) and whose every other refusal is a directory charter could not look at: mode
+    000 or 333, a symlink loop. Both used to be the one ``except OSError`` answering "no changes".
     """
     records: list[dict] = []
     refused: list[tuple[str, str]] = []
     d = changes_dir(ws)
     complaint = contain.dir_refusal(d)
     if complaint:
-        return records, [(DIRNAME, complaint)]
+        return records, [(DIRNAME, complaint)], []
     try:
-        names = sorted(p.name for p in d.iterdir())
-    except OSError:
-        return records, refused          # no changes/ yet: the lazy-creation case
+        names = [p.name for p in workspace.read_directory(d)[0]]
+    except OSError as e:
+        return records, refused, [(d, e.errno)]
     for name in names:
         if not name.endswith(".json"):
             continue                     # changes/log/, and anything else that is not one
@@ -450,7 +468,7 @@ def all_for(ws: str) -> tuple[list[dict], list[tuple[str, str]]]:
             records.append(read(ws, slug))
         except RecordError as exc:
             refused.append((slug, str(exc)))
-    return records, refused
+    return records, refused, []
 
 
 # --------------------------------------------------------------------------- #

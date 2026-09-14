@@ -104,8 +104,9 @@ def _beside_unread(result: Result, unread) -> Result:
     if not unread:
         return result
     named = [p.relative_to(_config.ROOT).as_posix() for p, _ in unread]
-    cannot = "; ".join(f"{n} cannot be checked — {_workspace.uncheckable_fix(code, p)}"
-                       for n, (p, code) in zip(named, unread)) + "."
+    # `workspace.cannot_check`, the clause a command prints as a sentence (#1084), so the two
+    # cannot drift apart.
+    cannot = "; ".join(_workspace.cannot_check(p, code) for p, code in unread) + "."
     return Result(result.name, WARN if result.status == OK else result.status,
                   detail=f"{result.detail}; {', '.join(named)} cannot be checked",
                   hint=f"{result.hint}   {cannot}" if result.hint else cannot)
@@ -2986,7 +2987,10 @@ def _changes_result(unread: list) -> Result:
         names, unstatted = _workspace.read_workspaces()
         unread.extend(unstatted)
         for ws in names:
-            records, refused = _change.all_for(ws)
+            # The `changes/` it could not list is named beside the verdict, not read as none
+            # (#1084).
+            records, refused, missed = _change.read_all(ws)
+            unread.extend(missed)
             total += len(records)
             for slug, complaint in refused:
                 unreadable.append(f"{ws}/{contain.readable(slug)}: {complaint}")
@@ -3336,14 +3340,15 @@ def check_memory_indexes() -> Result:
             continue
         if not there:
             continue
-        try:
-            # LISTED before anything is read from it (#1043). `Path.glob` answers an empty list
-            # for a directory it may not read, so `memstore.files` said "no memories" of a base at
-            # mode 000 or 333 and the drift below described a store nobody had listed: consistent,
-            # or its indexed memories dangling. A link to nothing lists as nothing and goes on.
-            workspace.read_directory(mem_dir)
-        except OSError as e:
-            unread.append((mem_dir, e.errno))
+        # LISTED before anything is read from it (#1043). `Path.glob` answered an empty list for
+        # a directory it may not read, so `memstore.files` said "no memories" of a base at mode
+        # 000 or 333 and the drift below described a store nobody had listed: consistent, or its
+        # indexed memories dangling. A link to nothing lists as nothing and goes on. Listed the
+        # way `memstore.files` lists (#1084), so a base at mode 666 — listable, its memories not
+        # `stat`-able — is named here too, rather than read as an index charter will not touch.
+        missed = memstore.read_files(mem_dir)[1]
+        if missed:
+            unread.extend(missed)
             unread_bases += 1
             continue
         # Asked FIRST, and reported on its own terms. A refused index answers "nothing is

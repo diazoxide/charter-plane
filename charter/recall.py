@@ -55,6 +55,10 @@ class Recalled(NamedTuple):
     #: Defaulted so existing positional unpacking of (hits, undated) keeps working — this
     #: NamedTuple's own docstring records what happened the last time a field was added.
     undated_refs: int = 0
+    #: Each base it could not read, as ``(directory, errno)`` (#1084). A search that did not
+    #: look is not a search that found nothing, so the caller names these rather than letting
+    #: "no memories match" stand for them. Defaulted for the same reason as the field above.
+    unread: list | tuple = ()
 
 
 #: `14d` / `2w` / `3m`. Months are 30 days — predictable beats calendar-correct for a
@@ -173,12 +177,16 @@ def recall(query: str | None = None, session_id: str | None = None, limit: int =
     **narrows, it never re-ranks**: with a query the survivors stay in score order, because
     someone who typed a keyword asked for relevance, and quietly re-sorting by date would
     change what "best match" means without saying so.
+
+    A base it could not read is searched around, not through: the hits are what the others held,
+    and :attr:`Recalled.unread` names each one it could not, for the caller to say (#1084).
     """
     srcs = sources(session_id=session_id, persona_name=persona_name,
                    workspace_name=workspace_name, scopes=scopes,
                    all_workspaces=all_workspaces)
     dirs = [d for _lbl, d in srcs]
     undated = undated_refs = 0
+    unread: list[tuple[Path, int | None]] = []
 
     def _dated(p: Path) -> datetime.date | None:
         try:
@@ -188,7 +196,7 @@ def recall(query: str | None = None, session_id: str | None = None, limit: int =
 
     if query:
         rows = []
-        for p, title, score in memstore.search(dirs, query, 0 or 10_000):
+        for p, title, score in memstore.search(dirs, query, 0 or 10_000, unread=unread):
             d = _dated(p)
             lbl = _label_of(p, srcs)
             if since is not None and (d is None or d < since):
@@ -198,11 +206,13 @@ def recall(query: str | None = None, session_id: str | None = None, limit: int =
                     undated += d is None
                 continue
             rows.append(Hit(lbl, p, title, score, d))
-        return Recalled(rows[:limit] if limit else rows, undated, undated_refs)
+        return Recalled(rows[:limit] if limit else rows, undated, undated_refs, unread)
 
     items: list[tuple[datetime.date, Hit]] = []
     for lbl, d in srcs:
-        for p, title, text in memstore.entries(d):
+        found, missed = memstore.read_entries(d)
+        unread.extend(missed)
+        for p, title, text in found:
             dt = memstore.memory_date(text, p.name)
             if since is not None and (dt is None or dt < since):
                 if lbl.startswith("refs"):
@@ -215,4 +225,4 @@ def recall(query: str | None = None, session_id: str | None = None, limit: int =
             items.append((dt or datetime.date.min, Hit(lbl, p, title, 0, dt)))
     items.sort(key=lambda x: x[0], reverse=True)
     rows = [h for _dt, h in items]
-    return Recalled(rows[:limit] if limit else rows, undated, undated_refs)
+    return Recalled(rows[:limit] if limit else rows, undated, undated_refs, unread)

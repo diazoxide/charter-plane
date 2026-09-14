@@ -1210,11 +1210,19 @@ def cmd_persona_recall(args) -> int:
     if not name or not _require(name):
         return 1
 
+    from . import workspace
+
     # Retrieval: pull just the relevant memories instead of the whole index.
+    # A memory directory it could not read is named, and "no memory of" is not said over it
+    # (#1084): that sentence of a search that did not look reads as the fact not existing.
+    unread: list = []
     if getattr(args, "query", None):
-        hits = persona.search_memories(name, args.query, limit=args.log or 8)
+        hits = persona.search_memories(name, args.query, limit=args.log or 8, unread=unread)
+        workspace.say_unread(unread)
         if not hits:
-            util.info(f"no memory of '{args.query}' for '{name}'.")
+            util.info(f"nothing matching '{args.query}' in the memory charter could read "
+                      f"for '{name}'." if unread
+                      else f"no memory of '{args.query}' for '{name}'.")
             return 0
         print(f"── memory matching '{args.query}' ({len(hits)})")
         for p, title, score in hits:
@@ -1225,14 +1233,19 @@ def cmd_persona_recall(args) -> int:
     printed = False
     for shared, label in ((False, name), (True, "_shared (all personas)")):
         idx = persona.index_of(persona.memory_dir(name, shared=shared))
-        mems = persona.memories(name, shared=shared)
+        mems, missed = persona.read_memories(name, shared=shared)
+        unread.extend(missed)
         if mems:
             printed = True
             print(f"── persistent memory · {label} ({len(mems)}) "
                   f"[{persona.memory_dir(name, shared=shared).relative_to(config.ROOT)}/]")
             print(idx.read_text().strip() if idx.exists() else "(no index)")
             print()
-    eph = persona.memories(name, ephemeral=True) + persona.memories(name, shared=True, ephemeral=True)
+    eph = []
+    for shared in (False, True):
+        found, missed = persona.read_memories(name, shared=shared, ephemeral=True)
+        eph += found
+        unread.extend(missed)
     if eph:
         printed = True
         print(f"── ephemeral scratch · this session ({len(eph)})")
@@ -1246,7 +1259,8 @@ def cmd_persona_recall(args) -> int:
         for r in acts:
             extra = "  ".join(f"{k}={v}" for k, v in r.items() if k not in ("ts", "event", "persona"))
             print(f"  {r.get('ts', '')}  {r['event']:10} {extra}")
-    if not printed:
+    workspace.say_unread(unread)
+    if not printed and not unread:
         util.info(f"persona '{name}' has no memories yet. "
                   f"Add one: charter persona remember {name} \"<fact>\"")
     return 0
@@ -1704,7 +1718,7 @@ def cmd_persona_optimize(args) -> int:
     redundant copies; repair the index), and print the tier-2 PROPOSALS (near-dup merges,
     stale archives, charter promotions) for the steward to quiz on — never auto-applied,
     never a silent charter edit. Read-only without --apply. Mirrors steward's Hat 2 model."""
-    from . import curate
+    from . import curate, workspace
     from .commands import commit_memory_reactive
     refused = _roster_name_refusal(args)
     if refused:
@@ -1723,7 +1737,13 @@ def cmd_persona_optimize(args) -> int:
     for n in names:
         shared = n == config.SHARED_PERSONA
         mdir = persona.memory_dir(n, shared=shared)
-        rep = curate.report(mdir, stale_days=stale_days)
+        try:
+            rep = curate.report(mdir, stale_days=stale_days)
+        except workspace.CannotCheck as e:
+            # Named, and the next one read (#1084). It used to report no memories here and
+            # skip without a word; nothing is proposed or applied from a listing it lacks.
+            workspace.say_unread(e.unread)
+            continue
         if rep["total"] == 0:
             continue
         st = persona.stats(n, shared=shared)

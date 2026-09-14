@@ -6444,15 +6444,25 @@ def _memory_digest(name: str) -> str:
     The count beside it comes from `memstore.files()` and is still true, so silence here
     would make "this plane has a committed symlink where its index should be" look exactly
     like "nothing has been recorded lately" — and only one of those needs somebody to act.
+
+    A memory directory charter could not LIST is named the same way, with what clears it, and
+    its count is ``?`` (#1084): counted as none, it read as a persona that has recorded nothing.
     """
-    from . import persona
-    own = persona.memories(name)
-    shared = persona.memories(name, shared=True)
-    if not own and not shared:
+    from . import persona, workspace
+    own, own_unread = persona.read_memories(name)
+    shared, shared_unread = persona.read_memories(name, shared=True)
+    if not own and not shared and not own_unread + shared_unread:
         return ""
     lines = []
 
-    def _store(label: str, count: int, idx_path) -> None:
+    def _store(label: str, found: list, unread: list, idx_path) -> None:
+        if unread:
+            lines.append(f"**{label} (?)** — not read:")
+            lines.extend(f"   ⚠ {workspace.cannot_check(p, code)}." for p, code in unread)
+            return
+        if not found:
+            return
+        count = len(found)
         titles, why = _read_index(idx_path)
         titles = titles[-_MEM_DIGEST_N:]
         if why:
@@ -6463,14 +6473,14 @@ def _memory_digest(name: str) -> str:
                      else f"**{label} ({count})**")
         lines.extend(titles)
 
-    if own:
-        _store("own", len(own), persona.index_of(persona.memory_dir(name)))
-    if shared:
-        _store("shared", len(shared),
-               persona.index_of(persona.memory_dir(name, shared=True)))
+    _store("own", own, own_unread, persona.index_of(persona.memory_dir(name)))
+    _store("shared", shared, shared_unread,
+           persona.index_of(persona.memory_dir(name, shared=True)))
     body = "\n".join(lines)
+    n_own = "?" if own_unread else len(own)
+    n_shared = "?" if shared_unread else len(shared)
     return (
-        f"\n\n## Memory — {len(own)} own · {len(shared)} shared (newest shown; **search the rest**)\n"
+        f"\n\n## Memory — {n_own} own · {n_shared} shared (newest shown; **search the rest**)\n"
         f"**Before acting, search** — don't assume the titles below are all you know:\n"
         f"`charter recall \"<keywords>\"` (all bases at once) or "
         f"`charter persona recall {name} --query <keywords>`. Record durable facts with "

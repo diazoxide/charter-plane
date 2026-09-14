@@ -2329,9 +2329,21 @@ def remember(name: str, text: str, title: str | None = None, *,
 
 def memories(name: str, shared: bool = False, ephemeral: bool = False,
              session: str | None = None) -> list[Path]:
+    """One quadrant's memory files. A directory charter cannot list raises
+    `workspace.CannotCheck` (`memstore.files`), rather than counting as none (#1084)."""
     from . import memstore
-    d = ephemeral_dir(name, shared, session) if ephemeral else memory_dir(name, shared)
-    return memstore.files(d)
+    return memstore.files(_quadrant(name, shared, ephemeral, session))
+
+
+def read_memories(name: str, shared: bool = False, ephemeral: bool = False,
+                  session: str | None = None) -> tuple[list[Path], list[tuple[Path, int | None]]]:
+    """:func:`memories`, and beside them what could not be read — `memstore.read_files`."""
+    from . import memstore
+    return memstore.read_files(_quadrant(name, shared, ephemeral, session))
+
+
+def _quadrant(name: str, shared: bool, ephemeral: bool, session: str | None) -> Path:
+    return ephemeral_dir(name, shared, session) if ephemeral else memory_dir(name, shared)
 
 
 def _mem_dirs(name: str, include_shared: bool) -> list[Path]:
@@ -2341,12 +2353,14 @@ def _mem_dirs(name: str, include_shared: bool) -> list[Path]:
     return dirs
 
 
-def search_memories(name: str, query: str, limit: int = 8,
-                    include_shared: bool = True) -> list[tuple[Path, str, int]]:
+def search_memories(name: str, query: str, limit: int = 8, include_shared: bool = True,
+                    unread: list | None = None) -> list[tuple[Path, str, int]]:
     """Keyword-rank a persona's persistent memories (own + shared) against *query*.
-    Returns [(path, title, score)] best-first — pull just the relevant few."""
+    Returns [(path, title, score)] best-first — pull just the relevant few.
+
+    A directory it could not list goes to *unread* (`memstore.search`, #1084)."""
     from . import memstore
-    return memstore.search(_mem_dirs(name, include_shared), query, limit)
+    return memstore.search(_mem_dirs(name, include_shared), query, limit, unread=unread)
 
 
 def find_duplicates(name: str, threshold: float = 0.5,
