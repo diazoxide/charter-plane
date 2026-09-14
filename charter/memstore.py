@@ -450,12 +450,16 @@ def resolve(mem_dir: Path, ident: str) -> Path | None:
     # The direct hit asks the filesystem rather than the listing, so it needs the listing's
     # gate spelled out: without it `forget`/`show` would reach a file `files()` refuses,
     # which is the same read arriving by a shorter route (#336).
-    # Asked through `_existence`, not `Path.exists`, which raised past every handler for a
-    # store at mode 000 on 3.11–3.13 and answered "not there" on 3.14 (#1084). Either way the
-    # listing below is what then names the directory it could not read.
-    from . import workspace
-    if (workspace._existence(p, follow=True)[0] is True
-            and not (contain.dir_refusal(mem_dir) or contain.file_refusal(p))):
+    #
+    # `contain` is the WHOLE question, and the `Path.exists()` that stood in front of it is
+    # gone (#1084). It could reject nothing the refusal does not: `file_refusal` answers
+    # ``None`` only for a contained regular file — which is there, by construction — and
+    # answers a refusal, never a raise, for every path a `stat` does not answer for (missing,
+    # dangling, refused, a link loop, a NUL in the name). What it cost was real: `exists()`
+    # raised for a store at mode 000 on 3.11–3.13, and raises `ValueError` for a NUL on every
+    # interpreter, both past every handler here. A directory charter could not list is named
+    # by the listing below.
+    if not (contain.dir_refusal(mem_dir) or contain.file_refusal(p)):
         return p
     hits = [q for q in files(mem_dir) if q.name == name or q.name.endswith(f"-{name}")]
     return hits[0] if hits else None

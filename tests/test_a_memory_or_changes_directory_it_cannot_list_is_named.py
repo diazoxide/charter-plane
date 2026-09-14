@@ -195,6 +195,49 @@ class TheStoreNamesWhatItCouldNotList(TwoMemoryDirectories):
             memstore.resolve(self.alpha, self.alpha_file.name)
 
 
+class ResolveReachesOnlyAMemoryItMayRead(TwoMemoryDirectories):
+    """The direct hit in `memstore.resolve` — the short route `forget`, `show` and `archive` take
+    to one file — asks `contain` and nothing else (#1084, #336).
+
+    `Path.exists()` in front of it was redundant and cost a raise: `file_refusal` answers a
+    refusal for every path a `stat` does not answer for (ENOENT, EACCES, ELOOP, a NUL in the
+    name), and answers ``None`` only for a contained regular file, which is there by
+    construction. The cases below are the ones that would tell the two apart if they differed.
+    """
+
+    def slug(self) -> str:
+        return self.alpha_file.name[: -len(".md")]
+
+    def test_a_memory_that_is_there_is_reached(self):
+        self.assertEqual(memstore.resolve(self.alpha, self.slug()), self.alpha_file)
+        self.assertEqual(memstore.resolve(self.alpha, self.alpha_file.name), self.alpha_file)
+
+    def test_a_name_that_is_a_directory_or_a_dangling_link_reaches_nothing(self):
+        (self.alpha / "adir.md").mkdir()
+        (self.alpha / "gone.md").symlink_to(self.alpha / "nowhere.md")
+        for ident in ("adir", "gone", "never-written"):
+            with self.subTest(ident=ident):
+                self.assertIsNone(memstore.resolve(self.alpha, ident))
+
+    def test_a_name_holding_a_nul_reaches_nothing_and_does_not_raise(self):
+        """`os.stat` raises `ValueError`, not `OSError`, for it — the one input shaped to get
+        past a check. `contain` answers for it; `Path.exists()` raised."""
+        self.assertIsNone(memstore.resolve(self.alpha, "a\0b"))
+
+    def test_a_memory_directory_linked_out_of_the_plane_reaches_nothing(self):
+        """The `dir_refusal` half: inside a linked `memory/` every file is an ordinary regular
+        file, so the per-file check has nothing to object to (#336)."""
+        import shutil
+        import tempfile
+        outside = Path(tempfile.mkdtemp(prefix="edm-outside-"))
+        self.addCleanup(shutil.rmtree, outside, ignore_errors=True)
+        (outside / "stolen.md").write_text("# stolen\n\nkeycloak secret\n")
+        link = config.PERSONAS_DIR / "dev" / "memory"
+        link.parent.mkdir(parents=True)
+        link.symlink_to(outside, target_is_directory=True)
+        self.assertIsNone(memstore.resolve(link, "stolen"))
+
+
 class DoctorsMemoryRow(TwoMemoryDirectories):
     """`check_memory_indexes` lists each base before reading it (#1043), and a base it can list
     whose memories it cannot `stat` (mode 666) is one it could not read either: its drift is
@@ -271,6 +314,40 @@ class RecallNamesTheBaseItCouldNotSearch(TwoMemoryDirectories):
                       "1 base(s) not searched — charter could not read them.", err)
 
 
+class RecallSaysWhichQuestionItAnswered(TwoMemoryDirectories):
+    """Its two empty answers are different answers: a query that matched nothing, and a listing
+    of a scope holding nothing. One sentence for both would report a corpus for a search."""
+
+    def empty(self, **kw) -> str:
+        workspace.ensure("gamma")
+        workspace.scaffold("gamma")
+        _, _, err = run(commands.cmd_recall, scope="workspace", ephemeral=False, persona=None,
+                        workspace="gamma", all_workspaces=False, since=None, limit=8, full=False,
+                        **kw)
+        return err
+
+    def test_a_query_that_matched_nothing(self):
+        self.assertIn("No memories match 'zebra' across workspace.", self.empty(query="zebra"))
+
+    def test_a_listing_with_nothing_to_list(self):
+        self.assertIn("No memories yet across workspace.", self.empty(query=None))
+
+
+class ALimitCapsAListingAndZeroLiftsTheCap(TwoMemoryDirectories):
+    """`recall --limit`, on the no-query path. Capping everything would hide the corpus the
+    listing exists to show; capping nothing would put every memory of every base on screen."""
+
+    def hits(self, limit: int) -> int:
+        return len(recall.recall(None, workspace_name="beta", scopes=("workspace",),
+                                 limit=limit).hits)
+
+    def test_a_limit_truncates_and_zero_returns_everything(self):
+        for i in range(4):
+            memstore.write(self.beta, f"another fact {i}", title=f"fact {i}", timestamped=True)
+        self.assertEqual(self.hits(2), 2)
+        self.assertEqual(self.hits(0), 5)
+
+
 class PersonaRecall(PersonaIso):
     def setUp(self) -> None:
         super().setUp()
@@ -309,6 +386,18 @@ class PersonaRecall(PersonaIso):
         with refusing_to_list(scratch):
             _, _, err = run(commands_persona.cmd_persona_recall, name="dev", query=None, log=8)
         self.assertIn(sentence(scratch.relative_to(config.ROOT).as_posix()), err)
+
+    def test_a_persona_with_memories_is_not_told_it_has_none(self):
+        _, _, err = run(commands_persona.cmd_persona_recall, name="dev", query=None, log=8)
+        self.assertNotIn("has no memories yet", err)
+
+    def test_a_persona_with_nothing_at_all_is_told_so(self):
+        """The other side of the line the unread sentence sits on: nothing printed and nothing
+        unread is a persona that has recorded nothing, and silence there reads as a broken
+        command."""
+        self.make_persona("fresh", role="Dev")
+        _, _, err = run(commands_persona.cmd_persona_recall, name="fresh", query=None, log=8)
+        self.assertIn("persona 'fresh' has no memories yet.", err)
 
     def test_a_readable_persona_names_nothing(self):
         _, out, err = run(commands_persona.cmd_persona_recall, name="dev", query="absent", log=8)
@@ -376,6 +465,11 @@ class TheBriefingDigest(PersonaIso):
         make_plane(self)
         self.make_persona("dev", role="Dev")
         persona.ensure_shared()
+
+    def test_a_persona_with_no_memories_and_nothing_unread_has_no_digest(self):
+        """The briefing costs every session its context, so a persona with nothing recorded and
+        nothing unread contributes no block at all — the case the unread clause is beside."""
+        self.assertEqual(hooks._memory_digest("dev"), "")
 
     def test_it_names_the_store_it_could_not_count_rather_than_counting_none(self):
         persona.remember("dev", "own keycloak deploy fact")
