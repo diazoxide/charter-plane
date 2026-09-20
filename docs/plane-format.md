@@ -38,7 +38,8 @@ Four calls were close enough to be worth stating outright:
 
 - **`.charter/frame/**` is the tmux frame's.** The app replaces that frame rather than
   reading its state, so it neither reads nor writes there. The ruling is spelled out at
-  [`frame/`](#frame--the-tmux-frames-own-state-chats-panels-reopen).
+  [`frame/`](#frame--the-tmux-frames-own-state-chats-panels-reopen), and ADR 0032 records
+  what it costs the one ladder that reads a file there — the workspace resolution order.
 - **A cache a second process reads is still internal** when deleting it costs only
   recomputation — `cache/harness-wiring.json`, `cache/repostate.json`, `cache/glstate.json`.
   Each entry says what deleting it costs, which is the thing a rebuild actually needs.
@@ -1300,6 +1301,13 @@ adding the built-in fallback, `charter/workspace.py:586`):
 `"default"`, `charter/config.py:31`, `charter/config.py:734`). Pointers older than 30 days
 are pruned from both directories on every `set_active` (`charter/workspace.py:45`,
 `charter/workspace.py:881`).
+
+**The Rust charter has every rung of this ladder but the frame's launch record**, because
+`.charter/frame/**` is the tmux frame's and that binary neither reads nor writes there (the
+ruling above). The two can therefore answer differently in exactly one state — a chat the frame
+launched, with no session pointer yet — where the Rust side falls through to
+`.charter/terminals/<tid>.workspace` and below. ADR 0032 records the decision, what an operator
+on a frame-driven plane sees until then, and the one command that closes it.
 
 ---
 
