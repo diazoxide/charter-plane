@@ -262,3 +262,18 @@ right. M1 is macOS, and nothing in M1 depends on this.
 The scenario job keeps running the Linux relaunch test under `dbus-run-session` (charter-app
 #23). That is a Linux desktop with a working bus, and passing it proves nothing about this
 miss.
+
+**Addendum, 2026-09-20: the miss is no longer silent.** Everything above stands — the trade is
+still the wrong one to take and the fix is still M4's. What has changed is the part charter
+owns. The worst of a 26-second start was that nothing said anything: no window, on some
+desktops not even an icon, and the only record of the wait was a marker behind an environment
+variable that nobody sets before they have a reason to. charter-app#108 makes the wait visible
+on the two channels that exist before there is a window. At the 2 s limit the app writes one
+line to standard error naming what it is waiting for, which is what a terminal launch, a
+`.desktop` file's journal and a CI log have; and when the window does arrive it says on screen
+how long the start took and why, which is the only channel an operator who clicked an icon has.
+The cause is named on Linux alone and hedged even there, because a slow Linux start can also be
+a cold disk.
+
+This changes the caveat, not the row: **cold start is still missed** in this configuration. An
+operator who is told why they are waiting is still waiting.
