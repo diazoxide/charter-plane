@@ -14,6 +14,29 @@ The control plane — the directory holding `charter.toml`, its personas, invent
 workspaces and config. Not a place work happens (ADR 0008).
 _Avoid_: root, repo, home
 
+**Project**:
+A plane, in the words the desktop app puts on a menu: "Open Project…" opens a directory that
+has, or will get, a `charter.toml`, and the top-level switcher is a plane switcher (ADR 0033).
+The same thing under a second name, deliberately — a project that was not a plane would be the
+embedded shape ADR 0007 deleted, returning. Never a *workspace*, which is why that entry has
+carried `_Avoid_: project` since this glossary was written.
+_Avoid_: workspace, repo, folder
+
+**Opener**:
+What a window shows when it has no plane: the recent planes and a way to open or create one.
+Reached whenever charter is started other than from a terminal standing inside a plane —
+a double-clicked app has `/` for a working directory and resolves no plane at all (ADR 0034).
+_Avoid_: welcome screen, launcher, start page
+
+**Trusted plane**:
+A plane whose path this operator has opened once and approved on this machine, remembered
+outside every plane (ADR 0034) as a fingerprint of what was approved rather than as a path
+(ADR 0035). Until then a plane is *untrusted*: its committed settings would choose the
+harness's plugins and set its environment, and its reopen record would start programs, before
+anybody had read either. Not a boundary — an approved plane is in force in full, and a chat
+that can edit the plane can edit what charter reads from it.
+_Avoid_: safe, verified, sandboxed
+
 **Harness**:
 The agent runtime charter runs inside — Claude Code, opencode, Codex. Charter enforces the
 same invariants on every harness; what differs is what it can *offer*, and `charter doctor`

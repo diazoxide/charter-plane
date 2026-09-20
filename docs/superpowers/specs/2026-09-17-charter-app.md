@@ -2,6 +2,8 @@
 
 **Status:** agreed 2026-09-17, amended 2026-09-18 (decisions 14-17 and the milestones: no Python in the app at any milestone) in a grill between the operator and the `steward` persona
 (workspace `ide`), and amended the same day when the operator reordered the priorities (below).
+Amended 2026-09-20 with decisions 22-28 and the milestone placement under them: the app had no
+way to be given a plane, which this spec never noticed.
 The decision and its reasons: `docs/adr/0025-charter-is-rebuilt-as-a-desktop-app-on-a-rust-core.md`.
 The evidence: `docs/research/2026-09-17-gui-terminal-embedding.md`.
 
@@ -148,6 +150,67 @@ When two choices conflict, the higher priority wins.
     PATH. The Claude Code plugin keeps calling `charter hook …`. A final PyPI release points to
     the new install.
 
+### Multi-plane — added 2026-09-20
+
+**What this spec missed.** Decisions 1-21 never say where the app's plane comes from. In the
+tmux frame it came from the shell that ran `charter`, and ADR 0025 carried that assumption into
+an app that has no shell: charter-app resolves its plane from `std::env::current_dir()` and from
+nothing else, so a double-clicked `.app` — working directory `/` — resolves none, shows
+`No plane: …` and offers no way to give it one. **The app has only ever been usable when
+launched from a terminal standing inside a plane.** The operator found this by opening it on
+2026-09-20. There was no picker, no opener and no multi-plane anything in this spec, and there
+is no ADR that decided against them; they were simply not seen.
+
+These decisions continue the numbering rather than joining 1-8, because a decision's number is
+how it is cited and nothing here is renumbered.
+
+22. **A project is a plane.** The top-level switcher is a plane switcher, and "Open Project…"
+    opens a directory that has, or will get, a `charter.toml`. There is no second container:
+    ADR 0007 removed the second plane shape so that no code would ask which shape it was in.
+    **ADR 0033.**
+23. **One window per plane, and a window may hold several.** Planes are top-level tabs in a
+    window, merged into one window or split back out — Zed's project tabs, named by the
+    operator. `tauri-plugin-single-instance` stays exactly as it is: one process, many windows.
+    A second launch hands its plane to the running process, which raises the window holding it
+    or opens one. Two processes on one plane would be two sets of sessions, two writers of that
+    plane's `.charter/app/reopen.json`, two hook sockets and a Quit that ends half the work.
+    **ADR 0033.**
+24. **cwd is a first-launch hint, never ongoing truth.** Launched from a terminal inside a plane
+    → open that plane. Launched any other way → the opener. Once a window has a plane, that
+    plane is explicit and the working directory is never consulted again. The CLI keeps its own
+    resolution untouched. M2.16 was exactly the cost of two resolvers disagreeing (`resolve`
+    against `command_root`), and the app has the same split live today: `plane_root` asks
+    `plane::resolve`, which honours `$CHARTER_ROOT`; `setup` asks `plane::find_root`, which does
+    not. **ADR 0034.**
+25. **charter keeps a machine-level record outside every plane**, under the OS application-data
+    directory: the planes on this machine, when each was last opened, the window arrangement,
+    and the trust decisions of decision 26. `0600` where the OS has modes, gated, tolerant of
+    paths that have moved or gone, and **never plane content** — deleting it must cost the
+    arrangement and the approvals and nothing else. This is the second such file, not the first:
+    `charter report`'s consent has lived under the user's config home since ADR 0003.
+    **ADR 0034.**
+26. **A plane is untrusted until the operator opens it once and approves it.** A plane's
+    committed `.claude/settings.json` travels — `layer.rs`'s `WORKSPACE_KEYS = ["enabledPlugins",
+    "env"]` — into every directory a harness reads config from, so a stranger's plane chooses
+    your plugins and sets your environment; and opening a plane starts programs out of its
+    `.charter/app/reopen.json`. First open shows what the plane will contribute and asks, before
+    the reopen runs; the answer is a fingerprint of what was approved, stored per decision 25.
+    Two limits already exist and stay named: `permissions` travels only as `ask`/`deny`, never
+    `allow` (`RESTRICTIVE`), and ADR 0022 keeps harness profiles out of the committed file.
+    **ADR 0035.**
+27. **`charter init` on an existing repo adopts that repo as the plane's first clone by
+    default**, making the plane beside it rather than writing plane scaffolding and `.gitignore`
+    rules into somebody else's repository. "Make this repo itself the plane" stays available and
+    becomes the non-default — it is how charter's own plane exists. This **diverges from the
+    Python oracle** (decision 15) on a command that is already ported; Python is frozen
+    (decision 17), so the `init`-inside-a-repo differential scenario records an intended
+    difference rather than being normalised. **ADR 0035.**
+28. **Cold launch restores the window set from the last quit** — same planes, same tabs, same
+    merges. Each plane's own `.charter/app/reopen.json` still restores that plane's chats and is
+    unchanged; the two records are separate because an arrangement spans planes and a plane's
+    chats travel with the plane. A plane that has moved or gone is dropped with a line saying
+    so, never an error dialog. `--no-restore` starts clean. **ADR 0033.**
+
 ## Limits (acceptance)
 
 Only what a person would notice. Measured on the operator's machine, in the scenario harness.
@@ -196,6 +259,31 @@ Each milestone is something the operator actually uses, not a layer.
   milestone needs them, never on a Python fallback).
 - **M4: public release.** Linux, then Windows (ConPTY, bundled package), signed installers,
   the final PyPI release pointing to the new install, and Python charter retired.
+
+### Where the multi-plane work goes (added 2026-09-20)
+
+Decisions 22-28 are product work this spec missed, not a milestone of their own, so they are
+placed inside the existing ones and the placement is part of the decision.
+
+- **M2 gains the opener, the plane switcher and the machine-level record** — decisions 22, 23,
+  24, 25 and 28. It goes here because M2 is where the app stops needing a terminal for
+  anything, and an app that can only be started from a terminal is the largest remaining place
+  where it still does. The expensive half is not the UI: `Hooks`, `Chats` and `Plane` are
+  `app.manage(...)` process-wide singletons today, `Plane` is one `Option<PathBuf>` for the
+  whole process, and fifteen commands take one of those as `tauri::State`. The window has to
+  carry the plane and that state has to be keyed by it before a second plane in a window is
+  anything but a second plane writing through the first one's state.
+- **M2 also gains decision 27**, `charter init`'s new default, because `init` is already ported
+  and the opener is what makes the old default dangerous. Its differential scenario changes in
+  the same commit that changes the default, marked as an intended divergence.
+- **M3 gains the trust gate** — decision 26. It is an ask in front of a real exposure, it is
+  measured against `layer.rs` and `reopen.rs` rather than assumed, and M3 is where the parts
+  that decide what runs get their external review. It must land no later than the first build
+  an operator other than this one installs, because until it does, opening an unknown plane is
+  a decision made silently.
+- **M1 is not reopened.** It was declared a daily driver against a definition that assumed a
+  terminal launch. That is worth writing down rather than quietly re-scoping: the bar moved
+  under it, and the app has been unusable from an icon for every day it has been called done.
 
 ## What M0 reported
 
