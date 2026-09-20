@@ -37,8 +37,8 @@ variable set on the harness process reaches the shell the model runs"*, verified
 `.charter/app/reopen.json` (`reopen::IN_PLANE`), synchronously, before there is a window — the
 code's own comment says *"Every chat here starts a program, synchronously, before there is a
 window."* For a chat that was on a harness profile the profile is looked up again in the plane's
-local file; for a chat that was not, `Chats::start` takes what runs from `chat.launch()`, and the
-comment on its sibling is explicit: *"what runs is decided from the record alone."* `.charter/` is
+local file; for a chat that was not, `Chats::start` takes what runs from `chat.launch()`, and its
+own doc comment is explicit: *"what runs is decided from the record alone."* `.charter/` is
 gitignored, so this does not arrive through `git clone` — but the opener opens a **directory**,
 not a clone, and a directory that arrived any other way brings its `.charter/` with it. The ask
 therefore has to come before the reopen, not after it.

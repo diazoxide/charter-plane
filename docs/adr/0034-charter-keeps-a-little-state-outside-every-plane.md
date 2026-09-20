@@ -68,9 +68,11 @@ in the core hard-codes `.charter` under a plane root — `adopt.rs:baseline_file
 docstring, and `profiletrust`, `wiring` and `hookwire` all do the same. A machine's file is not a
 plane's state, and borrowing the variable would make `$CHARTER_HOME` mean two things.
 
-**`0600`, through the same `plane::write_private` charter already uses for its private state.**
-And the honest half: on Windows a mode bit is not an ACL, `write_private` drops the `0600`
-silently, and that is [ADR 0031](0031-windows-gets-charters-guards-or-it-gets-no-charter.md)'s
+**`0600` — the mode charter already keeps on its own private state.** Not by calling
+`plane::write_private`, which gates the path it writes against a plane root and there is no
+plane here; by holding the same mode through whatever writes this one. And the honest half: on
+Windows a mode bit is not an ACL, `write_private` drops the `0600` silently there, and that is
+[ADR 0031](0031-windows-gets-charters-guards-or-it-gets-no-charter.md)'s
 open item #98. This record does not fix it and does not get to assume it is fixed — on Windows
 this file is as private as the user profile directory it sits in, and no more.
 
