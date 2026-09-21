@@ -79,11 +79,11 @@ operator gave for this whole product is **Zed**, by name —
 [ADR 0033](0033-a-plane-is-a-project-and-a-window-may-hold-several.md) records the same reference
 deciding the project tab. charter-app is a terminal emulator with fifty sessions in it, a
 three-deep tablist stack, a repo strip and a footer whose own ADR budgets it in *columns* —
-[ADR 0019](0019-the-frame-owns-the-surface.md)'s `slots._bottom` drops whole fields when it runs
-out of width. Material's density, its touch targets, its elevation and its type scale are all correct
-for the product it was designed for and all wrong for this one. Adopting it means fighting it on
-every surface, which is the failure mode priority 2 exists to prevent: a standard tool used the
-way it is *not* meant to be used buys none of the robustness it was taken for.
+[ADR 0019](0019-the-frame-owns-the-surface.md)'s `slots._bottom` drops whole fields when it runs out of
+width. Material's density, its touch targets, its elevation and its type scale are all correct for
+the product it was designed for and all wrong for this one. Adopting it means fighting it on every
+surface, which is the failure mode priority 2 exists to prevent: a standard tool used the way it
+is *not* meant to be used buys none of the robustness it was taken for.
 
 **2. The cold-start budget has no slack to spend.**
 [ADR 0026](0026-the-apps-stack-is-locked-by-what-m0-measured.md) locked the stack against measured
@@ -164,8 +164,11 @@ copies, this ADR bought nothing.
 
 ## Consequences, including the ones that cost something
 
-- **The app grows its first UI dependency that is not a terminal.** `app/package.json` has held
-  React, xterm and `react-resizable-panels` and nothing else. ADR 0026 locked the stack against
+- **The app grows a UI dependency for behaviour, which is a kind it has not had.**
+  `app/package.json` holds React, the two `@tauri-apps` packages, three `@xterm` packages and
+  `react-resizable-panels` — and that last one is the closest precedent, an unstyled layout
+  primitive taken for behaviour, which is this decision in miniature and worth knowing about.
+  ADR 0026 locked the stack against
   measurements; this adds to it, and the bundle delta belongs in the PR that lands it, measured,
   the way 0026 measured the renderer arms. **If the delta is large enough to be felt at cold
   start on the platform that is already 12× over, argument 2 stops being precautionary and this
