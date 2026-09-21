@@ -119,7 +119,7 @@ will use to conclude that anything not in the table was considered and dropped.
   only. It is the thing an operator reaches for when something is wrong, and in a window whose
   whole premise is not typing `charter`, it is reachable only by typing `charter`.
 
-The app's full command surface was read to check this: thirty-four `#[tauri::command]`
+The app's full command surface was read to check this: thirty-six `#[tauri::command]`
 functions, none of them `news`, `doctor`, `usage`, `alerts` or `footer`.
 
 ## What was rejected
