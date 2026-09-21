@@ -48,6 +48,16 @@ false inside any one plane.** Four facts qualify, and they are the whole of what
 
 Paths, timestamps, trust decisions, window layout. That is the list.
 
+**Amended by [ADR 0040](0040-a-pin-is-an-arrangement-so-it-is-machine-state.md) (2026-09-22):
+there is a fifth fact, and it is `how the operator arranged what this file already names`** —
+which of the remembered planes are pinned, and which workspaces inside them. The operator ruled
+that a pin is how one person likes their window rather than a fact about the plane, so it cannot
+be committed to `charter.toml`. It is held to this record's own rule and its own test, and the
+paragraph below about plane content still stands: a pinned workspace's name is a **reference**
+into the plane, not a copy of what the plane says, and one that no longer resolves is dropped
+with a reason. A chat pin is **not** here — this record forbids chat names outside a plane, and
+that one goes in the plane's own `.charter/app/reopen.json`.
+
 **And never plane content.** No workspace names, no todos, no memory, no chat names, no persona,
 nothing a plane's own files already say. The test to apply to any field somebody wants to add:
 *deleting this file must cost the operator their arrangement and their approvals and nothing
