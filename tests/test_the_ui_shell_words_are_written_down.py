@@ -114,6 +114,17 @@ class TestTheCorrectionsSurvive(unittest.TestCase):
         self.assertIn("the table stands and the", text,
                       "the regions ADR does not say what survives if the reading is wrong")
 
+    def test_the_regions_adr_does_not_claim_the_regions_are_all_new(self):
+        """There is a right-hand `<aside className="panels">` already, holding Repos, CI, Todos
+        and Personas. The decision splits it — Repos and CI go down, the queue and alerts come
+        in — and a record that read as 'four new regions' would send an implementer to build
+        what is there."""
+        text = _adr(REGIONS).read_text()
+        self.assertIn("Repos, CI, Todos, Personas", text,
+                      "the regions ADR does not say what the right-hand side holds today")
+        self.assertIn("re-tenanted", text,
+                      "the regions ADR presents a split of an existing region as a new one")
+
     def test_the_regions_adr_says_the_needs_you_queue_already_exists(self):
         """It is not the words in the bar. `NeedsYou.tsx` lists the chats by name and hedges
         for the harnesses that cannot report; what changes is where it is drawn."""

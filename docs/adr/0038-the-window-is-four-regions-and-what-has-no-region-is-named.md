@@ -52,6 +52,19 @@ The plane already knows them — `workspace_repos` and `worktree_list` are Tauri
 and `Panels.tsx` draws their git state read-only, on the right. The explorer is the selector
 those facts have never had.
 
+## The right-hand side exists, and this decision splits it
+
+There already is a right-hand region, and it would be wrong to write this record as though four
+new regions were being invented. `app/src/PlaneView.tsx` renders `<div className="body">` as
+`Sidebar` · `panes` · `Panels`, and `Panels.tsx` is `<aside className="panels"
+aria-label="Workspace">` with four sections in it: **Repos, CI, Todos, Personas**. Its own
+comment calls it "the right-hand side".
+
+So what the table does to the right is **split it along the reading**. Repos and CI are state —
+they go to the bottom bar, with worktrees beside them. Todos and personas are what is asking for
+you, or nearly — they stay, and the needs-you queue and alerts join them. **No region in the
+table is empty of code today; two of the four are re-tenanted and one is new.**
+
 ## What the right sidebar already holds, and what it does not
 
 The needs-you queue is further along than a gap list would suggest, and this record would be
@@ -128,10 +141,12 @@ functions, none of them `news`, `doctor`, `usage`, `alerts` or `footer`.
   change, and it keeps the duplication that caused the question. The sidebar would then answer
   "which workspace" (already answered by the strip) above "which repo" (answered nowhere), and
   the answered one is the one with the long text.
-- **Put the repo/worktree explorer on the right, beside the git state it describes.** Tidy, and
-  it collapses the seam named above. Rejected because it makes the right sidebar both the thing
-  that asks for you and the thing you navigate with, and the needs-you queue is the one surface
-  in this window that must never be competed with.
+- **Leave the repos on the right and make that list the selector.** The smallest change of all:
+  `Panels`'s Repos section is already there, already read-only, already per-workspace. It also
+  collapses the seam named above, since the git state would stay beside what it describes.
+  Rejected because it makes the right sidebar both the thing that asks for you and the thing you
+  navigate with, and the needs-you queue is the one surface in this window that must never be
+  competed with.
 - **A single collapsible sidebar with panels, Zed-style.** The reference is Zed and Zed does
   roughly this. Rejected for now because it is a different decision — it is about how regions are
   arranged, and there is no agreement yet on what goes in them, which is what this record is.
@@ -141,10 +156,11 @@ functions, none of them `news`, `doctor`, `usage`, `alerts` or `footer`.
 
 ## Consequences, including the ones that cost something
 
-- **The window grows two regions it does not have.** There is no bottom bar and no right sidebar
-  today; `Panels.tsx` is a panel and `NeedsYou` is in the header. This is a layout change across
-  `PlaneView.tsx`, and every scenario spec in `app/e2e/specs/` finds its elements by role and
-  label inside that layout.
+- **One region is new and two are re-tenanted.** There is no bottom bar; the right-hand `Panels`
+  aside gives up Repos and CI to it and takes the queue and alerts in exchange; the left sidebar
+  changes contents entirely. This is a layout change across `PlaneView.tsx`, and every scenario
+  spec in `app/e2e/specs/` finds its elements by role and label inside that layout —
+  `panels.e2e.ts` and `sidebar.e2e.ts` most of all.
 - **The left sidebar loses the only place every workspace's chats can be seen at once.** ADR 0036
   gave it that job explicitly — *"the sidebar is the listing, and the only place the operator can
   see every workspace's chats at once"* — and re-purposing the region takes it away. The palette
