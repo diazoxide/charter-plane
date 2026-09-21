@@ -128,7 +128,10 @@ their own terms:
 
 - **Overflow that is reachable.** Every strip scrolls, nothing in it is squeezed to nothing, and
   the tab in front is brought into view whenever the front changes — from the strip, from the
-  palette, from the queue. **A scrollbar and not an overflow menu**, deliberately: the palette
+  palette, from the queue. **The `+` is not in the scroller**: as the strip's last child it
+  scrolled away with the tabs, so the way to open the fifty-first chat was to go looking for the
+  button, which is the same defect as an unreachable tab on the one control that is always
+  wanted. **A scrollbar and not an overflow menu**, deliberately: the palette
   already lists every chat by name with a search and a ranking over it (charter-app#48), and the
   sidebar lists every workspace's chats, so a menu on the strip would be a third answer to
   "which chats are there" beside two that exist and are better.
