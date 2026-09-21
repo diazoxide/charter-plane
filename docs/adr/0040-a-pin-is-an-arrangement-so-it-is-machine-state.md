@@ -63,6 +63,15 @@ existed describes a plane where nothing was pinned, which is exactly what was tr
 is added without a bump, an older charter ignores it, and nobody loses a day's chats to a
 version number.
 
+**And this is not a new judgement about that file — it is the one that file already made.**
+[ADR 0029](0029-the-pane-footer-is-blanked-by-default-and-a-chat-may-keep-it.md) added
+`show_footer` to the same record under the same version, and `reopen.rs`'s doc comment on that
+field says why in as many words: *"A record written before ADR 0029 has no such key, and `false`
+is both serde's default and the behaviour every such record was written under."* A pin is the
+second field to arrive this way, so the rule is written down here rather than left to be
+inferred from one instance: **a field whose absence is a true statement about the records that
+lack it does not cost a version; one whose absence would be a lie does.**
+
 ## The amendment to ADR 0034
 
 ADR 0034 lists four facts and closes with *"Paths, timestamps, trust decisions, window layout.
