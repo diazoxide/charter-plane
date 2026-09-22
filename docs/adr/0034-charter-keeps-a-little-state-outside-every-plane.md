@@ -58,6 +58,13 @@ into the plane, not a copy of what the plane says, and one that no longer resolv
 with a reason. A chat pin is **not** here — this record forbids chat names outside a plane, and
 that one goes in the plane's own `.charter/app/reopen.json`.
 
+**Amended by [ADR 0042](0042-charter-updates-itself-and-nothing-it-cannot-verify-reaches-it.md)
+(2026-09-22): there is a sixth fact, `which update channel this machine takes charter from`**
+(stable or dev). It is the first fact here that is not about planes at all, and it qualifies on
+this record's own test: it is about the machine (one binary serves every plane on it and cannot
+be on two channels), it is false inside any one plane, and deleting it costs the operator one
+preference, which falls back to stable. Every way of not knowing it reads as stable, never dev.
+
 **And never plane content.** No workspace names, no todos, no memory, no chat names, no persona,
 nothing a plane's own files already say. The test to apply to any field somebody wants to add:
 *deleting this file must cost the operator their arrangement and their approvals and nothing
