@@ -33,6 +33,9 @@ ADR = ROOT / "docs" / "adr"
 #: The record, by the slug it was written under.
 PLUGINS = "a-plugin-is-a-subprocess-or-charter-has-no-plugins"
 
+#: The record this one leans on, and whose standing its gate's first condition is about.
+WINDOWS = "windows-gets-charters-guards-or-it-gets-no-charter"
+
 
 def _adr(slug: str) -> Path:
     found = sorted(ADR.glob(f"*-{slug}.md"))
@@ -132,13 +135,33 @@ class TestTheCorrectionsSurvive(unittest.TestCase):
     """The record contradicts things believed when the decision was taken. A tidier draft drops
     the contradictions and the next reader re-derives the wrong thing."""
 
-    def test_it_says_adr_0031_is_still_a_draft(self):
-        """0031 says of itself that it needs the operator's sign-off before anything is built on
-        it. A record that leant on it as settled would be citing a proposal as a precedent."""
+    def test_it_says_it_leant_on_adr_0031_while_0031_was_a_draft(self):
+        """0031 said of itself that it needed the operator's sign-off before anything was built on
+        it, and this record said so rather than citing a proposal as a precedent. The operator
+        signed 0031 off the same day, *because* this record raised it — so both halves are pinned
+        here. Dropping the `DRAFT` half would leave a record that reads as though the precedent was
+        always there, which is the mistake this correction exists to have caught."""
         text = _said()
-        self.assertIn("DRAFT", text,
-                      "the record treats ADR 0031 as settled when 0031 says it is not")
+        self.assertIn("0031 was marked `DRAFT", text,
+                      "the record no longer says ADR 0031 was a proposal when it leant on it")
         self.assertIn("sign-off", text)
+        self.assertIn("signed 0031 off as written on 2026-09-22", text,
+                      "the record does not say ADR 0031 has since been signed off")
+
+    def test_the_gate_item_for_adr_0031_agrees_with_0031_itself(self):
+        """The two files are one claim in two places, and 0031 is the one that decides it. A gate
+        still demanding a sign-off that has happened, or claiming one that has not, is the defect
+        that produced this correction in the first place. Read from 0031's preamble — everything
+        before its first `##` — because that is where its standing is stated."""
+        windows = _adr(WINDOWS).read_text()
+        preamble = re.sub(r"\s+", " ", windows.split("\n## ", 1)[0].replace("*", ""))
+        self.assertNotIn("DRAFT", preamble,
+                         "ADR 0031 still opens as a DRAFT, so the plugin gate's item 1 is unmet")
+        self.assertIn("Accepted by the operator on 2026-09-22", preamble,
+                      "ADR 0031 does not record who accepted it and when")
+        gate = _said().split("## The gate", 1)[1].split(" ## ", 1)[0]
+        self.assertIn("Met, 2026-09-22", gate,
+                      "the gate does not record that its first condition is met")
 
     def test_it_says_the_approval_path_it_copies_has_two_open_defects(self):
         """ADR 0035's first-open prompt is the precedent, and #112 and #123 are live against the

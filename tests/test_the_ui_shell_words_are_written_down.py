@@ -104,6 +104,32 @@ class TestTheCorrectionsSurvive(unittest.TestCase):
         self.assertIn("D-Bus", text,
                       "the cold-start argument does not say what the 25 s actually is")
 
+    def test_the_behaviour_adrs_amendment_keeps_both_sides_of_the_boundary(self):
+        """The operator amended this record on 2026-09-22 to allow shadcn/ui components copied
+        into charter-app. An amendment that records only the permission is the dangerous half:
+        the rule it loosens — no component library as a dependency, no house abstraction over
+        Radix — is still in force, and the words that forbade a *wrapper* were charter-app's
+        `docs/ui-primitives.md` rather than this file, which the amendment has to say or the next
+        reader goes looking here for a quote that is not here."""
+        text = _adr(BEHAVIOUR).read_text()
+        self.assertIn("## Amendment, 2026-09-22", text,
+                      "the behaviour ADR carries no amendment for the copied-in-components ruling")
+        # Reflowing a paragraph or bolding a clause must not redden this, the way
+        # `test_the_plugin_threat_model_is_written_down.py` handles the same problem.
+        amendment = re.sub(r"\s+", " ",
+                           text.split("## Amendment, 2026-09-22", 1)[1].replace("*", ""))
+        self.assertIn("The words are charter-app's, in `docs/ui-primitives.md`", amendment,
+                      "the amendment does not say where the rule it changes is actually written")
+        self.assertIn('This record never says "wrapper"', amendment,
+                      "the amendment lets a reader hunt this file for a quote that is not in it")
+        self.assertIn("shadcn", amendment)
+        self.assertIn("A component library as a dependency.", amendment,
+                      "the amendment does not say a component library is still refused")
+        self.assertIn("A house abstraction layer, whether written or copied.", amendment,
+                      "the amendment does not say a house layer over Radix is still refused")
+        self.assertIn("this record is authoritative", amendment,
+                      "the amendment does not say which file wins when the two disagree")
+
     def test_the_regions_adr_marks_its_own_reading_as_a_reading(self):
         """'Left is navigation, bottom is state' is the record's inference and not the
         operator's words. An inference that hardens into a decision nobody made is how ADR 0029

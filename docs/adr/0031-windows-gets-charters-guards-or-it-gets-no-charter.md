@@ -1,7 +1,15 @@
 # Windows gets charter's guards, or it gets no charter
 
-**DRAFT — this needs the operator's sign-off before anything is built on it.** The evidence
-below is measured and re-runnable; the decision is a proposal.
+**Accepted by the operator on 2026-09-22, as written.** The evidence below is measured and
+re-runnable, and the decision is settled: build on it.
+
+Until that date this record opened by saying it was a draft needing his sign-off before anything
+was built on it, and its decision was a proposal.
+[ADR 0041](0041-a-plugin-is-a-subprocess-or-charter-has-no-plugins.md) was written against it in
+that state, leant on it, and made the sign-off item 1 of its gate rather than cite a proposal as
+a precedent — which is what surfaced that the rule had been quoted as settled elsewhere while it
+was not. Nothing in the decision, the evidence, the issue list or the estimate changed at
+sign-off. Only its standing did.
 
 The work it describes is charter-app's, and the file is here because the decision is
 charter's: this sequence runs `0001`–`0030` in one place, and a Windows decision kept in the

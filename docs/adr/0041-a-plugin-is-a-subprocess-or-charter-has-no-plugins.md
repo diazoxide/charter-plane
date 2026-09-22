@@ -112,11 +112,16 @@ enough yet** — see the honesty paragraph under decision 1.
 
 **[ADR 0031](0031-windows-gets-charters-guards-or-it-gets-no-charter.md) — a guard that cannot be
 expressed on a platform refuses rather than degrades.** The rule is right and this record leans on
-it hard. **But 0031 is marked `DRAFT — this needs the operator's sign-off before anything is built
-on it`, and the decision in it is described by its own text as a proposal.** Citing it as settled
-would be citing a proposal as a precedent, which is how a record acquires authority nobody granted
-it. So its sign-off is item 1 of the gate. The evidence in it is measured and stands whatever
-happens to the decision; the decision does not yet.
+it hard. **When this record was written 0031 was marked `DRAFT — this needs the operator's
+sign-off before anything is built on it`, and the decision in it was described by its own text as
+a proposal.** Citing it as settled would have been citing a proposal as a precedent, which is how
+a record acquires authority nobody granted it. So its sign-off was made item 1 of the gate.
+
+**The operator signed 0031 off as written on 2026-09-22**, the same day this record was drafted
+and because this record raised it — the decision, the evidence, the issue list and the estimate
+all unchanged. Item 1 is met and the lean is legitimate. The history is kept rather than tidied
+away, because it is the only part of this that generalises: the rule had been quoted as settled
+in several briefs while it was a proposal, and nothing but a reader checking the file caught it.
 
 ## Decision 1 — plugin code runs in a subprocess, over a protocol
 
@@ -362,9 +367,9 @@ each one is something the runtime would otherwise have to invent badly while und
 
 Falsifiable, so that "are we ready" is a checklist and not a conversation.
 
-1. **ADR 0031 is signed off.** It is a `DRAFT` today. Refuse-rather-than-degrade is the rule that
-   stops the plugin boundary from being silently absent on a platform, and it cannot be the
-   backstop while it is a proposal.
+1. **ADR 0031 is signed off.** **Met, 2026-09-22** — it was a `DRAFT` when this gate was written.
+   Refuse-rather-than-degrade is the rule that stops the plugin boundary from being silently
+   absent on a platform, and it could not be the backstop while it was a proposal.
 2. **The tool guard is wired.** Stage 6 landed and `is_a_tool_hook`'s blanket exit 2 replaced by
    the real guard.
 3. **#112 and #123 are closed**, and the plugin trust record reuses the fixed path rather than
