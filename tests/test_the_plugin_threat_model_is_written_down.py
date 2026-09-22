@@ -36,6 +36,10 @@ PLUGINS = "a-plugin-is-a-subprocess-or-charter-has-no-plugins"
 #: The record this one leans on, and whose standing its gate's first condition is about.
 WINDOWS = "windows-gets-charters-guards-or-it-gets-no-charter"
 
+#: The record whose re-opening clause the sandbox ruling fires, and which gate item 7 says has
+#: to be re-opened in the same change.
+CONTAINMENT = "containment-checks-a-path-and-does-not-hold-it"
+
 
 def _adr(slug: str) -> Path:
     found = sorted(ADR.glob(f"*-{slug}.md"))
@@ -285,6 +289,69 @@ class TestTheCapabilitySurfaceIsEnumerated(unittest.TestCase):
         self.assertIn("collect_commands", text)
         self.assertIn("forty", text,
                       "the record does not say how large the command surface actually is")
+
+
+class TestTheSandboxRuling(unittest.TestCase):
+    """The operator ruled on 2026-09-22 to ship with no OS sandbox, and the amendment that
+    records it is the most deletable thing in this file.
+
+    A later reader who finds only the recommendation will build the runtime and write a consent
+    prompt that lists what a plugin *may* do. That prompt is worse than none — it manufactures
+    confidence charter cannot back — and these are the sentences that stop it being written.
+    """
+
+    def test_the_amendment_records_the_ruling_in_the_operators_own_words(self):
+        text = _said()
+        self.assertIn("Amendment, 2026-09-22", text,
+                      "the record does not carry the sandbox ruling as an amendment")
+        self.assertIn("without sandboxes", text,
+                      "the record does not quote the operator's own words for the ruling")
+
+    def test_it_says_the_sandbox_was_never_a_gate_item(self):
+        """The ruling removes nothing from the gate. Item 7 asked for the confinement to be
+        DECIDED, and 'explicitly not one, in writing' is one of the two answers it named."""
+        text = _said()
+        self.assertIn("removes no gate item", text)
+        self.assertIn("Met, 2026-09-22", _said().split("## The gate", 1)[1].split(" ## ", 1)[0])
+
+    def test_the_gate_still_lists_the_items_the_ruling_did_not_touch(self):
+        """A ruling on one item is not a ruling on the rest, and the cheapest way to lose the
+        other seven is to let the amendment read as though the gate were answered."""
+        text = _said()
+        self.assertIn("Items 2, 3, 4, 5, 6 and 8 stand exactly as written", text,
+                      "the amendment does not say which gate items remain unmet")
+
+    def test_it_says_the_deferred_answer_is_not_a_boundary(self):
+        """Marketplace vetting and an untrusted-source warning are a label on a supply chain.
+        A record that let them stand in for the sandbox would be selling an enforcement that
+        does not exist — the same error the network row in decision 2 refuses to make."""
+        text = _said()
+        self.assertIn("label on a supply chain", text)
+        self.assertIn("not a substitute", text,
+                      "the amendment lets marketplace vetting stand in for the sandbox")
+
+    def test_it_obliges_the_consent_surface_to_say_the_table_is_not_a_cage(self):
+        """The single most important consequence of shipping without a sandbox."""
+        text = _said()
+        self.assertIn("worse than no prompt", text)
+        self.assertIn("runs with the operator's own access", text)
+        self.assertIn("declares", text.lower())
+        self.assertIn("not what it is limited to", text.lower(),
+                      "the amendment does not require the prompt to say the list is not a limit")
+
+    def test_it_discharges_gate_item_7s_requirement_to_re_open_adr_0028(self):
+        """Item 7: 'If not, ADR 0028 is re-opened in the same PR.' The ruling is 'not', so the
+        re-opening is owed — and it is owed in 0028's own file, where a reader of THAT record
+        meets it. Two files, one claim, and this is the tripwire on the half that is easy to
+        forget."""
+        self.assertIn("re-opened", _said())
+        containment = re.sub(r"\s+", " ", _adr(CONTAINMENT).read_text().replace("*", ""))
+        self.assertIn("Amendment, 2026-09-22", containment,
+                      "ADR 0028 was not re-opened, which gate item 7 requires in the same change")
+        self.assertIn("no OS sandbox", containment,
+                      "ADR 0028's amendment does not say what fired its re-opening clause")
+        self.assertIn("not a principal confined below charter", containment,
+                      "ADR 0028's amendment does not answer its own re-opening clause")
 
 
 if __name__ == "__main__":
