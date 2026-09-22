@@ -130,6 +130,20 @@ class TestTheCorrectionsSurvive(unittest.TestCase):
         self.assertIn("this record is authoritative", amendment,
                       "the amendment does not say which file wins when the two disagree")
 
+    def test_the_behaviour_adrs_amendment_says_no_build_catches_a_missed_rename(self):
+        """The amendment's own cost, and the one a confident draft deletes because it makes the
+        permission sound worse. A pasted `bg-background` is not a class in this app — the palette
+        is deleted — so it emits nothing and the element renders undressed, which is the
+        `claudeclaudeclaudebuilt-indefault` defect at the top of this very record. Saying "and the
+        build catches it" would be false and would be believed."""
+        text = _adr(BEHAVIOUR).read_text()
+        amendment = re.sub(r"\s+", " ",
+                           text.split("## Amendment, 2026-09-22", 1)[1].replace("*", ""))
+        self.assertIn("the build does not catch it", amendment,
+                      "the amendment claims or implies a mechanical guard on a pasted class")
+        self.assertIn("claudeclaudeclaudebuilt-indefault", amendment,
+                      "the amendment does not say a missed rename is this record's own defect")
+
     def test_the_regions_adr_marks_its_own_reading_as_a_reading(self):
         """'Left is navigation, bottom is state' is the record's inference and not the
         operator's words. An inference that hardens into a decision nobody made is how ADR 0029

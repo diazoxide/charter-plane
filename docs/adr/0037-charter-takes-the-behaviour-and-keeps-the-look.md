@@ -264,13 +264,24 @@ cannot read.** Copied-in source is neither, and it is allowed.
   **call site**: can the next person see which primitive this is and reach its props? If the
   answer needs the wrapper's source and then the wrapper's own decisions, it is the layer this
   record refuses.
-- **The look still does not come from a package**, and this is the clause a paste is most likely
-  to break: a shadcn component arrives wearing Tailwind utility classes. Those must resolve to
-  charter's own tokens. charter-app's design system deletes Tailwind's palette outright
-  (`--color-*: initial`), so a pasted `bg-slate-800` is not a colour — it is a typo, and the build
-  says so. That mechanism is what keeps *"what is not taken: colour, type, spacing, density,
-  elevation, motion, iconography"* true through a paste, and it is why the paste is safe to allow
-  rather than merely permitted.
+- **The look still does not come from a package.** A shadcn component arrives wearing Tailwind
+  utility classes from shadcn's own token set — `bg-background`, `text-foreground`,
+  `bg-destructive` — and every one of them has to be renamed to charter's vocabulary by hand.
+  *"What is not taken: colour, type, spacing, density, elevation, motion, iconography"* is
+  unchanged by this amendment and is the clause a paste is most likely to break.
+
+  **And this is the cost the amendment actually adds, so it is stated rather than waved at: the
+  build does not catch it.** charter-app deletes Tailwind's palette (`--color-*: initial`), which
+  means a class naming a colour it does not have emits **no CSS at all** — it does not fail,
+  it disappears. `literals.test.ts` catches a hex literal and an arbitrary value (`bg-[#fff]`)
+  and would catch those; it cannot catch a class that simply does not exist, and
+  `tailwind.test.ts` checks that the palette is gone rather than that a source file avoided it.
+  The failure mode of a missed rename is **an element rendered undressed**, which is
+  `claudeclaudeclaudebuilt-indefault`, which is the defect at the top of this record. A paste is
+  therefore reviewed against `app/src/styles.css`'s `@theme` block and looked at running, and
+  `docs/design-system.md` says so where an implementer will read it. Nothing mechanical closes
+  this, and pretending otherwise would be the version of this amendment that gets somebody
+  burned.
 - **Copying components nothing renders.** Unchanged, and it is `docs/design-system.md`'s existing
   reason: a copied component that nothing uses is dead code in charter's tree, which is worse than
   an unused dependency because it looks maintained.
