@@ -1,5 +1,16 @@
 # charter
 
+> [!IMPORTANT]
+> **charter is now a desktop app: [diazoxide/charter-app](https://github.com/diazoxide/charter-app).**
+> This Python package (`charter-cp`) is deprecated and receives no further releases. The app is
+> charter from 0.1.0 on: one window for your projects, workspaces and chats, with its own
+> `charter` command and Claude Code plugin built in, and nothing to install from PyPI. It reads
+> the planes you already have as they are. Download it from the
+> [latest release](https://github.com/diazoxide/charter-app/releases/latest).
+>
+> This repository stays as it is, as history and as a working control plane. What follows
+> describes the Python charter.
+
 [![PyPI](https://img.shields.io/pypi/v/charter-cp?label=charter-cp)](https://pypi.org/project/charter-cp/)
 [![Python](https://img.shields.io/pypi/pyversions/charter-cp)](https://pypi.org/project/charter-cp/)
 [![Tests](https://github.com/diazoxide/charter/actions/workflows/test.yml/badge.svg)](https://github.com/diazoxide/charter/actions/workflows/test.yml)

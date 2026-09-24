@@ -15,7 +15,9 @@ INSTALL = (ROOT / "docs" / "install.md").read_text()
 
 #: Badge and image lines carry no prose. Counting them against the "first paragraph"
 #: budget would fail the check for adding a CI badge, which is not what it is for.
-_DECORATION = re.compile(r"^\s*(\[!\[.*|!\[.*)$", re.M)
+# Badges, images, and a blockquote callout (the "charter is now a desktop app" notice at the top,
+# a GitHub `> [!IMPORTANT]` alert) are decoration: what the README says charter IS starts after them.
+_DECORATION = re.compile(r"^\s*(\[!\[.*|!\[.*|>.*)$", re.M)
 
 
 class TestReadme(unittest.TestCase):
