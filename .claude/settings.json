@@ -1,8 +1,5 @@
 {
   "env": {
     "CHARTER_HARNESS": "claude-code"
-  },
-  "enabledPlugins": {
-    "charter@charter": true
   }
 }

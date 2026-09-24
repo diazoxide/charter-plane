@@ -1,8 +1,8 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
+  - name: charter bugs and features
+    url: https://github.com/diazoxide/charter-app/issues/new/choose
+    about: charter is the desktop app now. Its issues live in diazoxide/charter-app; this repository is a control plane.
   - name: Security report
-    url: https://github.com/diazoxide/charter/blob/main/SECURITY.md#reporting-a-vulnerability
-    about: Report a vulnerability privately by email — never in a public issue.
-  - name: Docs
-    url: https://github.com/diazoxide/charter/tree/main/docs
-    about: The control plane file, personas, secrets, forges and the git policy.
+    url: https://github.com/diazoxide/charter/blob/main/SECURITY.md
+    about: Report a vulnerability privately — never in a public issue.
