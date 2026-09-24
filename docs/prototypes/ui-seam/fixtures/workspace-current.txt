@@ -1,3 +1,0 @@
-• LIVE (committed + shared) · resolved via frame, unlocked
-• Vision: A 'charter <harness>' launcher command (e.g. charter claude) that runs the harness as a child process inside a charter-owned TUI frame: harness on top, charter's plane state in a bottom panel. A harness-agnostic alternative to the status line, which only Claude Code supports. Must not affect the existing status-line path — it is a second way to run charter.
-harness-wrapper

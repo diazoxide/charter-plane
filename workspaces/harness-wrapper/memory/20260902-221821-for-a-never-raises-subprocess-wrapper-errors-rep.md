@@ -1,5 +1,0 @@
-# For a 'never raises' subprocess wrapper, errors='replace' beats errors='
-
-_2026-09-02 22:18 · persistent_
-
-For a 'never raises' subprocess wrapper, errors='replace' beats errors='surrogateescape' — settled on #828 with measurements. surrogateescape stops the raise inside the wrapper and MOVES it: a lone surrogate has no UTF-8 encoding, so it raises UnicodeEncodeError on any strict encode a caller performs later. Measured: under LANG=en_US.UTF-8 sys.stdout.errors is 'strict' and writing a lone surrogate raises (sys.stderr is 'backslashreplace' and does not, which is CPython's default and not charter's choice). A function documented as never raising must hand back a value that does not raise either. Also measured: '\udcff'.encode('utf-8','replace') is b'?' (0x3F), NOT U+FFFD — encode-replace and decode-replace substitute different characters — so surrogateescape's round trip is not cashed at a sink that encodes, and it lands as a '?' indistinguishable from one the child really printed.

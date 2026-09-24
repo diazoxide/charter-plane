@@ -1,5 +1,0 @@
-# OPEN DEFECT found smoke-testing 0.49.0, NOT fixed there (pre-existing, o
-
-_2026-08-22 20:15 · persistent_
-
-OPEN DEFECT found smoke-testing 0.49.0, NOT fixed there (pre-existing, opencode.py byte-identical to v0.48.0): #365 is fixed for Claude Code ONLY. 'charter guard ask mcp__slack__send' prints TWO ticks — claude-code writes the bare 'mcp__slack__send' correctly, opencode writes {"permission":{"bash":{"mcp__slack__send":"ask"}}} because opencode.ask_rule (charter/harness/opencode.py:394-403) falls through to 'return "bash", p' for anything not shaped Tool(...). That is #365's exact defect one harness over, and PR #377 widened guard's help to advertise that the command writes every harness — so the release points at the surface where the fix does not hold. Second, smaller: doctor's 'vaults' check assembles the 'entries ignored (not an object)' note only on its final OK path; the timed_out/no_identity/bad early returns (doctor.py:1157-1173) return detail='N configured' and never name the dropped entry. Both belong upstream as issues.

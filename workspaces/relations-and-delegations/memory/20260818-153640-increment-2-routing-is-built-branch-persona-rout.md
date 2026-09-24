@@ -1,5 +1,0 @@
-# Increment 2 (routing:) is BUILT — branch persona-routing-levels, commit 
-
-_2026-08-18 15:36 · persistent_
-
-Increment 2 (routing:) is BUILT — branch persona-routing-levels, commit dc487f8, PR #260 STACKED on #259 (base is the increment-1 branch; GitHub retargets to main when #259 merges). 2467 tests green. Shape as shipped: per-persona 'routing: off|advise|require' (absent = off, unknown = off), 'routes-to:' prioritising not restricting, the roster block leading the EXISTING commitment gate (never a second hook message), advice tallied into the dispatch store as {ts,event:advice} rows and reported by 'persona stats' as fired-vs-followed, and doctor naming the inert case (personas but no front door). require == advise at prompt time; its tool-time ask is increment 4 and the docs say so. Gotcha worth keeping: I first pushed increment 2 onto the increment-1 branch, which silently put work into PR #259 that its body did not describe — fixed by branching and force-with-lease resetting #259 back to 19a2a2d. With a one-PR-per-increment plan, branch BEFORE committing the next increment.
