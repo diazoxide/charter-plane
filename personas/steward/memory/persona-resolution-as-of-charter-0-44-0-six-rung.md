@@ -1,5 +1,0 @@
-# Persona resolution as of charter 0.44.0 — SIX rungs, first that names an
-
-_2026-08-18 23:13 · persistent_
-
-Persona resolution as of charter 0.44.0 — SIX rungs, first that names an EXISTING persona wins: --persona flag → $CHARTER_PERSONA → .charter/sessions/<sid>.persona (this session) → .charter/terminals/<tid>.persona (this pane, survives restart) → charter.toml [persona] default → personas/.default (legacy, still resolves) → none. This supersedes a memory describing the pre-0.44.0 four-layer version; all three traps it named are fixed: the plane-wide active-persona file is now per-session AND per-terminal (it only remains for a shell with no session and no pane id), the front door is declarable in charter.toml where a consumer will actually find it, and a dangling declaration is reported by doctor ('front door' check) plus a status-line row instead of silently resolving to no identity. 'charter init --front-door <name>' (default steward, --no-front-door to decline) now scaffolds one generic persona and declares it — but only on a plane with NO personas yet. charter's own code still contains no persona name anywhere.

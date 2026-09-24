@@ -1,5 +1,5 @@
-# LOCAL GREEN CAN LIE BECAUSE THE TEST LOADER DIFFERS FROM CI'S. A test mo
+# Local green can lie because the local invocation differs from CI's. On
 
-_2026-09-02 21:26 · persistent_
+_2026-09-25 · persistent_
 
-LOCAL GREEN CAN LIE BECAUSE THE TEST LOADER DIFFERS FROM CI'S. A test module using a RELATIVE import ('from ._isolation import ...') passes under 'python -m unittest tests.<mod>' — which loads it as a package member — and FAILS under CI's 'unittest discover -s tests', which loads modules top-level. Found on #822: the failure appeared only in CI, and no amount of local re-running would have reproduced it. Rule: before trusting a green local suite, run the suite THE WAY CI RUNS IT, not the way that is convenient. This is a second instance of the same class as the cwd leak — see [[a-test-that-chdirs-must-restore-cwd-with-addclea]] — where the local invocation and the CI invocation differ in a way that hides a real defect.
+Local green can lie because the local invocation differs from CI's. On the Python suite, a relative import passed under 'python -m unittest tests.<mod>' and failed under CI's discover, and no local re-run could reproduce it. The same class exists in charter-app: 'cargo test -p <crate>' versus the workspace run, --lib versus integration tests, features enabled only in CI, the e2e runner, or a different OS in the matrix. Before trusting a green local run, run it THE WAY CI RUNS IT (read .github/workflows for the exact command), not the way that is convenient.

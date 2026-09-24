@@ -1,0 +1,5 @@
+# DO NOT set CHARTER_PLANE_FENCE globally when running charter-app's tests
+
+_2026-09-23 03:37 · persistent_
+
+DO NOT set CHARTER_PLANE_FENCE globally when running charter-app's tests - it BREAKS 33 charter-app tests, because the suite fences itself PER TEST and a global value fights that. Measured 2026-09-23: without it, 'cargo test -p charter-app --lib' is 154/154 green on this machine; with it exported, 33 fail. This corrects a line I had been putting in every agent brief ('point CHARTER_ROOT/CHARTER_PLANE_FENCE at a temp tree'), which was advice that breaks the thing it was meant to protect. The #132 fence is a CARGO FEATURE plus per-test setup, not an environment variable the caller sets - trust the suite's own fencing and verify afterwards by checking that nothing new appeared under /Users/aharon/IdeaProjects/charter/.charter, which is what actually matters. Separately and still true: an agent must never write into the operator's real plane; the way to ensure that is to run the fenced build and CHECK, not to export a variable.

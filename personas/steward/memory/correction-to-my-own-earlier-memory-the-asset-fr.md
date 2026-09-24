@@ -1,5 +1,0 @@
-# CORRECTION to my own earlier memory: the asset-freshness gate does NOT b
-
-_2026-08-22 20:19 · persistent_
-
-CORRECTION to my own earlier memory: the asset-freshness gate does NOT block 0.49.0. I recorded on 2026-08-22 that 'the next minor computes lag 2 and FAILS' — that was true when captured.json stamped 0.47.1, and PR #362 re-stamped it to 0.48.0 the same day, which made the note false within hours. The release persona caught it by running the gate's own arithmetic instead of trusting the note, and said plainly that trusting it would have forced a patch and let the gate silently pick the version. CURRENT TRUTH after 0.49.0 ships: captured.json is at 0.48.0, so 0.50.0 computes lag 2 and WILL fail the suite until the three SVGs are regenerated. GENERAL LESSON: a memory that encodes a THRESHOLD relative to a moving number goes stale the moment either number moves — write down the arithmetic and where to run it (tests/test_asset_freshness.py, lag = Δmajor*1000 + Δminor, fails when lag > 1), never the conclusion.

@@ -1,5 +1,0 @@
-# A PANEL PROCESS'S PANE *IS* sys.stdout. charter paints to it and measure
-
-_2026-08-28 11:13 · persistent_
-
-A PANEL PROCESS'S PANE *IS* sys.stdout. charter paints to it and measures its rectangle from the same descriptor, so any provider library that rebinds sys.stdout (rich, click, tqdm, colorama, a logging handler installed at import — Textual's redirect_stdout was the case measured) silently blanks the pane AND drops the frame to 80x24. Verified on main 2026-08-28: a stream answering isatty()=True and fileno()=-1 makes slots._width()/_height() return 80/24 in a real 150x10 pane. Symptom is a correct FIRST paint then blank on every repaint, nothing raised, nothing logged — so Registry.draw's catch never fires. Filed #606. Fix direction: capture the descriptor once at start, before any third-party import can rebind it (the way tests/_ttyguard.py must install ABOVE the import that pulls charter in, because util._USE_COLOR is sys.stderr.isatty() read at that import). And an 80x24 default is the wrong answer when the measurement fails — it is indistinguishable from a real 80x24 pane, same failure as #594's term_width returning 1.

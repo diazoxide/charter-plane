@@ -1,0 +1,5 @@
+# Do not ask a sub-agent for 'the CI verdict' as a done-when. Measured 202
+
+_2026-09-22 23:08 · persistent_
+
+Do not ask a sub-agent for 'the CI verdict' as a done-when. Measured 2026-09-22 on charter-app: an agent whose brief ended 'report the PR number, head sha, and the CI verdict' finished its actual work, then armed monitors on the check stream and handed back FOUR times with the same 'still pending, nothing red' report - roughly 30k tokens of re-reporting - because under a saturated runner queue the verdict never arrived inside its window. The orchestrator was watching the same runs anyway, so every one of those reports was duplicated work. Write the done-when as 'open the PR and report the number, head sha, and what you could not prove' and let the ORCHESTRATOR watch CI: it already has to, in order to decide merge order, and it is the only one who can act on a red. If an agent does start re-reporting, TaskStop it - its deliverable is already in hand and stopping it also stops its monitors.

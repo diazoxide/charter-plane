@@ -1,0 +1,5 @@
+# charter-app statusLine (measured on Claude Code 2.1.280, ruled by the op
+
+_2026-09-22 23:18 · persistent_
+
+charter-app statusLine (measured on Claude Code 2.1.280, ruled by the operator 2026-09-22): a statusLine passed through --settings IS rendered and SHADOWS every other one — settings merge key by key, statusLine is on no exception list, and the flag outranks user/project/local (but NOT managed). So charter arms its own only where nothing else fills the line (crates/charter-core/src/footerclaim.rs); it fails toward not arming on any unreadable settings file and on a disableAllHooks/allowManagedHooksOnly gate, and the app's doctor carries a 'chat footer' row naming the file in force. What no filesystem check can see: MDM/registry policy, policyHelper output, server-managed settings, a /statusline written later, somebody else's --settings. Two traps found doing it: .claude/settings.local.json lives at the GIT ROOT since 2.1.211 and a worktree reads the MAIN checkout's; and setting CLAUDE_CONFIG_DIR in a scenario breaks charter's wiring probe — a wired harness reads as unwired and the chat will not start.

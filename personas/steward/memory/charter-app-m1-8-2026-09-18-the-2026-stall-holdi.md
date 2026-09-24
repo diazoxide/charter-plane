@@ -1,0 +1,5 @@
+# charter-app M1.8 (2026-09-18), the ?2026 stall: holding back a whole pty
+
+_2026-09-18 01:26 · persistent_
+
+charter-app M1.8 (2026-09-18), the ?2026 stall: holding back a whole pty read that ends inside an open synchronized update DOES NOT fix it, and the shape is why. A harness writing 4 KB at a time ends nearly every write inside an update, and vte RESETS its 150 ms sync deadline on every new BSU (advance_sync_csi calls set_timeout on each one), so the deadline never arrives while writes keep coming: whole-read holding held ~90 KB and 0.8 s of finished frames at a time and the bench arm still read 1.2 draws/s against 1.0 before the fix. What works is CUTTING the read after the last update it closes (scan for the literal 8 bytes of \x1b[?2026l, which is what vte itself does inside an update) and holding only the unclosed tail: 52.6 draws/s, one repaint per message. The lesson that generalises: a fix whose whole purpose is a measured number is not done until that number is re-measured — reasoning said 'delayed by one frame, draws/s unaffected' and was wrong by a factor of 44.

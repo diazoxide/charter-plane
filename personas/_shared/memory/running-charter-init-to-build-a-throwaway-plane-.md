@@ -1,5 +1,5 @@
-# Running charter init to build a THROWAWAY plane (a demo, a capture, a pr
+# Building a THROWAWAY plane (a demo, a screenshot capture, a probe) mus
 
-_2026-09-11 02:21 · persistent_
+_2026-09-25 · persistent_
 
-Running charter init to build a THROWAWAY plane (a demo, a capture, a probe) touches the operator's real Claude Code. With claude on PATH, init runs claude plugin marketplace add and claude plugin install charter@charter at project scope for that directory, using the caller's HOME. So any script that builds a scratch plane must strip claude from PATH or give it an isolated HOME. docs/assets/demo-plane.sh did not, and the review of PR 958 caught it on 2026-09-11. Two related capture gotchas: docs/assets/capture-frame.sh used to run on the SHARED charter tmux socket; and a tmux socket path under the Claude Code session scratchpad exceeds tmux's 104-byte limit, so use a short directory under /tmp.
+Building a THROWAWAY plane (a demo, a screenshot capture, a probe) must not touch the operator's real harness setup. Anything that wires a harness for a plane (installing a harness plugin, writing harness settings) runs against the caller's HOME and whatever harness binary is on PATH, so a scratch-plane script must give it an isolated HOME and strip the real harness from PATH. A review caught a demo script that did not (PR 958, 2026-09-11). Related: a Unix socket path under the Claude Code session scratchpad can exceed the 104-byte sun_path limit on macOS, so put sockets in a short directory under /tmp.

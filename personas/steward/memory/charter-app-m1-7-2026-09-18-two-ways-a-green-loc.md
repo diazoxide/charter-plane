@@ -1,0 +1,5 @@
+# charter-app M1.7 (2026-09-18), two ways a green local run lied. (1) NEVE
+
+_2026-09-18 11:42 · persistent_
+
+charter-app M1.7 (2026-09-18), two ways a green local run lied. (1) NEVER grep 'npm test' down to the pass/fail lines: vitest reports unhandled promise rejections in a separate 'Unhandled Errors' block AFTER the summary and still exits non-zero in CI — I filtered it out and shipped two. Cause: a promise created in a useEffect whose only .catch() is attached in the cleanup function; attach the catch where the promise is made, and catch the unlisten too. (2) Anything fallible in Tauri's setup() with a '?' takes everything after it down. lifecycle::tray(app)? was first, so on a Linux desktop with no system tray (xvfb in CI) the app ran but never restored the operator's sessions. Build the tray LAST and log its failure instead of propagating: a tray is somewhere to put the window, the sessions are the work. Also: adding a tray makes cargo-deny fail on libloading (ISC) via tray-icon -> libappindicator on Linux; ISC belongs in deny.toml's allow list.

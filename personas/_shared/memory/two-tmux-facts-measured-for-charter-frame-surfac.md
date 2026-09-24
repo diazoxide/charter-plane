@@ -1,5 +1,0 @@
-# Two tmux facts measured for charter frame surfaces (PR 996, harness prof
-
-_2026-09-12 21:28 · persistent_
-
-Two tmux facts measured for charter frame surfaces (PR 996, harness profiles task 5, 2026-09-12). (1) On Linux a pane that exits out of raw mode reports an EMPTY pane_dead_status, tmuxs spelling for killed by a signal, where macOS carries 130 — so any suppression or branch written on the exit NUMBER passes on one platform and misses on the other; read a marker charter itself wrote instead. (2) Raw terminal mode in a LIVE chat pane is fine on macOS and on CIs Linux: the selector paints, takes a real Enter and execs the harness keeping its pid, and a real Escape leaves it. Ruling 42s line-read decision was about a pane the chat teardown was already killing, not about raw mode as such — do not generalise it to every pane. (3) Repo quirk from the same PR: tests/test_frame_pane_style scans docs/frame.md WHOLE and polices numerals, and the files last sentence is always in scope because the attack corpus is appended there — a hyphenated date reads as a range of cells and a trailing link to adr/0018-... reads as a pad of 18; one paragraph turned 25 tests red.

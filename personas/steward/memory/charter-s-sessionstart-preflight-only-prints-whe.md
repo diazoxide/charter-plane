@@ -1,5 +1,5 @@
-# charter's SessionStart preflight only prints when doctor EXITS NON-ZERO
+# Before adding a warning, answer 'who will ever see it?'. In the Python
 
-_2026-08-20 11:13 · persistent_
+_2026-09-25 · persistent_
 
-charter's SessionStart preflight only prints when doctor EXITS NON-ZERO — hooks/hooks.json runs 'out="$(charter doctor 2>&1)" || printf ...', and cmd_doctor exits 1 only on FAIL. So a doctor WARN reaches NOBODY in-session; it is visible only when someone runs 'charter doctor' by hand. The channel that does reach a session is hooks._pending_system -> systemMessage (renders at exit 0, blocks nothing), queued in _queue_plugin_notices at sessionstart only. Any future 'make doctor warn about X' request must answer 'who will ever see it?' first — issue #306 proposed exactly that remedy and it would have closed the issue while leaving the symptom (fixed properly in PR 307).
+Before adding a warning, answer 'who will ever see it?'. In the Python CLI the SessionStart preflight printed doctor's output only when doctor EXITED NON-ZERO, so a doctor WARN reached nobody in-session; issue #306 proposed 'make doctor warn' as the fix and would have closed the issue while leaving the symptom (fixed properly in PR 307 via a systemMessage channel). In charter-app, check which surface a warning actually lands on (a session's context, the app UI, the needs-you signal) before calling it delivered.

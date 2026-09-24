@@ -1,5 +1,0 @@
-# #936's fix is PR #939 (branch fix-936-framed-chat-workspace-lock, opened
-
-_2026-09-10 14:19 · persistent_
-
-#936's fix is PR #939 (branch fix-936-framed-chat-workspace-lock, opened 2026-09-10, NOT merged or released yet). Design: a framed chat's lock is its launch record, workspace.launch_lock(sid) -> frame/state.own_workspace (recorded pin, then the workspace the launch resolved), read and never written; workspace.is_locked asks it BEFORE the .lock file, so picked and silent launches hold the same lock and a forced-away chat can always 'workspace use <own>'. Hooks ask WORKSPACE questions by hooks._workspace_session(data) = $CHARTER_SESSION_ID or the payload session_id; the payload id still keys the toolgate snapshot, trace and memnudge counter. 'workspace use <other>' in a chat is refused (names opening a chat there, or --workspace for one command); 'unlock' in a chat refuses rc 2; --force still moves the session's commands, never the chat. A sub-agent inheriting the chat id is refused on purpose: its pointer would be the parent chat's. Until #939 ships, the older memory's advice stands: do not follow the confirm-workspace nudge inside a framed chat.

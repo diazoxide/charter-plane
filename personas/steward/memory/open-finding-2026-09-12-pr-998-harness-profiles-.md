@@ -1,5 +1,0 @@
-# OPEN FINDING 2026-09-12, PR #998 (harness profiles Task 5): on CI's Linu
-
-_2026-09-12 21:29 · persistent_
-
-OPEN FINDING 2026-09-12, PR #998 (harness profiles Task 5): on CI's Linux runner a chat pane that exits at the profile selector is marked dead by tmux with BOTH #{pane_dead_status} and #{pane_dead_signal} EMPTY ('1::'), remain-on-exit on, and both hooks read back present (pane-died[0] the exit write, pane-died[1] kill-window) — and the chat's window is still listed 60 s later, so the teardown hook did not take it. Same code on macOS 3.7c takes the window and the session with it, and a hand probe there fires pane-died[1] for a pane killed with SIGKILL. Three Linux jobs: 3.11 red, 3.13 red, 3.14 green once. Unresolved whether tmux declines to fire the hook for a pane it can give neither code nor signal for, or charter installs it in a way that version does not take. If it is charter's, pressing Esc at the selector on Linux leaves a dead pane's window standing instead of closing the chat.

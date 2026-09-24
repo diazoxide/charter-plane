@@ -1,5 +1,5 @@
-# Nudge standard (#371, PR 379): a prompt is worth its interruption only i
+# Nudge standard (diazoxide/charter #371, PR 379): a prompt is worth its
 
-_2026-08-22 22:50 · persistent_
+_2026-09-25 · persistent_
 
-Nudge standard (#371, PR 379): a prompt is worth its interruption only if it changes what happens, and for a hook 'ask' that evidence is a DECLINE — which produces no PostToolUse and is indistinguishable from an interrupted turn or an ended session. So an ask can never be justified by outcome data; only DISAPPROVAL of the alternative can justify it. Clone-commit nudge deleted on that basis (471 asks, 97/98 approved, trigger condition WAS the prescribed workflow). GOTCHA found while deleting: _ask_mark_take was wired to posttooluse_bash ALONE, so the two surviving nudges (Task|Agent, Write|Edit|MultiEdit) could never record an approval — deleting the only Bash ask would have pinned 'approved M' at 0 forever. Take half now in one _ask_approved helper called from all three PostToolUse handlers.
+Nudge standard (diazoxide/charter #371, PR 379): a prompt is worth its interruption only if it changes what happens. For a hook 'ask', the evidence of that is a DECLINE, which produces no PostToolUse and is indistinguishable from an interrupted turn or an ended session. So an ask can never be justified by outcome data; only disapproval of the alternative can justify it. A nudge that is approved nearly every time (471 asks, 97/98 approved) whose trigger is the prescribed workflow should be deleted. When measuring approvals, check that every hook path that can ask also records the approval, or the counter reads zero forever.

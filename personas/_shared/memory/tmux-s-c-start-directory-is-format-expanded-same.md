@@ -1,5 +1,0 @@
-# tmux's -c <start-directory> is format-expanded (same parser as #{...} pa
-
-_2026-09-11 02:37 · persistent_
-
-tmux's -c <start-directory> is format-expanded (same parser as #{...} pane formats), so a directory NAME containing #{...} or #(...) is read as a format, not a literal path. Measured on tmux 3.7c and 3.2 with a private -S socket and real new-window -c: an unescaped #{session_name} in the dir name either lands the pane in the expanded-but-nonexistent path's fallback (/Users/aharon, rc 0, no stderr) or, if that expanded path happens to exist, lands there directly; #(cmd) similarly falls back to /Users/aharon with no job run (not code execution, just silent misdirection). The escape works: doubling the # (## -> literal #) stops expansion on both versions -- x##{session_name} resolves to the literal dir x#{session_name}, unexpanded. charter/frame/layout.py's window_argv, respawn_argv and chat_window_argv all pass -c cwd unescaped (cwd from os.getcwd() in commands_frame.py); filed as https://github.com/diazoxide/charter/issues/961, neighbouring #957/PR #959 (which only fixed a harness-argv trailing ';', a different -c-adjacent argument).

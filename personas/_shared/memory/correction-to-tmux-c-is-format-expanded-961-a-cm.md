@@ -1,5 +1,0 @@
-# CORRECTION to 'tmux -c is format-expanded' (#961): a #(cmd) in a -c dire
-
-_2026-09-11 05:36 · persistent_
-
-CORRECTION to 'tmux -c is format-expanded' (#961): a #(cmd) in a -c directory name DOES run cmd as a shell job when the tmux client stays connected — measured 5/5 per command (new-window -c, respawn-pane -c) on tmux 3.7c and 3.2 with a chained run-shell 'sleep 1'; 0/30 when sent as one command whose client exits at once (charter's launch shape), which is why the issue saw no marker. A display-message #(…) control behaves the same (no marker unheld, 3/3 held), so an unheld 'no marker' proves nothing. Escape for -c is NOT plain #->##: a run of # directly before [ is handed on literally by tmux (a#[b, a##[b, a####[b, a#[fg=red]b) and doubling it lands in $HOME on both versions; tmuxctl.start_directory doubles every other run, then verbatim. 3.7c (not 3.2) drops a trailing # in -c. -e NAME=VALUE is not format-expanded (30/30 exact). new-session with no -c from a #{...}-named cwd starts exactly there.

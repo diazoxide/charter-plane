@@ -1,5 +1,5 @@
-# MERGE GATE: never trust 'gh pr checks' or mergeStateStatus=CLEAN to mean
+# MERGE GATE: do not trust 'gh pr checks' or mergeStateStatus=CLEAN alon
 
-_2026-08-26 20:59 · persistent_
+_2026-09-25 · persistent_
 
-MERGE GATE: never trust 'gh pr checks' or mergeStateStatus=CLEAN to mean CI passed on this repo. main has NO branch protection and NO required status checks (gh api .../branches/main/protection -> 'Branch not protected'), and GitHub is intermittently swallowing Actions push triggers here — a pushed sha can get total_count:0 check-runs while the PR still reports CLEAN and offers the merge button. Hit independently on two branches on 2026-08-26 (fix/558 and task7-focus-events), plus main's own run 32985668436 cancelled-after-16min and an earlier startup_failure. Always verify with: gh api repos/diazoxide/charter/commits/<HEAD_SHA>/check-runs — per head sha, not per PR. If total_count is 0, trigger it: gh workflow run test.yml --ref <branch>. Filed as #561.
+MERGE GATE: do not trust 'gh pr checks' or mergeStateStatus=CLEAN alone to mean CI passed. GitHub intermittently swallows Actions triggers, so a pushed sha can have total_count:0 check-runs while the PR still reports CLEAN when nothing requires those checks (hit twice on 2026-08-26 on the old charter repo, which then had no branch protection). Always verify per head SHA, not per PR: gh api repos/<owner>/<repo>/commits/<HEAD_SHA>/check-runs. If total_count is 0, trigger the workflow (gh workflow run <file> --ref <branch>). On a repo with required checks, confirm the required list actually covers the jobs you care about.

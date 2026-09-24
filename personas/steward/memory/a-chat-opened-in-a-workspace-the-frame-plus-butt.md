@@ -1,5 +1,5 @@
-# A chat opened in a workspace (the frame plus button, frame-new-chat, a w
+# A chat whose cwd is a workspace directory (workspaces/WS) gets Claude 
 
-_2026-09-10 14:40 · persistent_
+_2026-09-25 · persistent_
 
-A chat opened in a workspace (the frame plus button, frame-new-chat, a workspace tab) starts with its cwd set to workspaces/WS, and Claude Code reads project settings only from the session's own cwd without walking up. Charter mirrors only enabledPlugins and env into workspaces/WS/.claude/settings.json (claude_code.py WORKSPACE_KEYS), so NO permission rule from the plane root is in force there: charter guard ask rules and hand-written deny rules included. Any design that relies on an ask rule reaching the chat that runs a command must mirror the restrictive buckets (ask, deny) into workspace settings, never allow. Found 2026-09-10 while planning charter handoff.
+A chat whose cwd is a workspace directory (workspaces/WS) gets Claude Code project settings only from that cwd's .claude/settings.json; Claude Code does not walk up to the plane root for them. So no permission rule written at the plane root (ask or deny) is in force in such a chat unless charter mirrors it into the workspace's settings. Any design that relies on an ask or deny rule reaching the chat that runs a command must mirror the restrictive buckets (ask, deny) into the workspace layer, never allow. Found 2026-09-10 on the Python charter, whose mirror carried only enabledPlugins and env; check what charter-app's settings layer carries before relying on it.

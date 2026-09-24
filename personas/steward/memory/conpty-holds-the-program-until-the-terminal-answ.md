@@ -1,0 +1,5 @@
+# ConPTY holds the program until the terminal answers ESC[6n (measured 202
+
+_2026-09-20 20:34 · persistent_
+
+ConPTY holds the program until the terminal answers ESC[6n (measured 2026 09 20, charter-app issue 99). portable-pty 0.9 opens the pseudo console with PSUEDOCONSOLE_INHERIT_CURSOR, so conhost's first act is to write a cursor position report request to the terminal and block the attached program until it is answered. Measured: the same batch file in the same directory exits 7 and prints hello with no pty, and through ConPTY produces exactly four bytes, the query, and then nothing at all, for ever. A unix pty owes nothing at startup. Consequence for any Rust terminal on Windows: the writer must be taken and the reply path must be live BEFORE spawn_command, or the program never runs a line and there is no error anywhere. Also measured twice: dropping the slave closes nothing on Windows because it is an Arc clone of the master's Inner, so the reader reaches EOF only when the MASTER drops. ClosePseudoConsole did NOT block in three attempts, which refutes a worry from reading the source.

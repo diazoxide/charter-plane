@@ -1,0 +1,5 @@
+# charter-app: hand-mirroring app/src/bindings.ts when no Rust runs locall
+
+_2026-09-21 03:37 · persistent_
+
+charter-app: hand-mirroring app/src/bindings.ts when no Rust runs locally. tauri-specta rc.25's emitter rules, verified byte for byte against the committed file: a doc line becomes ' * ' + the text AFTER '///' (so ' *  Text', two spaces, because the Rust line keeps its own leading space); an empty '///' line becomes ' * ' WITH a trailing space; a one-line doc is '/** ' + text + ' */' on one line; tabs indent; commands appear in collect_commands! order; types are sorted byte-wise ASCII (PanelTodo before Panels, StartOptions before Started); Option<T> -> 'T | null'; Vec<(A,B)> -> '([A, B])[]'; () -> void; Result<T,E> -> typedError<T,E>(__TAURI_INVOKE(...)); no args means __TAURI_INVOKE("cmd") with no object. Write a small node script that extracts the '///' block above an item and emits it, then DIFF it against an existing entry in the committed bindings before trusting it. A debug build also rewrites bindings.ts at every app start, so CI proves it twice.

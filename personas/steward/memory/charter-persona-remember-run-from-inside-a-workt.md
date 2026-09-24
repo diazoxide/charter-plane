@@ -1,5 +1,5 @@
-# charter persona remember run from inside a WORKTREE writes to the clone,
+# Memory written from inside a worktree can land in the wrong tree: a wo
 
-_2026-08-14 12:03 · persistent_
+_2026-09-25 · persistent_
 
-charter persona remember run from inside a WORKTREE writes to the clone, not the plane: root.find_root resolves a plane-less worktree back to its main tree. The memory is not lost, it lands in workspaces/<ws>/<repo>/personas/... and dirties the clone. Record memory from the plane root.
+Memory written from inside a worktree can land in the wrong tree: a worktree of a workspace repo has no plane marker of its own, so plane resolution walks back to that repo's main checkout and the memory lands under workspaces/<ws>/<repo>/personas/..., dirtying the clone instead of reaching the plane. Record persona memory from the plane root (or through the app), and check where a memory file actually landed before trusting it was saved.
