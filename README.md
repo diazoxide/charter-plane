@@ -1,4 +1,6 @@
-# charter — the plane
+# charter-plane
+
+Before 2026-09 this repository was `diazoxide/charter`; that name now belongs to the app.
 
 This repository is a **charter control plane**: the committed state that
 [charter](https://github.com/diazoxide/charter-app) reads when it opens this directory as a
@@ -32,7 +34,7 @@ directory as a project. Commit plane changes with `charter save` or from the app
 
 This repository used to be the Python CLI `charter` (PyPI `charter-cp`, tmux frame, Claude Code
 plugin `charter@charter`). It is retired: the last commit that contained it is tagged
-[`cli-final`](https://github.com/diazoxide/charter/tree/cli-final), and `charter-cp` stays
+[`cli-final`](https://github.com/diazoxide/charter-plane/tree/cli-final), and `charter-cp` stays
 frozen at 0.62.1 with no further releases. charter-app reads the planes the Python charter
 made as they are.
 

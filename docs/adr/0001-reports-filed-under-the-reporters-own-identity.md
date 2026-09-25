@@ -1,6 +1,6 @@
 # Upstream reports are filed under the Reporter's own GitHub identity
 
-charter lets a Reporter file bugs and feature gaps against `diazoxide/charter` from inside
+charter lets a Reporter file bugs and feature gaps against `diazoxide/charter-plane` from inside
 a running session. Those issues are created with the Reporter's own `gh` credentials, so
 they appear under their name — charter operates no service and holds no credentials of its
 own for this.

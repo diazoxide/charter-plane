@@ -13,7 +13,7 @@ matter of taste:
 ## Why it is written down
 
 Because it was being derived one site at a time, and the site that skipped it produced
-[#278](https://github.com/diazoxide/charter/issues/278) — `charter browser install` left
+[#278](https://github.com/diazoxide/charter-plane/issues/278) — `charter browser install` left
 several paths untracked with nothing said about any of them. The report's own words: *"each
 plane picks one, in silence, and the reasoning is nowhere for the next reader."*
 

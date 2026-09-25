@@ -200,13 +200,13 @@ the harness's, `state.record_launch` says so, and nothing charter owns writes th
 **Why the refusal cannot simply be printed and exited on, which is the whole reason this is
 a decision and not a detail.** Measured 2026-09-11 on tmux 3.7c and at the 3.2 floor, 40
 runs, in the pull request that shipped this launcher
-([#981](https://github.com/diazoxide/charter/pull/981)): `_launch`'s eager
+([#981](https://github.com/diazoxide/charter-plane/pull/981)): `_launch`'s eager
 `#{pane_dead_status}` ask completes **6-14 ms** after the start while a Python launcher's
 first line runs at **19-22 ms**, so the ask is almost always too early to catch a refusal —
 and by the time anything else could look, the chat-teardown hook has killed the window.
 `_pane_last_words` answered `[]` in all 40 runs on charter's own server. (Almost: a loaded
 CI runner once let the ask land after the launcher had refused and exited, and the refusal
-was lost — [#1067](https://github.com/diazoxide/charter/issues/1067). An unattended launch
+was lost — [#1067](https://github.com/diazoxide/charter-plane/issues/1067). An unattended launch
 now reads the record whether or not that ask found the pane dead.) A refusal printed
 and exited on is a refusal nobody reads: the window carrying it is gone before the sentence
 can be collected. So the pane has to hold it, and holding it is the part that needs this
@@ -277,7 +277,7 @@ record.
 
 Recorded here rather than in the records task that closes this phase, because the code that
 relies on it shipped in the same pull request
-([#981](https://github.com/diazoxide/charter/pull/981); the rule is *an ADR amendment ships
+([#981](https://github.com/diazoxide/charter-plane/pull/981); the rule is *an ADR amendment ships
 with the code that first relies on it*, `docs/superpowers/plans/2026-09-11-harness-profiles.md`,
 Task 6): otherwise `main` carries an unqualified prohibition while the code contradicts
 it, and the only thing telling a reader otherwise is a spec they have no reason to open.
@@ -289,7 +289,7 @@ the distinguishing question, the wait's two conditions both stated, the record s
 from the wait, and the measurement cited where a reader can open it.*
 
 *Extended 2026-09-12 by the task that added the approval
-([#992](https://github.com/diazoxide/charter/pull/992)), under the same rule: the launcher
+([#992](https://github.com/diazoxide/charter-plane/pull/992)), under the same rule: the launcher
 now ASKS in that pane as well as writing in it, so the question is named as the second thing
 it writes, its containment and the two conditions for putting it are bounded, and the read
 it makes is distinguished from the two reads of a harness's pane the 2026-09-01 amendment
