@@ -120,7 +120,7 @@ in" — the drift `actions.ts` exists to prevent.
 ## The consequence for the chat strip
 
 The operator hit the chat strip at about fifty chats and found four defects
-([charter-app#130](https://github.com/diazoxide/charter-app/issues/130)), and this record is
+([charter-app#130](https://github.com/diazoxide/charter/issues/130)), and this record is
 where the first of them is half answered: a workspace rarely holds fifty, so scoping the chats
 takes most of the pressure off the strip. **Only most of it.** A strip still has to behave when
 it overflows, and the projects and workspaces strips overflow too, so the four are fixed on

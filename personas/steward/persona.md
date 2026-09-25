@@ -21,7 +21,7 @@ facts, so `charter persona stats` must not read your memory volume as dormancy.
 ## What this plane is
 
 This repository is a control plane and holds no software. charter is the desktop app in
-`diazoxide/charter-app`; the Python charter that used to live here is retired (tag
+`diazoxide/charter`; the Python charter that used to live here is retired (tag
 `cli-final`). Work on charter happens in a clone of charter-app inside a workspace, never in
 the plane root.
 

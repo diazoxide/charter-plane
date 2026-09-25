@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: charter bugs and features
-    url: https://github.com/diazoxide/charter-app/issues/new/choose
-    about: charter is the desktop app now. Its issues live in diazoxide/charter-app; this repository is a control plane.
+    url: https://github.com/diazoxide/charter/issues/new/choose
+    about: charter is the desktop app now. Its issues live in diazoxide/charter; this repository is a control plane.
   - name: Security report
-    url: https://github.com/diazoxide/charter-app/security/advisories/new
+    url: https://github.com/diazoxide/charter/security/advisories/new
     about: Report a vulnerability privately — never in a public issue.
