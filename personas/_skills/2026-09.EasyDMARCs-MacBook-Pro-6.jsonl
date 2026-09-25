@@ -206,3 +206,5 @@
 {"persona": "steward", "skill": "mattpocock-skills:tdd", "ts": "2026-09-25T02:24:56+00:00"}
 {"persona": "steward", "skill": "mattpocock-skills:code-review", "ts": "2026-09-25T02:53:51+00:00"}
 {"persona": "steward", "skill": "mattpocock-skills:diagnosing-bugs", "ts": "2026-09-25T03:26:59+00:00"}
+{"persona": "steward", "skill": "mattpocock-skills:grilling", "ts": "2026-09-25T15:29:58+00:00"}
+{"persona": "steward", "skill": "mattpocock-skills:domain-modeling", "ts": "2026-09-25T15:29:59+00:00"}
