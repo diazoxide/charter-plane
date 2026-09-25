@@ -217,3 +217,4 @@ Written by the persona as it learns; committed and shared.
 - [charter's PreToolUse guard refuses gh pr create/issue create with an inl](charter-s-pretooluse-guard-refuses-gh-pr-create-.md)
 - [Building charter-app on the macbookpro machine: the Bash tool's PATH has](building-charter-app-on-the-macbookpro-machine-t.md)
 - [gh pr edit fails on charter-app with 'Projects (classic) is being deprec](gh-pr-edit-fails-on-charter-app-with-projects-cl.md)
+- [Visually verifying charter-app UI on this Mac (2026-09-25): the terminal](visually-verifying-charter-app-ui-on-this-mac-20.md)
