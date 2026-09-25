@@ -214,3 +214,4 @@ Written by the persona as it learns; committed and shared.
 - [Tauri: leaving APPLE_SIGNING_IDENTITY unset does NOT ad-hoc sign a macOS](tauri-leaving-apple-signing-identity-unset-does-.md)
 - [Measured 2026-09-23 on macOS 26.2 Apple Silicon: an ad-hoc-signed app in](measured-2026-09-23-on-macos-26-2-apple-silicon-.md)
 - [charter-app panel contract (PR 206 / charter ADR 0043): a contributed pa](charter-app-panel-contract-pr-206-charter-adr-00.md)
+- [charter's PreToolUse guard refuses gh pr create/issue create with an inl](charter-s-pretooluse-guard-refuses-gh-pr-create-.md)

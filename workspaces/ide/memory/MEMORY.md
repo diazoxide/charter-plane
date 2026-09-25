@@ -79,3 +79,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [2026-09-24: plane-saving design grilled (Q1-Q29) and recorded as charter](20260924-180424-2026-09-24-plane-saving-design-grilled-q1-q29-an.md)
 - [Closed todo: M8.6 DESIGN: 1Password service-account tokens (OP_*_TOKEN) ](20260924-203039-closed-todo-m8-6-design-1password-service-accoun.md)
 - [2026-09-25: plane saving (ADR 0051) delivered end to end. Tickets 292-30](20260925-071842-2026-09-25-plane-saving-adr-0051-delivered-end-t.md)
+- [2026-09-25: navigation settled with operator. ADR 0054 (charter-app PR #](20260925-115845-2026-09-25-navigation-settled-with-operator-adr-.md)
