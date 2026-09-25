@@ -84,3 +84,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [2026-09-25: ADR 0054 split into tickets #392 -> #393 -> #394 (sub-issues](20260925-121953-2026-09-25-adr-0054-split-into-tickets-392-393-3.md)
 - [2026-09-25: opened charter-app PR #398 (branch workspace-repo-picker, co](20260925-124759-2026-09-25-opened-charter-app-pr-398-branch-work.md)
 - [2026-09-25: ADR 0054 built as a stacked chain via /implement sub-agents:](20260925-132441-2026-09-25-adr-0054-built-as-a-stacked-chain-via.md)
+- [2026-09-25: operator decisions applied: first-open pinning only where no](20260925-133811-2026-09-25-operator-decisions-applied-first-open.md)
