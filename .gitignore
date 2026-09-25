@@ -10,6 +10,15 @@
 /workspaces/*/*
 !/workspaces/.gitkeep
 # >>> charter live workspaces (managed by `charter workspace live`) >>>
+!/workspaces/ide/workspace.json
+!/workspaces/ide/workspace.md
+!/workspaces/ide/memory
+!/workspaces/ide/memory/**
+!/workspaces/ide/todos
+!/workspaces/ide/todos/**
+!/workspaces/ide/changes
+!/workspaces/ide/changes/**
+/workspaces/ide/changes/log/
 # <<< charter live workspaces <<<
 
 # Per-developer Claude Code settings.

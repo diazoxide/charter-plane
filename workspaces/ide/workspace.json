@@ -1,0 +1,15 @@
+{
+  "name": "ide",
+  "description": "",
+  "repos": [
+    {
+      "name": "charter"
+    },
+    {
+      "name": "charter-app"
+    }
+  ],
+  "updated_at": "2026-09-17T13:53:07+00:00",
+  "updated_by": "aharon",
+  "charter_generated": "947653d57f1cfdc3dc201731702d0a8a6712644c6882a0aab659c5414b37b359"
+}
