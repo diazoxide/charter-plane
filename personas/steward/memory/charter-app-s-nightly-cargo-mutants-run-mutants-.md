@@ -1,0 +1,5 @@
+# charter-app's nightly cargo-mutants run (mutants.yml) died for FOUR diff
+
+_2026-09-22 13:26 · persistent_
+
+charter-app's nightly cargo-mutants run (mutants.yml) died for FOUR different reasons at once and 'failure' meant all of them: (1) GitHub's 6-hour job limit — measured 2026-09-21, charter-core generates 6,555 mutants at 34.6 s each = ~63 h serial, so four shards of 1,639 could never finish and 3 of them were cancelled at exactly 6 h 00 m with 41/29/44% done; (2) runner eviction ('The runner has received a shutdown signal'); (3) a flaky BASELINE — one timing-bound test failing in the unmutated tree makes cargo-mutants test nothing at all and fail in 75 s (charter-core has at least four such deadline-bound tests: forklock x2, session::output_an_update_never_closes, and a_git_that_refuses_the_repository at worktree::git's 30 s READ deadline); (4) actual survivors. Diagnose with the ARTIFACTS not the log: outcomes.json's total_mutants vs len(mutants.json) is exactly 'did this shard finish'. cargo-mutants exit codes measured: 0 = all caught, 2 = survivors, 4 = baseline tests failed. 'Found N mutants to test' is the PER-SHARD count, not the total.

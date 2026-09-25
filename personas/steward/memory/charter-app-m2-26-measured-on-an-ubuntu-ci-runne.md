@@ -1,0 +1,5 @@
+# charter-app M2.26, measured on an ubuntu CI runner: wslayer::guest_trees
+
+_2026-09-21 04:20 · persistent_
+
+charter-app M2.26, measured on an ubuntu CI runner: wslayer::guest_trees over a workspace whose checkouts have NO linked worktrees costs 20.4 us and spawns git zero times — `live_trees` and `pieces` both return early when the common git directory has no `worktrees/`. With three linked worktrees it is 10.5 ms, one `git worktree list` shared by the pieces and the exclude block through `listing::answers`. A whole `wslayer::wire` of that workspace — the directory, the clone and three pieces, each wired with its exclude block and its `git status` questions — is 55.3 ms, which is a LAUNCH cost and not a hook cost (Python charter pays 107.6 ms on the hook; charter-app's hook budget is 1.7 ms). So descending `wslayer::status` on doctor's hook path would cost ~6x the whole budget for a repository with worktrees and nothing for one without — and the sharper fact is that NOTHING in charter-app calls `wslayer::status` at all, so the question the brief asked is about a caller that does not exist.

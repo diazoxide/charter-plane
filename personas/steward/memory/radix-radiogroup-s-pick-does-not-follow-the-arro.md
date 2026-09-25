@@ -1,0 +1,5 @@
+# Radix RadioGroup's pick does NOT follow the arrow keys under React 19 —
+
+_2026-09-22 00:00 · persistent_
+
+Radix RadioGroup's pick does NOT follow the arrow keys under React 19 — verified by logging listener order, not guessed. RadioGroupItem selects on focus only while it believes an arrow key is down, and it learns that from a bubble-phase keydown listener on `document`. React attaches its delegated listeners to the root container AND to each portal container, both BELOW document, so one arrow press runs: document(capture) -> React's onKeyDown (which MOVES THE FOCUS) -> document(bubble, too late). onValueChange never fires. Not a jsdom artifact — the same nesting holds in a real webview. Fix: give every RadioGroup.Item its own onFocus that picks it; focus can only reach a row by arrow or pointer because a roving tabindex is entered at the already-checked row, so focused==picked is not a second behaviour. Also: converting a hand-rolled modal to a real Radix Dialog makes aria-hidden cover the window behind it, which breaks any test that was reaching for something behind the modal — that is the app being correct, so fix the test's route, not the code.

@@ -1,5 +1,5 @@
-# 0.46.0's ask->allow under bypassPermissions has a sharp edge found by as
+# When converting a guard's ask into an allow, first enumerate what that
 
-_2026-08-19 18:36 · persistent_
+_2026-09-25 · persistent_
 
-0.46.0's ask->allow under bypassPermissions has a sharp edge found by asking 'what would an autonomous agent do with this same task': _clone_commit_reason matches _GIT_WRITE_RE which includes tag AND push, so 'git tag v0.46.0' from a workspace clone used to return ASK — and a hook ask floors at a prompt in EVERY permission mode, so it actually stopped unattended runs. After 0.46.0 it returns ALLOW, and pushing that tag fires release.yml -> irreversible PyPI publish. gh pr merge and gh release create were never guarded at all (not git verbs). Verified by probe on 0.46.0. Filed as #299. The general lesson: when converting an ask to an allow, enumerate what the ask was INCIDENTALLY covering — the clone-commit nudge was never designed to guard releases, it just did.
+When converting a guard's ask into an allow, first enumerate what that ask was INCIDENTALLY covering. A hook ask floors at a prompt in every permission mode, so an ask written for one purpose can be the only thing stopping an unattended agent from something else. Measured on the retired Python charter (#299, fixed and public): a clone-commit nudge that matched git tag and push was relaxed to allow, and a pushed tag fired an irreversible release. It was never designed as a release guard; it just was one. Commands that are not git verbs (gh pr merge, gh release create) were never guarded at all.

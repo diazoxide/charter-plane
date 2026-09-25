@@ -1,0 +1,5 @@
+# react-resizable-panels v4 (charter-app#149, M6.3): a Panel's imperative
+
+_2026-09-22 13:32 · persistent_
+
+react-resizable-panels v4 (charter-app#149, M6.3): a Panel's imperative API CANNOT be called from a useLayoutEffect in an ancestor of the Group — it throws 'Group <id> not found' from getPanelConstraints, because the Group registers itself in its OWN layout effect and React runs a child's layout effects before its parent's, so no hook anywhere inside a group runs after the group exists. That is why charter-app#141 used a passive useEffect and shipped a one-frame flash of a region that was meant to start hidden. The fix is not an earlier effect but a correct FIRST layout: defaultSize='0%' on a collapsible panel, which the library's clamp snaps to collapsedSize (a size below (collapsedSize+minSize)/2 goes DOWN to collapsedSize, not up to minSize). Also: expand() restores mutableValues.expandToSize ?? minSize, so a panel that was never open has no remembered size and comes back at its MINIMUM — call resize() after expand() when you know the size it should have.

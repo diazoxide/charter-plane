@@ -1,0 +1,5 @@
+# Measured 2026-09-15 (claude 2.1.272, throwaway CLAUDE_CONFIG_DIR + HOME
+
+_2026-09-15 17:21 · persistent_
+
+Measured 2026-09-15 (claude 2.1.272, throwaway CLAUDE_CONFIG_DIR + HOME + plane): a project-scope plugin install is bound to its projectPath. After mv of the plane, 'claude plugin list --json' at the new path still lists it enabled:true with the OLD projectPath, but a session there loads 0 plugins and runs no hooks (debug log says 'Plugin not cached at <cache> - run /plugin to refresh', which is misleading: the cache is there). The binary's rule (e1): scope user/managed, or projectPath === cwd, or same repo root. 'claude plugin install charter@charter --scope project -y' from the new path adds a second record and the hooks come back, workspace subdirs included. Method worth reusing: an unauthenticated 'claude -p' still runs SessionStart and UserPromptSubmit hooks before 'Not logged in', so a charter shim first on PATH counts plugin hook loading with no login. PR: doctor-tells-one-story-about-a-moved-plane.

@@ -1,5 +1,0 @@
-# A charter guard ask rule written at the plane root is NOT in force in a
-
-_2026-09-10 14:51 · persistent_
-
-A charter guard ask rule written at the plane root is NOT in force in a framed Claude Code chat: those launch with cwd at workspaces/<ws>/, Claude Code reads project settings from the session's own directory without walking up, and charter mirrors only claude_code.WORKSPACE_KEYS = (enabledPlugins, env) into the generated workspace and checkout settings. permissions is excluded for a reason about GRANTS, so the restrictive buckets ask and deny are dropped with allow, including a hand-written deny and the --local landing prompt charter's own doctor recommends. Every doctor row still reads green there (ask rules 'none', session layer settings tick, workspace layer 'all current'). Filed as #942. opencode is unaffected in a workspace DIRECTORY (it resolves opencode.json at the repository root, which for a workspace dir is the plane) and affected only inside a checkout; Codex has no command-pattern permissions at all.

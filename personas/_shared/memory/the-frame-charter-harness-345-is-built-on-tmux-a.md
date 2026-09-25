@@ -1,5 +1,0 @@
-# The frame (charter <harness>, #345) is built on tmux and lives in charte
-
-_2026-08-23 03:03 · persistent_
-
-The frame (charter <harness>, #345) is built on tmux and lives in charter/frame/ + commands_frame.py. Facts pinned against tmux 3.7c BY REJECTION, each of which cost a real bug: separate argv is not shell-interpreted but a joined string is; an attached new-session returns 0 whatever its command exited with, so exit codes travel via remain-on-exit + a PANE-SCOPED pane-died hook; a bare  REPLACES THE WHOLE ARRAY, deleting [1], so reordering two adjacent lines reintroduces an infinite hang with a green suite; tmux reports an EMPTY pane_dead_status for signal deaths, not a negative one; -f <conf> is honoured only when the call actually STARTS the server; tmux renumbers pane indices on every split, so target the harness's %N id, never :0.0; -t scopes format state while -c selects the client; display-menu ITEM NAMES pass through the format engine, so a label containing #(cmd) EXECUTES it (and #(id>/tmp/x) is a legal git branch name) — labels are escaped # -> ##; window-resized needs tmux 3.3 or panels drift to 15 of 50 rows on resize.

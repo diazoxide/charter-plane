@@ -1,5 +1,0 @@
-# FROM OUTSIDE A FRAME, ASK state.own_workspace — NEVER state.workspace_fo
-
-_2026-09-04 12:34 · persistent_
-
-FROM OUTSIDE A FRAME, ASK state.own_workspace — NEVER state.workspace_for. workspace_for rung 0 reads $CHARTER_WORKSPACE from the CALLING process environment. Inside a frame that is right: the hook is running in the session it is answering for. From a terminal, or from any command fanning out across frames, it is a strangers answer — every chat on the plane gets filed under whatever the operator happened to have exported, and each frames gather cache is overwritten with that one workspaces repos. Found building the plane-wide notify (#886/#888) and pinned by test_the_callers_exported_workspace_does_not_decide. The same shape bit #512 one noun up: a refresh keyed to a different workspace than the frame it is refreshing IS the defect, not a stale value. Related: current_repo must be KEPT per frame in a fan-out, because scan derives repos from workspace.clones(ws) but current_repo from statusline._current, i.e. from a CWD — so a fan-out run from ~ would blank the marked table row of a chat whose harness sits in a repo.

@@ -1,5 +1,0 @@
-# tmux 'server exited unexpectedly' (rc 1 from new-session) in a real-tmux
-
-_2026-09-11 08:31 · persistent_
-
-tmux 'server exited unexpectedly' (rc 1 from new-session) in a real-tmux test is #713's mechanism: kill-server leaves the socket FILE, and the next case's new-session connects to the retiring server (still accepting, dropped about 0.44 ms later per tmux's own log) instead of starting its own. Until now this was recorded only in the harness-wrapper workspace's memory, so a chat-handoff agent had to re-derive it on PR 966 (2026-09-11). Measured there on Linux tmux 3.4 under CPU load: 28/50 runs failed with one socket name shared by a class's cases; 0/50 with a fresh socket per case; restoring the shared name brought 14/20 failures back. macOS never showed it, and CI showed it in one job only, so a local macOS pass proves nothing. Two fixes are known to work: #713's held keeper session per class plus unlinking the socket file at tearDownClass, or a fresh tests._tmuxreap.name() socket per test case, killed and unlinked in cleanup. Never a retry. Every socket name must come from _tmuxreap.name() with a slug its owns() check recognises.

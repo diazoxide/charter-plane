@@ -1,0 +1,5 @@
+# charter-app UI work (M6.6, 2026-09-22): (1) the shared clone's app/node_
+
+_2026-09-22 16:08 · persistent_
+
+charter-app UI work (M6.6, 2026-09-22): (1) the shared clone's app/node_modules is STALE (pre-Tailwind, no lucide-react) — symlinking it into a worktree gives missing modules; 'npm ci' in the worktree's app/ is fresh, not copied, and took 8s with no Gatekeeper hang. (2) To SEE a UI change when the Tauri app cannot run locally: a scratch Vite page under app/ (outside src/, so no guard globs it) rendering the real region components with fixture data, drawIn(theme, element) per container for dark+light side by side, screenshotted by the installed Chrome's --headless=new --screenshot with a throwaway --user-data-dir. Chrome does not exit after writing the PNG: stop the task, check pgrep -f on the profile path. (3) Lucide puts class 'lucide' on every svg and aria-hidden=true on any icon without an a11y prop, so one CSS rule (.lucide{width:1em;height:1em}) sizes every icon and button names stay their words. (4) literals.test.ts fails on ANY var(--x) in App.css that is not a theme token, so a non-colour custom property (a length) cannot be introduced there.

@@ -1,0 +1,5 @@
+# charter-app's eleven #[cfg(not(unix))] arms had NEVER been compiled befo
+
+_2026-09-20 20:00 · persistent_
+
+charter-app's eleven #[cfg(not(unix))] arms had NEVER been compiled before M4 (2026-09-20), and several are the guard removed rather than translated: contain::nofollow returns options unchanged, so open_no_link/create_no_link lose the atomic O_NOFOLLOW half they exist for (the module's own measurement: 1881 escapes per 20,000 reads, 7600 per 20,000 writes) and the three tests that prove the flag bites are cfg(unix); plane/profiletrust/usage/memstore/trace drop 0600/0700 with 'the ACL is inherited', and .charter/ holds the vault registry; doctor::profiles::on_path calls every file on PATH runnable. glstate::alive answers false off unix and news::alive answers true — two modules, one question, opposite defaults. Lesson: a speculative cfg arm on a platform CI never builds is not defensive coding, it is an unreviewed second implementation. Filed as charter-app#96-#98, #102; the decision is the ADR 0029 draft in PR 93.

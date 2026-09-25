@@ -1,5 +1,5 @@
-# #331(a) ruling, with evidence: do NOT contain a vault 'file' path. comma
+# Ruling #331(a): do NOT contain a plain-file vault's file path to the p
 
-_2026-08-22 00:01 · persistent_
+_2026-09-25 · persistent_
 
-#331(a) ruling, with evidence: do NOT contain a vault 'file' path. commands_secrets.py:126-131 tells the operator in an error message to 'point --file outside the plane' as the remedy for a plain-file vault git would commit, and the legitimate 'team provisions out of band' case is exactly shared-half + absolute. Containment would refuse the config charter itself recommends. Answer was document + let doctor NAME it on the green line (ADR 0013), never a WARN (#171/#55: a check crying wolf at a supported setup).
+Ruling #331(a): do NOT contain a plain-file vault's file path to the plane. Pointing the file OUTSIDE the plane is the remedy charter itself recommends for a plain-file vault git would otherwise commit, and the legitimate team-provisions-out-of-band case is exactly a shared vault entry with an absolute path, so containment would refuse a supported config. The answer is to document it and let doctor NAME the out-of-plane path on its green line, never a WARN (a check that cries wolf at a supported setup trains people to ignore it; ADR 0013). Originally ruled on the Python charter; charter-app keeps the plain-file provider (crates/charter-core/src/secrets/plain_file.rs), with the keyring as default (ADR 0047).

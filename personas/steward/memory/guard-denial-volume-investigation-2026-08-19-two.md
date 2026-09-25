@@ -1,5 +1,0 @@
-# Guard-denial volume investigation (2026-08-19), two hypotheses KILLED —
-
-_2026-08-19 14:22 · persistent_
-
-Guard-denial volume investigation (2026-08-19), two hypotheses KILLED — do not re-run. 335 single-credential denials in 10 days across three planes (181 easydmarc-umbrella, 101 charter, 53 volaticloud) plus 278 --reveal and 231 clone-commit asks in the charter plane. (1) 'Tests pollute the live trace' — DISPROVEN: every test invoking hooks.pretooluse subclasses PersonaIso, which redirects PERSONA_STATE_DIR via config.use(); the unisolated cases (LeakCase, TestAbbreviationsCannotWalkPastTheGuard) call _leak_reason directly, which does not trace. (2) 'The guard fires outside a control plane again' — DISPROVEN: easydmarc-umbrella and volaticloud each have their OWN charter.toml + .charter/, so they are real planes and the HAS_CONTROL_PLANE gate works. An earlier read that the guard was 'miscalibrated' was WRONG. The denials are real and the cause is still unknown, because _trace records only cmd=head (the binary) — filed as issue #289.

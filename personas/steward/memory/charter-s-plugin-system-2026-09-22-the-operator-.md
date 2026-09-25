@@ -1,0 +1,5 @@
+# charter's plugin system, 2026-09-22: the operator ruled SHIP THE SUBPROC
+
+_2026-09-22 14:57 · persistent_
+
+charter's plugin system, 2026-09-22: the operator ruled SHIP THE SUBPROCESS RUNTIME WITH NO OS SANDBOX, marketplace vetting and untrusted-source warnings deferred. Recorded as an amendment to ADR 0041 (charter PR #1174), which also discharges gate item 7's requirement to re-open ADR 0028 in the same change — the answer being that with no sandbox a plugin is NOT a principal confined below charter, so 0028's ground has not moved; the clause fires for real the day a sandbox lands. charter's own thing is called an EXTENSION, never a plugin: 'plugin' is Claude Code's, via layer::WORKSPACE_KEYS' enabledPlugins, in the same first-open dialog. Stage 1 (registry, no executor) is charter-app PR #150: crates/charter-core/src/extension.rs, record at $CHARTER_CONFIG_HOME/charter/extensions.json beside machine.json, sha256 over the manifest and every declared file re-taken each launch. Stage 2 is the subprocess/socket/protocol, reusing hookwire; stage 3 is the two-capability surface.

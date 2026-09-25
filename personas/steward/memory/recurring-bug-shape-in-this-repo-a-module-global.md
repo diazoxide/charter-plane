@@ -1,5 +1,5 @@
-# Recurring bug shape in this repo: a module global read where the file on
+# Recurring bug shape: a value computed once at startup (a global, a cac
 
-_2026-08-09 22:54 · persistent_
+_2026-09-25 · persistent_
 
-Recurring bug shape in this repo: a module global read where the file on disk was meant. WORKTREES_ROOT resolved at import from the real repo and leaked into tests; cmd_reinit read config.PLANE_SHAPE while drift read charter.toml. If two paths answer the same question, call the same function.
+Recurring bug shape: a value computed once at startup (a global, a cached config field) read where the current file on disk was meant, while another path reads the file. The two drift, and tests leak the real machine's value. Seen repeatedly in the retired Python charter (a worktree root resolved at import, one command reading a cached setting while another re-read charter.toml). Rule: if two paths answer the same question, they call the same function.

@@ -1,5 +1,0 @@
-# CORRECTION — CI DOES HAVE TMUX, AND THE REAL-TMUX TESTS RUN THERE. I rep
-
-_2026-08-31 03:55 · persistent_
-
-CORRECTION — CI DOES HAVE TMUX, AND THE REAL-TMUX TESTS RUN THERE. I repeatedly told agents on 2026-08-30/31 that 'CI installs no tmux, so all 95 real-tmux tests skip there'. That is FALSE and was refuted by measurement: a CI run on this repo executed 9182 tests with only 9 SKIPS, and test_frame_tmux_integration appears 104 times in the run log. The GitHub runner image ships tmux; the 9 skips are CAPABILITY-based (version floors), not 'tmux absent'. Consequences of the wrong belief, which is why it matters: an agent told CI cannot see tmux will discount a real CI failure as an artifact, will not bother re-firing a sweep, and will over-trust its own local run. Two independent agents confirmed CI ran their real-tmux cases — one had CI catch a race its own machine never hit (asserting the active pane while panes were still splitting), which is precisely the value the wrong belief would have thrown away. Verify a claim about the test environment against a run log before putting it in a brief.

@@ -1,5 +1,0 @@
-# PR #554 (overlay) CI failure at head c735efc0, diagnosed 2026-08-26: tes
-
-_2026-08-26 22:31 · persistent_
-
-PR #554 (overlay) CI failure at head c735efc0, diagnosed 2026-08-26: test_frame_overlay_escape_hatch.TheHatch fails in setUp line 107 on 'new-session' with tmux's OWN stderr 'server exited unexpectedly' (rc=1) — not a test string, which is why grepping the tree for it finds nothing. Cause: every test in the class shares one socket (charter-overlay-hatch-{pid}) and setUp does addCleanup(_tmux('kill-server')), so each test kills the server and the next test's new-session races the async teardown. Surfaced only after round 3 added ~113 tests (6075 vs 5962); head 0bd85e52 passed. Fails 3.12/3.13, passes 3.11/3.14 — ordering/timing, not a version issue. Same class as #494/#507/#531. Fix direction: wait for the socket to actually be gone after kill-server, or give each test its own socket. IMPORTANT verification gap this exposes: agents ran the suite locally in two environments and both passed — this failure is CI-only, so 'two local environments agree' is NOT sufficient for tmux integration tests.

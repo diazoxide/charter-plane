@@ -1,0 +1,5 @@
+# A PR can report GREEN for a window after you push to it, and that green
+
+_2026-09-22 23:51 · persistent_
+
+A PR can report GREEN for a window after you push to it, and that green belongs to the SUPERSEDED head. Seen 2026-09-22 on charter-app #165: pushed a merge of origin/main, and 'gh pr checks 165' kept reporting every check SUCCESS for about two minutes before flipping to 17 pending. Merging inside that window would have merged a branch whose new commit nothing had tested, which is exactly the shape that put main red after #135/#137 (two PRs each tested against a base without the other). THE RULE: never merge on colour alone. Before any merge, read 'gh pr view N --json headRefOid' and confirm the green checks belong to THAT sha - 'gh pr checks N --json name,state,link' shows which run each came from. The same applies in reverse to a monitor that polls check state: its cached line can be a whole poll interval stale, so treat a monitor's GREEN as a prompt to verify, never as the verification.

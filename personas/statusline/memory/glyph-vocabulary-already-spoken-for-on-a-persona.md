@@ -1,5 +1,0 @@
-# Glyph vocabulary already spoken for on a persona CHIP in charter/statusl
-
-_2026-08-20 12:58 · persistent_
-
-Glyph vocabulary already spoken for on a persona CHIP in charter/statusline.py — check before inventing one: '⚑' yellow = draft charter and '✗' red = broken config, both from _health_mark, both trailing the SAME chip; '✓ ◦ ! ·' were the four vault states in _vault_dot; '⚡' = in flight on the session strip; '▸/▫/▪' are the two-column active/idle/header markers whose width the whole right column depends on. '×' is East-Asian AMBIGUOUS width and is banned — this layout has been broken twice by a font drawing a character wider than the Unicode tables claim (a '◫' shifted the entire right column; a '◈' on the personas header shifted the word 'personas' one space right of every chip below it, with the bullets still agreeing — that mismatch is the tell). Headers carry NO decorative glyph on purpose: a header is the only row of its kind, so nothing else exercises its width. Also: _persona_line() is the FALLBACK renderer, drawn only when column layout fails — the live surface is _persona_chips().

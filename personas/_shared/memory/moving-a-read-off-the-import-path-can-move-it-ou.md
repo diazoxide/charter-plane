@@ -1,5 +1,5 @@
-# Moving a read off the import path can move it out from under a test guar
+# Moving where a value is read can move it out from under a test guard. 
 
-_2026-09-11 23:39 · persistent_
+_2026-09-25 · persistent_
 
-Moving a read off the import path can move it out from under a test guard. Found reviewing PR 978 (harness profiles, ruling 43, 2026-09-11): tests/_planeguard refused the operator's real charter.local.toml only through the config.PROFILES setting. Once profiles.current() read the file lazily, profiles.current(), harness list and doctor all read the real plane's file in non-isolated tests, proved with a sentinel file and an audit hook. Four doctor tests were already opening it before the change. On a machine whose charter checkout IS the plane, that is the operator's own profiles. Rule: a guard belongs on the file open (planeguard's open_ refusing the _REAL entry), not on the setting that happened to carry the value, and moving where a value is read means re-checking what guarded it.
+Moving where a value is read can move it out from under a test guard. Found 2026-09-11 on the Python charter: the test plane-guard refused the operator's real charter.local.toml only through the setting that carried the value, so once the code read the file lazily, several tests read the operator's real file. On a machine whose checkout IS the plane, that is the operator's own settings. Rule: a guard belongs on the file open (or the fence around the plane root), not on the setting that happened to carry the value, and moving where a value is read means re-checking what guarded it. In charter-app, verify after a test run that nothing new appeared under the real plane.

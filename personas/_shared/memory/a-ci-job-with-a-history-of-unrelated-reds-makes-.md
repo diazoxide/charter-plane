@@ -1,0 +1,5 @@
+# A CI job with a history of unrelated reds makes a REAL failure easy to w
+
+_2026-09-22 23:54 · persistent_
+
+A CI job with a history of unrelated reds makes a REAL failure easy to wave through, and I did it. 2026-09-22, charter-app #172: two checks went red, 'scenario tests (macos-latest)' (required) and 'fifty tabs (ubuntu-24.04, evidence only)'. I triaged the second as 'gates nothing - ignore unless you think it is yours', because ci.yml documents that job as evidence, allowed to fail, and it had been red on five of its last six runs on main. It was NOT noise: the stress config runs EVERY spec, so the agent's two selector errors were failing inside it while the fifty-tab spec itself passed throughout ('1 passing' in that job's log). The agent found it and corrected me. THE RULE: 'allowed to fail' describes what BLOCKS a merge, never whether the failure is real - and a job that runs more than its name suggests (a stress config running the whole suite) will surface other specs' failures under that name. Read the failing job's log for WHICH test failed before attributing any red to a job's reputation. A flaky job is the best hiding place a real bug has.

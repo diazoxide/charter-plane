@@ -1,5 +1,5 @@
-# charter's deletion sweep never reports a guard whose plain deletion rais
+# A mutant killed by a crash is not evidence that the line's behaviour i
 
-_2026-09-11 22:30 · persistent_
+_2026-09-25 · persistent_
 
-charter's deletion sweep never reports a guard whose plain deletion raises NameError. Deleting a line such as an assignment that later lines read (hooks.py:1068's delim/expands/dash unpack, PR 972, 2026-09-11) makes the module raise, the mutant dies on that error, and the sweep scores it KILLED — so a line whose real behaviour is unpinned still looks covered. A green sweep therefore does not mean every behavioural line has a test. Cover such a line from the INPUT side instead: find a shape whose verdict differs when the line's value is computed the old way (there, a brief with a split-quote delimiter naming a vault path in prose), and pin that. This sits beside the memories on the sweep scoring by exit code and on masked-cluster survivors: three different ways a green sweep can hide an untested guard.
+A mutant killed by a crash is not evidence that the line's behaviour is tested. When deleting a line (for example a binding that later lines read) makes the program raise or fail to build, the mutant dies on that error and a mutation tool scores it killed or unviable. The line's real behaviour can still be unpinned. Seen on charter PR 972 (hooks.py's delimiter unpack). So a green mutation run does not mean every behavioural line has a test. Cover such a line from the input side: find an input whose verdict differs when the line's value is computed the old or wrong way, and pin that. This is one of three ways a green mutation run can hide an untested guard, alongside scoring by exit code and masked-cluster survivors.

@@ -1,16 +1,6 @@
-__pycache__/
-*.py[cod]
-build/
-dist/
-*.egg-info/
-.venv/
-.pytest_cache/
-.mypy_cache/
 .DS_Store
 
-# Per-developer secret vaults + registry (plaintext secrets, tokens, file paths).
-# NEVER commit this — it holds credentials. Also where local session/usage state
-# (e.g. sessions/<id>.usage) lands when the CLI or its tests run against ROOT.
+# Per-machine state and vaults (credentials, sessions, the app's socket). Never committed.
 /.charter/
 
 # SDD scratch (review packages, task briefs) — never publish
@@ -20,92 +10,9 @@ dist/
 /workspaces/*/*
 !/workspaces/.gitkeep
 # >>> charter live workspaces (managed by `charter workspace live`) >>>
-!/workspaces/authority-audit/workspace.json
-!/workspaces/authority-audit/workspace.md
-!/workspaces/authority-audit/memory
-!/workspaces/authority-audit/memory/**
-!/workspaces/authority-audit/todos
-!/workspaces/authority-audit/todos/**
-!/workspaces/authority-audit/changes
-!/workspaces/authority-audit/changes/**
-/workspaces/authority-audit/changes/log/
-!/workspaces/autonomy/workspace.json
-!/workspaces/autonomy/workspace.md
-!/workspaces/autonomy/memory
-!/workspaces/autonomy/memory/**
-!/workspaces/autonomy/todos
-!/workspaces/autonomy/todos/**
-!/workspaces/autonomy/changes
-!/workspaces/autonomy/changes/**
-/workspaces/autonomy/changes/log/
-!/workspaces/harness-wrapper/workspace.json
-!/workspaces/harness-wrapper/workspace.md
-!/workspaces/harness-wrapper/memory
-!/workspaces/harness-wrapper/memory/**
-!/workspaces/harness-wrapper/todos
-!/workspaces/harness-wrapper/todos/**
-!/workspaces/harness-wrapper/changes
-!/workspaces/harness-wrapper/changes/**
-/workspaces/harness-wrapper/changes/log/
-!/workspaces/news-dispatch-guard/workspace.json
-!/workspaces/news-dispatch-guard/workspace.md
-!/workspaces/news-dispatch-guard/memory
-!/workspaces/news-dispatch-guard/memory/**
-!/workspaces/news-dispatch-guard/todos
-!/workspaces/news-dispatch-guard/todos/**
-!/workspaces/news-dispatch-guard/changes
-!/workspaces/news-dispatch-guard/changes/**
-/workspaces/news-dispatch-guard/changes/log/
-!/workspaces/plane-shape/workspace.json
-!/workspaces/plane-shape/workspace.md
-!/workspaces/plane-shape/memory
-!/workspaces/plane-shape/memory/**
-!/workspaces/plane-shape/todos
-!/workspaces/plane-shape/todos/**
-!/workspaces/plane-shape/changes
-!/workspaces/plane-shape/changes/**
-/workspaces/plane-shape/changes/log/
-!/workspaces/relations-and-delegations/workspace.json
-!/workspaces/relations-and-delegations/workspace.md
-!/workspaces/relations-and-delegations/memory
-!/workspaces/relations-and-delegations/memory/**
-!/workspaces/relations-and-delegations/todos
-!/workspaces/relations-and-delegations/todos/**
-!/workspaces/relations-and-delegations/changes
-!/workspaces/relations-and-delegations/changes/**
-/workspaces/relations-and-delegations/changes/log/
-!/workspaces/statusline-improvements/workspace.json
-!/workspaces/statusline-improvements/workspace.md
-!/workspaces/statusline-improvements/memory
-!/workspaces/statusline-improvements/memory/**
-!/workspaces/statusline-improvements/todos
-!/workspaces/statusline-improvements/todos/**
-!/workspaces/statusline-improvements/changes
-!/workspaces/statusline-improvements/changes/**
-/workspaces/statusline-improvements/changes/log/
-!/workspaces/todos/workspace.json
-!/workspaces/todos/workspace.md
-!/workspaces/todos/memory
-!/workspaces/todos/memory/**
-!/workspaces/todos/todos
-!/workspaces/todos/todos/**
-!/workspaces/todos/changes
-!/workspaces/todos/changes/**
-/workspaces/todos/changes/log/
-!/workspaces/user-reporting/workspace.json
-!/workspaces/user-reporting/workspace.md
-!/workspaces/user-reporting/memory
-!/workspaces/user-reporting/memory/**
-!/workspaces/user-reporting/todos
-!/workspaces/user-reporting/todos/**
-!/workspaces/user-reporting/changes
-!/workspaces/user-reporting/changes/**
-/workspaces/user-reporting/changes/log/
 # <<< charter live workspaces <<<
 
-# Per-developer Claude Code settings. charter dogfoods itself, so this is where the
-# working-tree status line lives (`python3 -m charter statusline`) — the committed
-# settings.json keeps `charter statusline`, which is what an actual user runs.
+# Per-developer Claude Code settings.
 /.claude/settings.local.json
 
 # Agent worktrees created by the harness for isolated sub-agent runs.

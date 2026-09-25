@@ -1,5 +1,5 @@
-# A framed chat's own shell inherits the harness pane's tmux identity, so
+# A harness's environment is inherited by every shell its model's tools 
 
-_2026-09-11 14:05 · persistent_
+_2026-09-25 · persistent_
 
-A framed chat's own shell inherits the harness pane's tmux identity, so TMUX_PANE and CHARTER_SESSION_ID never prove a process IS that pane. Measured 2026-09-11 in chat harness-profiles.1: the model's Bash tool shell (pid 4707, ppid 53118) saw TMUX_PANE=%3195, and tmux display-message reported that pane's pane_pid as 53118 (the harness). Any charter command a model runs from its tool therefore passes a pane-id check for its own chat. To prove a process is a pane's first process, compare os.getpid() to #{pane_pid} read from tmux itself (list-panes -a on charter's server by socket name), before any exec. Guard rail only: a process that starts its own pane named like a chat still passes.
+A harness's environment is inherited by every shell its model's tools start, so an environment variable set for a chat session (a session id, a pane or terminal id, a CHARTER_* variable) never proves that a process IS that session's harness. A charter command the model runs from its Bash tool passes any check that only reads those variables. To prove a process is the one charter launched, compare its PID (or parent chain) with the PID charter recorded when it spawned the harness, before acting. Treat such a check as a guard rail only: a process that fakes the whole setup still passes. First measured 2026-09-11 in the retired tmux frame, where the tool shell saw the harness pane's TMUX_PANE.

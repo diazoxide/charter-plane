@@ -1,0 +1,5 @@
+# Claude Code 2.1.272 installed_plugins.json schema, read from the binary'
+
+_2026-09-15 23:59 · persistent_
+
+Claude Code 2.1.272 installed_plugins.json schema, read from the binary's zod objects and measured 2026-09-15 in a throwaway CLAUDE_CONFIG_DIR. v2: version literal 2; plugins is a record whose keys match ^[A-Za-z0-9][-A-Za-z0-9._]*@[A-Za-z0-9][-A-Za-z0-9._]*$ ('noat', 'a@b@c' refuse the whole file); values are arrays of objects: scope enum managed/user/project/local; installPath string REQUIRED; projectPath, version, installedAt, lastUpdated, gitCommitSha, resolvedVersion are OPTIONAL strings (a record with only scope+projectPath+installPath loads 6 hooks; a number in any of them refuses the file); auto optional boolean (1 or 'yes' refuses). claudeaiPluginId, archiveSha256, sourceCommand, sourceProducerPath and previousProducerPaths are .catch(void 0): any type loads. Unknown keys load. v1: version and installedAt are REQUIRED strings; installPath is ignored (a bogus one still loads, and the file is rewritten to v2). Any refusal loads NO plugin at all.

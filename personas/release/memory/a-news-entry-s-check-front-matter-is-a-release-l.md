@@ -1,5 +1,0 @@
-# A news entry's 'check:' front-matter is a RELEASE LANDMINE that arms its
-
-_2026-08-20 16:06 · persistent_
-
-A news entry's 'check:' front-matter is a RELEASE LANDMINE that arms itself at stamp time. charter doctor runs every RELEASED entry's check: IN-PROCESS via news._dispatch, which has NO re-entrancy guard — so an entry carrying 'check: doctor' turns doctor into unbounded recursion (each level runs a full check sweep; reproduced hanging past a 20s cap vs 1.9s healthy). It is INVISIBLE before the release: an entry reading 'version: unreleased' is never probed, so it sits dormant through review, CI and merge, and 'charter news stamp' arms it. CI will NOT catch it before the tag burns — 'charter news --for <v>' returns 0.1s rc=0 and the tag/version guard passes; only the test job fails, after the tag push has already fired PyPI. Hit preparing 0.47.0 (entry from #306/#307). Fix in the release branch is to drop the check: line when the entry has nothing to probe; the missing guard is filed as diazoxide/charter#311. ALWAYS run 'charter doctor' with a timeout after stamping and before tagging.

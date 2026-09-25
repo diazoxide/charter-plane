@@ -1,5 +1,0 @@
-# TWO TEST/TMUX TRAPS measured on charter #598 (2026-08-28). (1) io.Unsupp
-
-_2026-08-28 03:15 · persistent_
-
-TWO TEST/TMUX TRAPS measured on charter #598 (2026-08-28). (1) io.UnsupportedOperation IS an OSError. So context-manager NESTING around redirect_stdout silently decides whether a test exercises the real path or a fallback: #591's test patched fileno OUTSIDE redirect_stdout, so sys.stdout.fileno() raised, slots._width() took its tui.term_width() env-first fallback, and the test pinned the DEFECT as a property. Check nesting before believing a test that exercises an I/O fallback. (2) tmux scales panes PROPORTIONALLY on resize, so a mid-drag measurement describes a geometry that is one command away from not existing — measured: a 120x40 frame with 'right' first, grown to 200x40, reads right w=62 / table w=137 where the truth one resize-pane -x 22 later is 177. Therefore the CORRECTION must land before the measurement: _reassert_sizes is two passes with the measurement between them. Naively measuring instead of deriving would have been WORSE than the bug being fixed.

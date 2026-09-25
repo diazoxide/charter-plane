@@ -1,5 +1,0 @@
-# The delegation rollout is COMPLETE as five stacked PRs: #259 (front door
-
-_2026-08-18 16:29 · persistent_
-
-The delegation rollout is COMPLETE as five stacked PRs: #259 (front door in charter.toml + per-session/per-terminal persona pointers + ADR 0016) → #260 (routing: levels + roster block + tally + stats) → #262 (init --front-door template) → #263 (require's tool-time ask) → #264 (borrows: splits uses:). Each PR's base is the previous branch, so GitHub retargets as they merge; merge in that order. 2502 tests green at the tip. Two design notes worth keeping: (1) sub-agent exclusion for the require gate needed NO harness detection — the routing mark is cleared when a dispatch BEGINS, so nothing is left to fire inside the sub-agent; that is a fact about the sequence rather than a guess about hook payloads. (2) borrows_of returns None vs [] deliberately: absent = not opted in (legacy uses: grant), empty = borrows nothing. Collapsing them would either break every existing plane or make opting out unsayable.

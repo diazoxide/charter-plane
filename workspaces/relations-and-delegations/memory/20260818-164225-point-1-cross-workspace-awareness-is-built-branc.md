@@ -1,5 +1,0 @@
-# Point 1 (cross-workspace awareness) is BUILT — branch workspace-neighbou
-
-_2026-08-18 16:42 · persistent_
-
-Point 1 (cross-workspace awareness) is BUILT — branch workspace-neighbours, PR #265, 2514 tests green. SessionStart now names the other workspaces: vision line + open-todo count + last-worked age, newest first, capped at 5 with a '+N more' tail, silent on a single-workspace plane. Explicitly labelled knowledge-never-instructions, twice. Deliberately does NOT report deliveries (commits/PRs) — that costs a git log per workspace per session start for a question the reader can now ask themselves. New: workspace.last_active(name), which answers 'last worked' from BOTH when someone wrote here and when a session last selected it (a workspace can be chosen and only read from, and would otherwise look abandoned on the day someone was in it); mtimes at read time, never cached, per ADR 0011. Note for reviewers: one existing test (test_another_workspaces_todos_do_not_fire_the_reminder) had its assertion changed from 'the word todo never appears' to the principle it stood for, because a count attributed by name is not another workspace's intent.
