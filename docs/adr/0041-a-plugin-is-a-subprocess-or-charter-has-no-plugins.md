@@ -10,7 +10,7 @@ the end — what has to be true before a line of runtime ships.
 The work is charter-app's. The record is here because `0001`–`0040` are here and a decision about
 charter's trust boundary kept in the other repository would split the sequence; ADR 0031 made the
 same move for the same reason. Every path below (`crates/charter-core/…`, `app/src-tauri/…`,
-`app/src/…`) is in `diazoxide/charter-app` and every bare `#nnn` is an issue there.
+`app/src/…`) is in `diazoxide/charter` and every bare `#nnn` is an issue there.
 
 **Nothing in this record is implemented.** It is a gate, written before the thing it gates, which
 is the only order in which a gate is worth anything.

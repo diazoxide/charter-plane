@@ -305,5 +305,5 @@ cannot read.** Copied-in source is neither, and it is allowed.
 ### Where each rule now lives
 
 This record decides the rule. `docs/ui-primitives.md` and `docs/design-system.md` in
-`diazoxide/charter-app` are its code-side expression and are updated to match; where they and this
+`diazoxide/charter` are its code-side expression and are updated to match; where they and this
 record disagree, **this record is authoritative** and the code-side file is the defect.

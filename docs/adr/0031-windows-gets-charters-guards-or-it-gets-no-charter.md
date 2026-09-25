@@ -25,7 +25,7 @@ Windows — charter-app#93 is the first time any of this code has run there — 
 for the whole rebuild has been resting on that gap.
 
 Every path below (`crates/charter-core/…`, `app/src-tauri/…`, `tests/differential/run.py`) is
-in `diazoxide/charter-app`, and every bare `#nnn` is an issue there.
+in `diazoxide/charter`, and every bare `#nnn` is an issue there.
 
 **The decision: Windows does not ship until charter's containment guards have a Windows
 expression, and until then every guard that cannot be expressed there REFUSES rather than

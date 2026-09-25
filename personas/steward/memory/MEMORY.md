@@ -64,7 +64,7 @@ Written by the persona as it learns; committed and shared.
 - [Two mutation-testing rules, learned the hard way on #1113 (exit-gate tas](two-mutation-testing-rules-learned-the-hard-way-.md)
 - [Any path comparison across processes (a plane marker, a recorded root)](any-charter-plane-marker-comparison-across-proce.md)
 - [Running only the tests for the files you touched is not enough before ](running-the-modules-you-touched-is-not-enough-be.md)
-- [charter-app (Rust core, diazoxide/charter-app, 2026-09-17): portable-pty](charter-app-rust-core-diazoxide-charter-app-2026.md)
+- [charter-app (Rust core, diazoxide/charter, 2026-09-17): portable-pty](charter-app-rust-core-diazoxide-charter-app-2026.md)
 - [Generating a fixture plane must happen OUTSIDE any real plane, then be c](generating-a-fixture-plane-must-happen-outside-a.md)
 - [filecmp.dircmp compares files SHALLOW by default (stat signature: size+m](filecmp-dircmp-compares-files-shallow-by-default.md)
 - [charter-app M0.5 (2026-09-17), snapshotting an alacritty_terminal grid b](charter-app-m0-5-2026-09-17-snapshotting-an-alac.md)

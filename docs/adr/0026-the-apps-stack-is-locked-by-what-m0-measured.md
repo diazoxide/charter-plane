@@ -252,7 +252,7 @@ for two live apps on one plane makes the product worse, not faster.
 **The decision.** The 2 s cold-start limit is **met on macOS** (p50 370 ms, above) and
 **missed on a Linux whose session bus has a desktop portal that cannot start** (26–31 s), with
 the cause named above and tracked in
-[charter-app#24](https://github.com/diazoxide/charter-app/issues/24). It belongs to **M4**,
+[charter-app#24](https://github.com/diazoxide/charter/issues/24). It belongs to **M4**,
 where Linux becomes a platform charter ships for, alongside the rest of the Linux desktop
 integration. At that point either tao or GTK can register without the portal proxy's
 auto-start, or charter finds a narrower lever than removing the whole bus. The limit itself
