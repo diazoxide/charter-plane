@@ -218,3 +218,5 @@ Written by the persona as it learns; committed and shared.
 - [Building charter-app on the macbookpro machine: the Bash tool's PATH has](building-charter-app-on-the-macbookpro-machine-t.md)
 - [gh pr edit fails on charter-app with 'Projects (classic) is being deprec](gh-pr-edit-fails-on-charter-app-with-projects-cl.md)
 - [Visually verifying charter-app UI on this Mac (2026-09-25): the terminal](visually-verifying-charter-app-ui-on-this-mac-20.md)
+- [charter-app e2e locally on this Mac: build with 'npx tauri build --debug](charter-app-e2e-locally-on-this-mac-build-with-n.md)
+- [Squash-merging a stacked PR chain in charter-app: GitHub auto-retargets](squash-merging-a-stacked-pr-chain-in-charter-app.md)

@@ -4,10 +4,10 @@
   "repos": [
     {
       "name": "charter-app",
-      "branch": "workspace-repo-picker"
+      "branch": "main"
     }
   ],
-  "updated_at": "2026-09-25T08:47:59+00:00",
+  "updated_at": "2026-09-25T11:08:32+00:00",
   "updated_by": "Aaron Yordanyan",
-  "charter_generated": "8b8530b07f6155b99a95fddff4832d70f05a29d0d2fe7b041044cf2628ccec01"
+  "charter_generated": "89e198331b4c22d375f439592981e3937b4aea6f9ccbf710fec8e9601ff3c729"
 }
