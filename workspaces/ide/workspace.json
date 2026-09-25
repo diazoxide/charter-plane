@@ -3,13 +3,11 @@
   "description": "",
   "repos": [
     {
-      "name": "charter"
-    },
-    {
-      "name": "charter-app"
+      "name": "charter-app",
+      "branch": "workspace-repo-picker"
     }
   ],
-  "updated_at": "2026-09-17T13:53:07+00:00",
-  "updated_by": "aharon",
-  "charter_generated": "947653d57f1cfdc3dc201731702d0a8a6712644c6882a0aab659c5414b37b359"
+  "updated_at": "2026-09-25T08:47:59+00:00",
+  "updated_by": "Aaron Yordanyan",
+  "charter_generated": "8b8530b07f6155b99a95fddff4832d70f05a29d0d2fe7b041044cf2628ccec01"
 }
