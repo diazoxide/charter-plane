@@ -80,3 +80,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [Closed todo: M8.6 DESIGN: 1Password service-account tokens (OP_*_TOKEN) ](20260924-203039-closed-todo-m8-6-design-1password-service-accoun.md)
 - [2026-09-25: plane saving (ADR 0051) delivered end to end. Tickets 292-30](20260925-071842-2026-09-25-plane-saving-adr-0051-delivered-end-t.md)
 - [2026-09-25: navigation settled with operator. ADR 0054 (charter-app PR #](20260925-115845-2026-09-25-navigation-settled-with-operator-adr-.md)
+- [2026-09-25: settled create/edit-workspace flow design (see workspace.md ](20260925-121022-2026-09-25-settled-create-edit-workspace-flow-de.md)

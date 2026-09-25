@@ -14,7 +14,24 @@ Rebuild charter as one lightweight cross-platform desktop app (repo charter-app)
 <!-- Key facts, constraints, and design/architecture decisions found while working —
      the durable "why", not a chronological log. Grow this as you learn. -->
 
-_Nothing yet._
+### Create/edit-workspace flow (settled 2026-09-25, ships as ONE charter-app PR)
+
+- **Outer chat starts in `/`** — root cause: `charter_core::start::ready` resolves
+  `here = cwd or plane root` (start.rs:181) but returns the raw `start.cwd` (start.rs:228);
+  `None` reaches `Session::spawn`, which falls back to `current_dir()` = `/` for a
+  Finder/Dock launch. Fix: `cwd: Some(here)` + unit test + correct the PlaneView.tsx:796 comment.
+- **Empty plane entry point:** centre empty state offers "Create a workspace" as the primary action,
+  and the workspace strip (with its `+`) always renders when a plane is open.
+- **Repo picker is live and per-user:** each open calls the operator's own `gh`/`glab`
+  (GitHub `GET /user/repos`, which includes private repos), filtered to the plane's `[[forge]]` owners and excludes;
+  kept in memory for the window, refresh button, nothing written to the plane for the listing.
+- **Inventory becomes add-only:** picking repos upserts their records into `inventory/repos.json`;
+  `charter discover` changes from overwrite to add/update-only, so no engineer's run drops another's repos.
+- **Clone in background:** the workspace is created immediately; clones run off the UI thread with
+  per-repo status (cloning / done / failed + retry).
+- **Edit flow:** workspace settings gets a Repos group with the same picker. Tick clones;
+  untick removes the clone only past the `work_at_risk` guard.
+- **No gh auth:** inline "run `gh auth login`" notice + retry; creating without repos still works.
 
 ## Glossary
 
