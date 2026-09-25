@@ -216,3 +216,4 @@ Written by the persona as it learns; committed and shared.
 - [charter-app panel contract (PR 206 / charter ADR 0043): a contributed pa](charter-app-panel-contract-pr-206-charter-adr-00.md)
 - [charter's PreToolUse guard refuses gh pr create/issue create with an inl](charter-s-pretooluse-guard-refuses-gh-pr-create-.md)
 - [Building charter-app on the macbookpro machine: the Bash tool's PATH has](building-charter-app-on-the-macbookpro-machine-t.md)
+- [gh pr edit fails on charter-app with 'Projects (classic) is being deprec](gh-pr-edit-fails-on-charter-app-with-projects-cl.md)

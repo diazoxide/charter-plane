@@ -81,3 +81,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [2026-09-25: plane saving (ADR 0051) delivered end to end. Tickets 292-30](20260925-071842-2026-09-25-plane-saving-adr-0051-delivered-end-t.md)
 - [2026-09-25: navigation settled with operator. ADR 0054 (charter-app PR #](20260925-115845-2026-09-25-navigation-settled-with-operator-adr-.md)
 - [2026-09-25: settled create/edit-workspace flow design (see workspace.md ](20260925-121022-2026-09-25-settled-create-edit-workspace-flow-de.md)
+- [2026-09-25: ADR 0054 split into tickets #392 -> #393 -> #394 (sub-issues](20260925-121953-2026-09-25-adr-0054-split-into-tickets-392-393-3.md)
