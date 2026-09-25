@@ -201,3 +201,6 @@ channel = "dev"
 # for every plane but this one. And `charter 2>&1 | head` still prints that usage rather
 # than exec-ing the harness: a script probing for charter must not start a session.
 default = "claude"
+
+[plane]
+mode = "push"
