@@ -6,7 +6,7 @@ uses: none
 borrows: none
 vault: none
 routing: advise
-skills: mattpocock-skills:grilling, superpowers:systematic-debugging, superpowers:test-driven-development, charter-app:working-in-a-clone
+skills: mattpocock-skills:grilling, superpowers:systematic-debugging, superpowers:test-driven-development, charter:working-in-a-clone
 delegate-when: scoping a request before code is written, work on this plane (personas, workspaces, memory, vaults), cross-cutting changes in charter-app
 ---
 
