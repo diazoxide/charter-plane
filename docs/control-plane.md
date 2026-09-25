@@ -459,7 +459,7 @@ pushed it to the team as the pin. If PyPI answers with a release older than the 
 are running, it refuses too, before installing or writing anything. To pin a team back to an
 older release, name it: `charter version bump --to X.Y.Z`.
 
-On a plane that declares the [dev channel](install.md#4-the-dev-channel--trying-main-without-cutting-a-release),
+On a plane that declares the [dev channel](install.md#4-the-dev-channel--gone-in-0622),
 `charter version` never suggests this command, because a pin and the dev channel cannot
 both be declared. It names `charter update` instead, and so does `charter version sync` on
 a plane there that pins nothing. `charter version bump` itself refuses on such a plane,

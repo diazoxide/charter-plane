@@ -7,4 +7,4 @@ Run it as ``python3 -m charter`` (from the control plane root) or via the
 installed ``charter`` console script.
 """
 
-__version__ = "0.62.1"
+__version__ = "0.62.2"

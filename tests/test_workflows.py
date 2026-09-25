@@ -2642,17 +2642,6 @@ class TheMatrixRunsOncePerPullRequestAndOnceOnMain(unittest.TestCase):
         self.assertEqual(test["strategy"]["matrix"]["python-version"],
                          ["3.11", "3.12", "3.13", "3.14"])
 
-    def test_the_dev_install_smoke_test_still_has_a_push_that_can_reach_it(self):
-        """It runs on pushes to main and nowhere else, and it says so in an `if:` rather
-        than in the trigger — so narrowing the trigger past it would strand it."""
-        branches = self.workflow()["on"]["push"]["branches"]
-        guard = self.workflow()["jobs"]["dev-install"]["if"]
-        self.assertEqual(guard,
-                         "github.event_name == 'push' && github.ref == 'refs/heads/main'")
-        self.assertTrue(any(f"refs/heads/{b}" in guard for b in branches),
-                        f"`push:` fires on {branches}, and `dev-install` waits for a ref "
-                        "none of them produces — the job would never run again")
-
 
 class TheSweepsAbsenceIsSomethingOnlyARequiredCheckCanSay(unittest.TestCase):
     """#646 and #561 are one defect seen from two heights, and this holds the code half.

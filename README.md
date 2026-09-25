@@ -1,8 +1,20 @@
 # charter
 
+> [!IMPORTANT]
+> **charter-cp is no longer maintained — charter is now a desktop app:
+> [diazoxide/charter](https://github.com/diazoxide/charter/releases).** This Python package
+> (`charter-cp`) receives no further releases; 0.62.2 is its last. The app is charter from
+> 0.1.0 on: one window for your projects, workspaces and chats, with its own `charter` command
+> and Claude Code plugin built in, and nothing to install from PyPI. It reads the planes you
+> already have as they are.
+>
+> This package's source and history live in
+> [diazoxide/charter-plane](https://github.com/diazoxide/charter-plane). What follows
+> describes the Python charter.
+
 [![PyPI](https://img.shields.io/pypi/v/charter-cp?label=charter-cp)](https://pypi.org/project/charter-cp/)
 [![Python](https://img.shields.io/pypi/pyversions/charter-cp)](https://pypi.org/project/charter-cp/)
-[![Tests](https://github.com/diazoxide/charter/actions/workflows/test.yml/badge.svg)](https://github.com/diazoxide/charter/actions/workflows/test.yml)
+[![Tests](https://github.com/diazoxide/charter-plane/actions/workflows/test.yml/badge.svg)](https://github.com/diazoxide/charter-plane/actions/workflows/test.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 **Your agent forgets everything, holds every credential, and works in one checkout.**
@@ -321,7 +333,7 @@ conversation, and everywhere else prints it only where you asked for it yourself
 the command you hand it to does with it is that command's business — and `secret get
 --reveal` prints to your terminal, while `secret cp` writes a real file it creates and
 refuses any destination that turns out to be one of charter's own streams, `/dev/stdout`
-included ([#449](https://github.com/diazoxide/charter/pull/449)). What only a real
+included ([#449](https://github.com/diazoxide/charter-plane/pull/449)). What only a real
 backend buys you is encryption. The vault is not a password manager; 1Password is, and charter will read from it.
 
 **A browser login: charter hands Playwright the password by name, so nobody types it into

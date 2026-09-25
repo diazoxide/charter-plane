@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "charter-cp"
-version = "0.62.1"
-description = "Personas, workspaces and memory for coding agents across many repos — Claude Code, opencode and Codex"
+version = "0.62.2"
+description = "No longer maintained — charter is now a desktop app. Personas, workspaces and memory for coding agents across many repos."
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
@@ -14,7 +14,7 @@ dependencies = []
 keywords = ["claude-code", "agents", "monorepo", "polyrepo", "developer-tools"]
 authors = [{ name = "Aaron Yordanyan", email = "aaron.yor@gmail.com" }]
 classifiers = [
-  "Development Status :: 4 - Beta",
+  "Development Status :: 7 - Inactive",
   "Environment :: Console",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
@@ -34,11 +34,16 @@ classifiers = [
   "Topic :: Utilities",
 ]
 
+# charter-cp is no longer maintained: charter is now a desktop app, whose repository took
+# over the name `diazoxide/charter`, so the home page is the app's releases. This package's
+# own source lives in `diazoxide/charter-plane`, whose `main` is a control plane: the code
+# is at the tags.
 [project.urls]
-Homepage = "https://github.com/diazoxide/charter"
-Repository = "https://github.com/diazoxide/charter"
+Homepage = "https://github.com/diazoxide/charter/releases"
+Repository = "https://github.com/diazoxide/charter-plane"
+Source = "https://github.com/diazoxide/charter-plane/tree/v0.62.2"
 Issues = "https://github.com/diazoxide/charter/issues"
-Changelog = "https://github.com/diazoxide/charter/commits/main"
+Changelog = "https://github.com/diazoxide/charter-plane/releases"
 
 [project.scripts]
 charter = "charter.cli:main"

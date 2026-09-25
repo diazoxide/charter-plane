@@ -599,50 +599,6 @@ class DoctorReportsFreshnessOnBothChannels(PersonaIso):
         self.assertIn("skills/secrets/SKILL.md", res.detail)
         self.assertIn("charter update", res.hint)
 
-    def test_the_command_this_hint_names_works_where_the_hint_gets_read(self):
-        """#456: the hint and the command it names, pinned together in one test.
-
-        Apart, both were green and the pair was broken. This row said *Run: charter
-        update*; `charter update` in a charter checkout answered *refusing to install over
-        the tree you are editing* and exited 2. A checkout is where a maintainer stands,
-        and a maintainer is the person most likely to be on the dev channel at all — so the
-        remedy refused in precisely the case the feature exists for.
-
-        A remedy that refuses when followed is worse than no remedy, because it costs the
-        reader their trust in the next hint too. Hence one test across both modules: what
-        the row tells you to type, and what typing it does from there.
-        """
-        import argparse
-
-        from charter import commands_update
-        left = tree(self.tmp / "a", PLUGIN)
-        right = tree(self.tmp / "b", {**PLUGIN, "skills/secrets/SKILL.md": "moved on\n"})
-        hint = self._check(left, right, channel="dev").hint
-        typed = hint.split("Run:", 1)[1].strip()          # the literal a reader copies
-        self.assertEqual(typed, "charter update")
-
-        # `channel.running_inside` and not `doctor._is_charter_checkout`: the refusal is
-        # about the charter this process is RUNNING, not about the directory it was typed
-        # in (#537). What this test is about — that the command `doctor` names still does
-        # the plugin half from here — is unchanged.
-        #
-        # `HAS_CONTROL_PLANE` travels with `UPDATE` because in production it cannot not:
-        # both come off the same `charter.toml`, so a plane that declares a channel is by
-        # construction a plane. `channel.update_is_dev` reads the first to decide whether
-        # there is anybody to ask, and patching one without the other builds a state no
-        # plane can be in.
-        from charter import channel as _channel
-        with mock.patch.object(config, "UPDATE", {"channel": "dev"}), \
-                mock.patch.object(config, "HAS_CONTROL_PLANE", True), \
-                mock.patch.object(_channel, "running_inside", return_value=True), \
-                mock.patch.object(plugincache, "available", return_value=True), \
-                mock.patch.object(commands_update, "_sync_dev") as installed, \
-                mock.patch.object(commands_update, "_refresh_plugin") as refreshed:
-            code = commands_update.cmd_update(argparse.Namespace(to=None, bump=False))
-        self.assertEqual(code, 0, f"`{typed}` still refuses where doctor prints it")
-        refreshed.assert_called_once()
-        # And it stays refused for the half that is actually unsafe here.
-        installed.assert_not_called()
 
     def test_drift_on_the_stable_channel_is_reported_in_detail_not_in_a_hint(self):
         """`Result.render` drops the hint entirely at OK, so guidance written there would

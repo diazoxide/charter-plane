@@ -110,7 +110,7 @@ CODEX_PLUGIN_CACHE = Path("plugins") / "cache"
 #: Printed with `CODEX_HOME=` in front of it, never run — it installs software into an
 #: account folder, and running this command IS the consent for the one line charter writes.
 CODEX_COMMANDS = (("codex", "plugin", "marketplace", "add",
-                   "https://github.com/diazoxide/charter"),
+                   "https://github.com/" + plugincache.MARKETPLACE_SOURCE),
                   ("codex", "plugin", "add", plugincache.PLUGIN_ID))
 #: The step no command can take: Codex asks a person, in a session, to trust each hook.
 CODEX_APPROVE = "start codex once and approve charter's hooks when it asks"

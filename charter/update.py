@@ -1,22 +1,15 @@
-"""Is a newer charter published? — cached, and never on the status line's clock.
+"""Is a newer charter published? — no longer asked, because 0.62.2 is the last release.
 
-The status line renders on every turn, so it must never make a network call. This
-mirrors :mod:`charter.glstate`: the renderer only ever *reads* a cache, and kicks
-off a detached background refresh when that cache goes stale. A slow or offline
-PyPI therefore costs a stale indicator, never a delayed prompt.
+charter-cp is no longer maintained: charter is now a desktop app (:data:`END_OF_LIFE`).
+Until 0.62.2 this module ran a cached, detached background check against PyPI and, on the
+dev channel, against the head of ``main`` on the GitHub repository. That repository was
+renamed and its ``main`` no longer holds this package, so the check is switched off:
+:func:`maybe_spawn` starts nothing, and :func:`newer_than` and :func:`newer_head` never
+report anything newer.
 
-The check is deliberately unauthenticated and read-only — one GET of the JSON
-metadata endpoint. Nothing is downloaded, installed or executed.
-
-**The dev channel changes what "newer" means, and nothing else here.** On a plane that
-declares ``[update] channel = "dev"`` there is no published version to compare against —
-dev builds are never published (see :mod:`charter.channel` for why) — so "newer" becomes
-*``main``'s head commit is not the commit this build was installed from*. That answer is
-fetched, cached, TTL'd, cooled down and read on exactly the same terms as the PyPI one:
-same cache file, same :data:`REFRESH_TTL`, same :data:`SPAWN_COOLDOWN`, same
-:data:`NET_TIMEOUT`, same unauthenticated read-only GET, and the same absolute rule that
-the render path only ever reads the cache. A second mechanism beside those brakes would
-be a second thing to keep honest; there is one.
+What stays is what other commands still read: :func:`version_key`, the cache
+:func:`load` returns, and :func:`fetch_and_store`, the one PyPI GET that `charter version
+bump` makes when it is run.
 """
 
 from __future__ import annotations
@@ -24,35 +17,33 @@ from __future__ import annotations
 import json
 import os
 import re
-import subprocess
 import time
 from pathlib import Path
 from typing import NamedTuple
 
-from . import config, util
+from . import config
 
 #: PyPI distribution name. The *command* is `charter`; the *package* is `charter-cp`
 #: (PyPI would not allow `charter`), so the metadata lives under the latter.
 DIST = "charter-cp"
 _URL = f"https://pypi.org/pypi/{DIST}/json"
 
-#: The repository the dev channel tracks, and the branch it tracks on it. **Constants,
-#: not configuration.** ``charter.toml`` decides *whether* charter follows the dev channel
-#: and never *what* it follows — a committed file that could name the repository would be
-#: a committed file that decides which code your machine installs. Written out in two
-#: pieces so the two URLs below are the only places they are joined, and so neither join
-#: ever has a runtime value in it.
-DEV_REPO = "diazoxide/charter"
+#: Where charter-cp's source and history live now. **Not polled, and never installed
+#: from.** Until 0.62.2 the dev channel read this repository's ``main`` head and
+#: `charter update` installed ``git+https://github.com/diazoxide/charter@main``. The
+#: repository was renamed ``diazoxide/charter-plane`` and its ``main`` is a control plane
+#: with no Python package in it, and ``diazoxide/charter`` is now the desktop app. So
+#: nothing here reaches the network for it: the one reader left is `news._entry_url`,
+#: which links a release's notes to the tag that shipped them.
+DEV_REPO = "diazoxide/charter-plane"
 DEV_BRANCH = "main"
 
-#: One unauthenticated read-only GET, exactly like ``_URL`` above: the branch endpoint of
-#: the public GitHub REST API, which answers with the head commit and needs no token for a
-#: public repository. Nothing is downloaded, installed or executed by reading it.
-_BRANCH_URL = f"https://api.github.com/repos/{DEV_REPO}/branches/{DEV_BRANCH}"
+#: What every surface says about charter-cp's end of life, in one place. 0.62.2 is the last
+#: release: `charter update` installs nothing and the update check reports nothing newer.
+END_OF_LIFE = ("charter-cp is no longer maintained — charter is now a desktop app: "
+               "https://github.com/diazoxide/charter/releases")
 
-REFRESH_TTL = 24 * 3600   # re-check at most once a day — releases are not that frequent
-SPAWN_COOLDOWN = 3600     # and at most one background attempt per hour, success or not
-NET_TIMEOUT = 5           # a detached child, but still: never hang around
+NET_TIMEOUT = 5           # `version bump` waits on this GET, so never hang around
 
 
 #: Said wherever a pin and an install disagree, and nowhere else.
@@ -108,10 +99,6 @@ def plugin_version_here() -> str | None:
 
 def _cache_file() -> Path:
     return config.STATE_DIR / "cache" / "update.json"
-
-
-def _lock_file() -> Path:
-    return config.STATE_DIR / "cache" / "update.checking"
 
 
 def load() -> dict:
@@ -311,50 +298,22 @@ def pin_beside_dev() -> PinBesideDev:
 
 
 def newer_head() -> str | None:
-    """The dev channel's answer to "is there anything newer?" — a short commit, or None.
+    """Always ``None``: the dev channel has nothing to follow.
 
-    Cache only. Like :func:`newer_than`, whose dev branch this is, it is called from the
-    status line's render path and must never reach the network; `maybe_spawn` is what
-    fills the cache, in a detached child.
-
-    Three states, and the middle one is the reason this is not a plain equality test:
-
-    * no cached head — nothing has been fetched yet, or the fetch failed. Say nothing.
-      An indicator that appears because a check did not happen is worse than no indicator.
-    * head equals the installed commit — current. Say nothing.
-    * anything else — behind, and that deliberately INCLUDES an install with no commit at
-      all. A plane that declares the dev channel while running the PyPI wheel has not got
-      what it asked for, and the nudge is how it finds out; ``charter update`` moves it.
+    It compared ``main``'s head on :data:`DEV_REPO` against the commit this build was
+    installed from. That ``main`` is now a control plane with no Python package in it, so
+    a difference between the two would nudge toward an install that cannot work.
     """
-    from . import channel
-
-    head = (load().get("head") or "").strip()
-    if not head:
-        return None
-    mine = channel.installed_commit()
-    return None if mine and mine == head else head[:7]
+    return None
 
 
 def newer_than(current: str) -> str | None:
-    """The cached latest version if it is strictly newer than *current*, else None.
+    """Always ``None``: charter-cp 0.62.2 is the last release, on either channel.
 
-    On the dev channel this hands off to :func:`newer_head` instead: there is no published
-    version to be newer than, so the comparison is against ``main``'s head commit. The
-    channel is read from `charter.channel`, which reads it from the config boundary where
-    it has already been clamped to a closed set — this function never sees an operator's
-    string, only a branch on one of two constants.
+    The status line's arrow, `charter version` and `report send` all ask this, and none of
+    them may point at an update that `charter update` will no longer install.
     """
-    from . import channel
-
-    if channel.is_dev():
-        return newer_head()
-    latest = (load().get("latest") or "").strip()
-    if not latest or not current:
-        return None
-    try:
-        return latest if version_key(latest) > version_key(current) else None
-    except Exception:
-        return None
+    return None
 
 
 def checked() -> bool:
@@ -375,7 +334,7 @@ def checked() -> bool:
 def latest_display(installed: str) -> str:
     """The `latest` line, honest about what it is.
 
-    `latest` is a reading of PyPI cached for up to :data:`REFRESH_TTL`, not a live answer.
+    `latest` is a cached reading of PyPI, not a live answer.
     Usually the distinction does not matter. It matters completely in one case: when the
     INSTALLED version is newer than the cached one, the cache is *provably* out of date —
     you cannot be running something PyPI has not published — and printing the lower number
@@ -387,7 +346,7 @@ def latest_display(installed: str) -> str:
     """
     latest = (load().get("latest") or "").strip()
     if not latest:
-        return "— (not checked yet)"
+        return "— (not checked: charter-cp 0.62.2 is the last release)"
     try:
         stale = bool(installed) and version_key(latest) < version_key(installed)
     except Exception:
@@ -411,56 +370,19 @@ def _fetch_latest() -> str | None:
         return None
 
 
-def _fetch_head() -> str | None:
-    """One unauthenticated GET of the public branch endpoint — ``main``'s head commit.
-
-    The URL is :data:`_BRANCH_URL`, built at import from two module constants. Nothing
-    from ``charter.toml`` reaches it, on any path: the channel decides *whether* this runs
-    and never *where* it points. Only a full 40-character hex commit id is accepted, so a
-    surprising response body cannot put arbitrary text into the cache that the status line
-    then renders.
-    """
-    import urllib.request
-    try:
-        with urllib.request.urlopen(_BRANCH_URL, timeout=NET_TIMEOUT) as r:
-            sha = json.load(r)["commit"]["sha"]
-    except Exception:
-        return None
-    if not isinstance(sha, str):
-        return None
-    sha = sha.strip()
-    return sha if len(sha) == 40 and all(c in "0123456789abcdef" for c in sha.lower()) else None
-
-
 def fetch_and_store() -> str | None:
-    """Query PyPI — and on the dev channel, ``main``'s head — and cache the result.
-    Runs in the detached child, never inline. Returns the published version, as before.
+    """Query PyPI and cache the published version. Returns it, or ``None``.
 
-    **The record is merged, not replaced.** Two answers now live in one cache file, and a
-    write that rebuilt the dict from scratch would drop whichever of them this call could
-    not fetch: an offline moment on a dev plane would erase the published version the
-    version-lock rows read, for no better reason than that the other GET failed.
-
-    **``ts`` is stamped only when everything this channel asked for arrived.** ``ts`` is
-    what :func:`maybe_spawn` measures :data:`REFRESH_TTL` against, so stamping it after a
-    partial fetch would hold a half-filled cache for a day. On the stable channel that
-    condition reads exactly as it always did — the PyPI call succeeded — because the head
-    is not fetched there at all.
+    `charter version bump` calls this when it is run, and nothing calls it in the
+    background any more (see :func:`maybe_spawn`). **The record is merged, not replaced**,
+    so a ``head`` an older charter cached is left where it is rather than dropped.
     """
-    from . import channel
-
-    dev = channel.is_dev()
     latest = _fetch_latest()
-    head = _fetch_head() if dev else None
-    if latest is None and head is None:
+    if latest is None:
         return None
     record = dict(load())
-    if latest is not None:
-        record["latest"] = latest
-    if head is not None:
-        record["head"] = head
-    if latest is not None and (head is not None or not dev):
-        record["ts"] = time.time()
+    record["latest"] = latest
+    record["ts"] = time.time()
     try:
         p = _cache_file()
         config.private_mkdir(p.parent)
@@ -471,47 +393,11 @@ def fetch_and_store() -> str | None:
 
 
 def maybe_spawn() -> None:
-    """Kick off a detached refresh if the cache is stale. Non-blocking, best-effort.
+    """Start no background check. charter-cp 0.62.2 is the last release.
 
-    Two independent brakes, because every caller is on a hot path: the cache TTL, and a
-    spawn cooldown that also covers *failed* attempts — otherwise an offline machine would
-    fork a doomed child on every single render.
-
-    Three callers, the same three the CI-state cache has: the status line's render
-    (`statusline._brand`), the frame's gather, which a panel with no cache runs on every
-    repaint, and the SessionStart hook. Until #938 the render was the only one, and no
-    Claude Code chat reached it any more, so the cache sat for days on the plane that
-    reported it. A new caller gets both brakes for free and needs no throttle of its own.
-
-    ``$CHARTER_NO_BACKGROUND_CHECKS`` is the brake that does not wait for a cooldown, and it
-    comes first: before the lock is stat'ed, the cache read or ``.charter/cache/`` created
-    (#945). Somebody who said no to background checks gets no trace of one. `charter update`
-    and `charter version bump` call `fetch_and_store` themselves and are not stopped.
+    This used to fork a detached ``charter _version-check`` whenever the cache went stale,
+    from the status line's render, the frame's gather and the SessionStart hook. There is
+    no newer charter-cp to find and no ``main`` to follow any more (see :data:`DEV_REPO`),
+    so all three callers now start nothing and nothing touches the network on their behalf.
     """
-    if util.background_checks_off():
-        return
-    if not config.HAS_CONTROL_PLANE:
-        return                # see `glstate.maybe_spawn` — no plane, nowhere to cache
-    now = time.time()
-    lock = _lock_file()
-    try:
-        if lock.exists() and now - lock.stat().st_mtime < SPAWN_COOLDOWN:
-            return
-        if now - (load().get("ts") or 0) < REFRESH_TTL:
-            return
-    except Exception:
-        return
-    try:
-        config.private_mkdir(lock.parent)
-        config.touch_for(lock)  # touch FIRST: a spawn storm is worse than a missed check
-        # -P (util.self_relaunch_argv, #390): this ALSO runs on the status line's own
-        # render path (see the module docstring's mirror of glstate) — without it, a
-        # project directory with its own `charter/` package would shadow the installed
-        # one on every render, exactly as quietly as glstate's own gl-refresh did.
-        subprocess.Popen(
-            util.self_relaunch_argv("_version-check"),
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-            stdin=subprocess.DEVNULL, start_new_session=True, env=util.child_env(),
-        )
-    except Exception:
-        return
+    return None

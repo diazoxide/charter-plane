@@ -3567,38 +3567,12 @@ def cmd_version(args) -> int:
         util.info(f"  {update.SHARED_INSTALL_NOTE}")
         util.info(f"  conform this machine:  charter version sync")
         return 1
-    # The verdict prints the value its condition compared, and nothing else. It used to be
-    # gated on the cached PyPI `latest` and to print that number, while on the dev channel
-    # `newer_than` compares `main`'s head instead. So a dev plane on the 0.60.0 wheel read
-    # "A newer charter is published (0.58.0)" beside a `latest` row calling 0.58.0 stale. It
-    # was then sent to `version bump --push`, which writes a pin its own session start calls
-    # contradictory and, when PyPI's GET failed, installed the stale number (#937).
-    newer = update.newer_than(installed)
-    if newer and channel.is_dev():
-        # One sentence and one next step, both from `update`, because `report send` prints
-        # the same two for the same state (#937). The label is deliberately one line rather
-        # than a branch: which command moves this charter is `dev_remedy`'s question, and
-        # asking it a second time here is how the two surfaces drifted apart the first time.
-        util.info(f"{update.dev_verdict(newer)}.")
-        util.info(f"  move this charter onto `{update.DEV_BRANCH}`:  {update.dev_remedy()}")
-        return 0
-    if newer:
-        util.info(f"A newer charter is published ({newer}).")
-        util.info(f"  update, commit and push the lock:  charter version bump --push")
-        return 0
-    if not locked and not update.checked():
-        # "Up to date" is a claim about PyPI (or `main`), and nothing here asked either: this
-        # command reads the cache the background check fills. With that check switched off
-        # the cache never fills, so the old line would have said it forever (#945). A plane
-        # with a lock keeps its own line below, which compares the lock and says nothing of
-        # what is published.
-        if util.background_checks_off():
-            util.info(f"not checked: ${util.NO_BACKGROUND_CHECKS} is set, so charter does not "
-                      f"ask in the background. `charter update` asks when you run it.")
-        else:
-            util.info("not checked yet: the background check has not answered on this plane.")
-        return 0
-    util.ok("up to date." if not locked else f"in sync with the lock ({locked}).")
+    # No verdict about what is published: charter-cp 0.62.2 is the last release, and the
+    # update check that used to answer "is a newer charter out?" is switched off
+    # (`update.maybe_spawn`). The end-of-life notice is the whole of what there is to say.
+    if locked:
+        util.ok(f"in sync with the lock ({locked}).")
+    util.warn(update.END_OF_LIFE)
     return 0
 
 

@@ -484,6 +484,10 @@ def grant_consent() -> None:
 
 #: Where reports go. Configuration rather than a constant so a fork can point its users at
 #: its own tracker, and an internal deployment can keep reports off a public one.
+#:
+#: The desktop app's repository since 0.62.2: charter-cp is no longer maintained, its old
+#: repository was renamed ``diazoxide/charter-plane``, a plane that takes no reports, and
+#: the app took over the name ``diazoxide/charter``.
 DEFAULT_UPSTREAM = "diazoxide/charter"
 
 

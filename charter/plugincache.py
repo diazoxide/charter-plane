@@ -114,12 +114,19 @@ PLUGIN_ID = "charter@charter"
 #: What ``claude plugin marketplace add`` is given — the GitHub ``<owner>/<repo>`` charter
 #: is published from, which is how a marketplace comes to be called ``charter`` at all.
 #:
+#: ``diazoxide/charter-plane`` since 0.62.2, the name the repository was renamed to; the old
+#: name ``diazoxide/charter`` is now the desktop app's repository. The plane repository's
+#: ``main`` no longer carries ``.claude-plugin/``, so ``marketplace add`` fails there and
+#: `install` reports the failure with its manual fallback. That is the chosen behaviour: a
+#: failed add names what went wrong, where the old name would have registered the app's
+#: repository as charter's marketplace.
+#:
 #: A literal rather than something read at runtime, because the wheel does not ship
 #: `.claude-plugin/`: `[tool.hatch.build.targets.wheel] packages = ["charter"]`, so a CLI
 #: installed from PyPI has no manifest to read this out of. `tests/test_plugin_install.py`
 #: pins it to `pyproject.toml`'s own `Repository` URL instead, so the day charter moves
 #: house the suite fails rather than every stranger's first install.
-MARKETPLACE_SOURCE = "diazoxide/charter"
+MARKETPLACE_SOURCE = "diazoxide/charter-plane"
 
 #: The scope charter installs its own plugin at, and NOT ``user``.
 #:
@@ -432,7 +439,7 @@ def installed_charter_plugin(prefer_project=None):
     check.
 
     **Only ``charter@charter``.** `docs/install.md` says `claude plugin marketplace add
-    diazoxide/charter`, and the name a marketplace registers under is the one its own
+    diazoxide/charter-plane`, and the name a marketplace registers under is the one its own
     `marketplace.json` declares — ``charter`` — so that is the id anyone who followed the
     documentation has. Matching `charter@<anything>` instead would let charter UNINSTALL a
     plugin called `charter` published by somebody else's marketplace, which is not

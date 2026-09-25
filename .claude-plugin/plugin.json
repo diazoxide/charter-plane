@@ -1,12 +1,12 @@
 {
   "name": "charter",
   "description": "Personas, workspaces and memory for coding agents across many repos \u2014 Claude Code, opencode and Codex",
-  "version": "0.62.1",
+  "version": "0.62.2",
   "author": {
     "name": "Aaron Yordanyan"
   },
-  "homepage": "https://github.com/diazoxide/charter",
-  "repository": "https://github.com/diazoxide/charter",
+  "homepage": "https://github.com/diazoxide/charter/releases",
+  "repository": "https://github.com/diazoxide/charter-plane",
   "license": "MIT",
   "keywords": [
     "claude-code",

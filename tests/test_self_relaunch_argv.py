@@ -130,29 +130,6 @@ class GlstateMaybeSpawnUsesIt(PersonaIso):
         self.assertEqual(captured["cmd"], util.self_relaunch_argv("gl-refresh"))
 
 
-class UpdateMaybeSpawnUsesIt(PersonaIso):
-    """charter/update.py:185 — `_version-check`, ALSO spawned from the status line's own
-    render path. Not one of the five sites #390 originally named; found by grepping the
-    tree for every `sys.executable`."""
-
-    def setUp(self):
-        super().setUp()
-        make_plane(self)      # `maybe_spawn` refuses to fork without one (#527)
-        allow_background_checks(self)     # and returns first thing with the switch on (#945)
-
-    def test_argv_carries_dash_p(self):
-        captured = {}
-
-        def fake_popen(cmd, **kw):
-            captured["cmd"] = cmd
-            return mock.MagicMock()
-
-        with mock.patch.object(update.subprocess, "Popen", side_effect=fake_popen):
-            update.maybe_spawn()
-
-        self.assertIn("cmd", captured, "Popen was never called — was the cache fresh?")
-        self.assertEqual(captured["cmd"], util.self_relaunch_argv("_version-check"))
-
 
 class WorkspaceAutosavePushUsesIt(unittest.TestCase):
     """charter/commands_workspace.py:686 — `workspace _pushbg`, the Stop-hook autosave's

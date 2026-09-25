@@ -14,12 +14,13 @@ on:
   # main's latest. Branch protection requires `test (3.11)` … `test (3.14)`, and those are
   # satisfied by the merge-commit run; the push run was four jobs nobody read.
   #
-  # Scoped rather than deleted, because two things need a push to main to exist:
-  # `dev-install` below runs on exactly that ref, and a merge should still say whether
-  # main itself is green instead of inheriting a tick from the pull request it came from.
-  # `tests/test_workflows.py` pins this trigger set and checks the branch named here
-  # against the ref `dev-install` waits for, so narrowing it further fails loudly rather
-  # than stranding that job.
+  # Scoped rather than deleted, because a merge should still say whether main itself is
+  # green instead of inheriting a tick from the pull request it came from.
+  # `tests/test_workflows.py` pins this trigger set.
+  #
+  # There was a second job here, `dev-install`, which installed charter from
+  # `git+https://github.com/diazoxide/charter@main` on every push to main. 0.62.2 removed
+  # it along with the dev channel's install path: that `main` no longer holds charter-cp.
   push:
     branches: ["main"]
   pull_request:
@@ -27,8 +28,8 @@ on:
 
 # Least privilege, declared rather than inherited. Without this key a workflow gets the
 # repository's default token permissions, which on many repositories is write across the
-# board — for jobs whose whole purpose is to run the repository's own code. Neither job
-# below needs more than read, and NEITHER needs `id-token`: see `dev-install`'s own note.
+# board — for jobs whose whole purpose is to run the repository's own code. The job below
+# needs no more than read, and it does not need `id-token`.
 permissions:
   contents: read
 
@@ -56,72 +57,3 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Run the suite
         run: python -m unittest discover -s tests -v
-
-  dev-install:
-    name: A dev-channel install from main actually installs
-    # Push to main only. On a pull request the branch does not exist under that name yet,
-    # so the install below would be testing whatever main already says — a green tick for
-    # code this run never saw.
-    #
-    # **Still load-bearing now that `push:` above is itself scoped to main**, and not
-    # redundant with it: `workflow_dispatch` also runs from main and carries the same
-    # `github.ref`, so the `event_name` half is what keeps a manual re-run of the matrix
-    # from installing out of a branch nobody pushed. `tests/test_workflows.py` checks this
-    # condition against the branches the trigger names, because a job that quietly stops
-    # running is worse than one that fails.
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    # This job is the whole value of "publish on every commit", without publishing
-    # anything. Dev builds are never published: PyPI forbids local version identifiers, so
-    # real dev releases would burn 0.52.0.dev1, .dev2, … permanently and irreversibly at a
-    # rate of hundreds a month; and running the release workflow on every push to main
-    # would run the job that holds `id-token: write` — the credential that can publish
-    # charter — on every merge. Its actions are SHA-pinned now (#443), which bounds what
-    # can run beside that token rather than making it a thing to do hundreds of times.
-    #
-    # So it holds NO id-token, writes nothing, and uses only first-party actions. `uv` is
-    # installed with pip rather than through a setup action for that same reason: the
-    # point of the job is undermined if verifying it adds a third-party action to the
-    # push-to-main path.
-    #
-    # It deliberately does not `needs: test`. This is a post-merge smoke test of a
-    # published-as-git artifact, and making it wait on a four-version matrix costs minutes
-    # to tell you nothing the matrix has not already told you.
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: "3.12"
-      # No checkout: the point is to install the way a user does — from the git URL — and
-      # nothing in this job reads the repository from disk. `@main` rather than
-      # `@${{ github.sha }}` because `@main` is the string `charter update` actually runs
-      # and `docs/install.md` actually prints; a later push landing between the two is a
-      # smoke test running against a slightly newer main, which is harmless.
-      - name: Install uv
-        run: python -m pip install --quiet uv
-      - name: Install charter from main, exactly as the dev channel does
-        run: uv tool install --force git+https://github.com/diazoxide/charter@main
-      - name: The installed charter runs, and knows it is a dev build
-        run: |
-          set -euo pipefail
-          # `uv tool install` puts the console script in ~/.local/bin, which is not on the
-          # runner's PATH by default. `uv tool run` would resolve a fresh environment
-          # rather than the one just installed, which is not the thing under test.
-          charter="$HOME/.local/bin/charter"
-          said=$("$charter" --version)
-          echo "$said"
-          case "$said" in
-            *"+dev"*) ;;
-            *) echo "::error::a git install must report a PEP 610 dev build, got: $said"
-               exit 1 ;;
-          esac
-      - name: And it is a working CLI, not merely an importable package
-        run: |
-          set -euo pipefail
-          charter="$HOME/.local/bin/charter"
-          "$charter" --help > /dev/null
-          # `doctor` runs every check. Outside a control plane it has no plane to inspect,
-          # which is exactly the state a fresh install is in — so this asserts that it
-          # comes up and completes, not what it finds.
-          "$charter" doctor || true

@@ -153,12 +153,13 @@ class StoppingTheSpawnerIsTheOtherWayOut(PersonaIso):
         _planeguard.allow_background_checks(self)
 
     def test_without_it_a_render_path_call_forks(self):
-        """The control. `make_plane` gives this case a REAL plane, which is what both
-        spawners require, and a plane one line old has no cache and no cooldown lock — so
-        this is the state twelve modules were in."""
+        """The control. `make_plane` gives this case a REAL plane, which is what the
+        spawner requires, and a plane one line old has no lock — so this is the state
+        twelve modules were in. The forge refresh, because since 0.62.2 the version check
+        starts nothing at all."""
         make_plane(self)
         with self.assertRaises(_planeguard.BackgroundCharterChild):
-            update.maybe_spawn()
+            glstate.maybe_spawn([self.tmp], "default")
 
     def test_with_it_the_same_call_forks_nothing(self):
         make_plane(self)
@@ -463,10 +464,6 @@ class EveryCharterCharterStartsForItselfIsDetached(PersonaIso):
             call()
         return seen
 
-    def test_the_version_check_is_started_detached(self):
-        seen = self._kwargs_of_the_spawn(update.maybe_spawn)
-        self.assertIn("_version-check", seen["args"])
-        self.assertTrue(seen["kw"].get("start_new_session"))
 
     def test_the_forge_refresh_is_started_detached(self):
         seen = self._kwargs_of_the_spawn(
@@ -487,13 +484,11 @@ class EveryCharterCharterStartsForItselfIsDetached(PersonaIso):
     #: reported success for it. A census that does not say what it expected to find cannot
     #: tell "nothing is wrong" from "I looked at nothing".
     DETACHED = {
-        "charter/update.py:maybe_spawn":
-            "`charter _version-check` — a GET to PyPI, kicked off the status line's own "
-            "render path so a render never blocks on the network, and from the frame's "
-            "gather and SessionStart since #938.",
         "charter/glstate.py:maybe_spawn":
             "`charter gl-refresh` — the forge client over every clone in the workspace, "
-            "same render path, same reason.",
+            "the status line's own render path, so a render never blocks on the network. "
+            "(`update.maybe_spawn` started `charter _version-check` the same way until "
+            "0.62.2, charter-cp's last release, switched the update check off.)",
         "charter/util.py:detach_self":
             "The helper the other three go through: `charter <args>` in a process that "
             "outlives this one, which is what a hook's `\"async\": true` used to buy.",

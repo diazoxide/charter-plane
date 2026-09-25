@@ -57,9 +57,12 @@ class _VersionAction(argparse.Action):
         super().__init__(option_strings, dest, **kw)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        from . import channel
+        from . import channel, update
 
-        print(f"charter {channel.build_label()}")
+        print(f"charter {channel.build_label()}", flush=True)
+        # stderr, so the one word `charter --version` prints on stdout is unchanged for
+        # anything that reads it.
+        util.warn(update.END_OF_LIFE)
         parser.exit()
 
 
@@ -300,16 +303,11 @@ def build_parser() -> argparse.ArgumentParser:
     vc.set_defaults(func=commands.cmd_version_check)
 
     up = sub.add_parser("update",
-                        help="Move charter to a newer version — CLI, this harness's "
-                             "artifact, and the pin — then say what the new version "
-                             "brings and what this plane has not adopted.")
-    up.add_argument("--to", help="Install exactly this version instead of the default "
-                                 "target (the pin, or the latest published, as PyPI "
-                                 "answers this command; refuses if it does not answer, or "
-                                 "answers a version older than the one running).")
+                        help="Says that charter-cp is no longer maintained, and installs "
+                             "nothing: 0.62.2 is the last release.")
+    up.add_argument("--to", help="Accepted and ignored: nothing is installed.")
     up.add_argument("--bump", action="store_true",
-                    help="Also move this plane's pin, which moves every teammate on their "
-                         "next session. Written only after the install is verified.")
+                    help="Accepted and ignored: no pin is moved.")
     up.set_defaults(func=commands_update.cmd_update)
 
     nw = sub.add_parser("news",
@@ -2162,8 +2160,34 @@ def _plane_refusal(typed: str | None) -> str | None:
     refusal = config.PLANE_REFUSAL
     if not refusal or typed in _DESPITE_REFUSAL:
         return None
-    return (f"{refusal} Nothing was run. `charter doctor` reports it; "
-            f"`charter update` is the way out.")
+    from .update import END_OF_LIFE
+    return (f"{refusal} Nothing was run. `charter doctor` reports it. {END_OF_LIFE}")
+
+
+#: Commands that never print the end-of-life notice. Each one either runs inside something
+#: else's display — a hook's output is Claude Code's, the status line is one row, a frame
+#: command draws a tmux pane or popup — or is an internal child nobody typed. `update` and
+#: `version` print the notice themselves.
+_NO_NOTICE = frozenset({"hook", "statusline", "gl-refresh", "tool-gate", "update", "version"})
+
+
+def _end_of_life_notice(typed: str) -> None:
+    """Print :data:`charter.update.END_OF_LIFE` once, to a person at a terminal.
+
+    Once per invocation, because :func:`main` calls this once. On stderr and only when
+    stderr is a terminal, so no stdout a script or a harness parses changes, and a chat
+    running `charter …` through its shell tool is not handed the line on every call.
+    `charter --version` and `charter update` print it whatever stderr is.
+    """
+    if typed in _NO_NOTICE or typed.startswith(("_", "frame")):
+        return
+    try:
+        if not sys.stderr.isatty():
+            return
+    except (AttributeError, ValueError):
+        return
+    from .update import END_OF_LIFE
+    util.warn(END_OF_LIFE)
 
 
 def main(argv=None) -> int:
@@ -2217,6 +2241,7 @@ def main(argv=None) -> int:
     if refusal:
         util.err(refusal)
         return 1
+    _end_of_life_notice(argv[0])
     if exec_command is not None:
         args.command = exec_command
     if frame_rest is not None:

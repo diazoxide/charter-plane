@@ -1292,13 +1292,6 @@ class NoBackgroundRefreshWithoutAPlane(unittest.TestCase):
             glstate.maybe_spawn([Path("/tmp")])
         popen.assert_not_called()
 
-    def test_update_does_not_fork(self):
-        from charter import update
-        with mock.patch.object(config, "HAS_CONTROL_PLANE", False), \
-                mock.patch.object(update.subprocess, "Popen") as popen:
-            update.maybe_spawn()
-        popen.assert_not_called()
-
 
 class TheOperatorsCredentialStoreIsNeverReached(unittest.TestCase):
     """`RealVaultReach` — the fourth tripwire, and the only one not about the plane.

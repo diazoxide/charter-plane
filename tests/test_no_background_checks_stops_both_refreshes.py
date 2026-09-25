@@ -82,51 +82,6 @@ def _recorder():
     return popen, calls
 
 
-class TheVersionCheck(PersonaIso):
-    """`update.maybe_spawn` — the fork, the lock it touches first, and the cache it reads."""
-
-    def setUp(self) -> None:
-        super().setUp()
-        make_plane(self)          # both spawners refuse to fork without a plane (#527)
-
-    def _spawn(self) -> list[list[str]]:
-        popen, calls = _recorder()
-        with mock.patch.object(update.subprocess, "Popen", popen):
-            update.maybe_spawn()
-        return calls
-
-    def test_off_a_stale_plane_forks_the_check_and_touches_the_lock(self):
-        """The control: without it, the cases below would pass on a spawner that never
-        forked for any reason at all."""
-        with _variable(None):
-            calls = self._spawn()
-        self.assertEqual(len(calls), 1)
-        self.assertIn("_version-check", calls[0])
-        self.assertTrue(update._lock_file().exists())
-
-    def test_on_it_forks_nothing_and_writes_no_lock(self):
-        for value in ON:
-            with self.subTest(value=value), _variable(value):
-                _fresh()
-                self.assertEqual(self._spawn(), [])
-                self.assertFalse(update._lock_file().exists(),
-                                 "the cooldown lock was touched with the checks off")
-                self.assertFalse(update._lock_file().parent.exists(),
-                                 "the cache directory was created with the checks off")
-
-    def test_blank_is_unset(self):
-        for value in OFF:
-            with self.subTest(value=value), _variable(value):
-                _fresh()
-                self.assertEqual(len(self._spawn()), 1)
-
-    def test_on_it_does_not_even_read_the_cache(self):
-        """"Before touching their lock or cache" is a claim about reads too: a cache that
-        cannot be read is the spawner's own business only while the switch is off."""
-        with _variable("1"), mock.patch.object(update, "load", side_effect=_Read), \
-                mock.patch.object(update, "_lock_file", side_effect=_Read):
-            self.assertEqual(self._spawn(), [])
-
 
 class TheForgeRefresh(PersonaIso):
     """`glstate.maybe_spawn` — the same switch on the second spawner, which forks only when
@@ -199,87 +154,6 @@ class WhatAPersonRunsStillAsks(PersonaIso):
         self.assertEqual(glstate.load()[str(repo)]["change"], 7)
 
 
-class NothingCheckedIsNotCalledUpToDate(PersonaIso):
-    """What `charter version` says when no answer was ever cached.
-
-    That state used to last until the first background check landed, an hour at most. With
-    the switch on it lasts for good, and the verdict below the table was ``✓ up to date.``
-    beside ``latest — (not checked yet)``: a claim about PyPI from a command that had not
-    asked it. ADR 0013 — do not present as checked what was not checked.
-    """
-
-    def setUp(self) -> None:
-        super().setUp()
-        make_plane(self)
-
-    def _version(self) -> str:
-        out, err = io.StringIO(), io.StringIO()
-        with redirect_stdout(out), redirect_stderr(err), \
-                mock.patch.object(update, "_fetch_latest",
-                                  side_effect=AssertionError("`charter version` fetched")):
-            self.assertEqual(commands.cmd_version(SimpleNamespace()), 0)
-        # The verdict only: the `latest` row already says "not checked yet" on an empty
-        # cache, and a case reading it would pass without the verdict changing at all.
-        rows = ("installed ", "locked ", "latest ")
-        return "\n".join(line for line in (out.getvalue() + err.getvalue()).splitlines()
-                         if not line.lstrip().startswith(rows))
-
-    def test_with_the_switch_on_it_says_why_nothing_was_checked(self):
-        pin_update_channel(self, "stable")
-        with _variable("1"):
-            said = self._version()
-        self.assertNotIn("up to date", said)
-        self.assertIn(NAME, said)
-        self.assertIn("charter update", said)
-
-    def test_with_it_off_an_empty_cache_is_not_up_to_date_either(self):
-        pin_update_channel(self, "stable")
-        with _variable(None):
-            said = self._version()
-        self.assertNotIn("up to date", said)
-        self.assertIn("not checked", said)
-        self.assertNotIn(NAME, said)
-
-    def test_on_the_dev_channel_a_cached_release_is_not_the_answer(self):
-        """The dev channel compares `main`'s head, so a cached PyPI number with no head is
-        still nothing checked for this plane."""
-        pin_update_channel(self, "dev")
-        cache = update._cache_file()
-        cache.parent.mkdir(parents=True, exist_ok=True)
-        cache.write_text(json.dumps({"latest": "0.0.1", "ts": 1.0}))
-        with _variable("1"), mock.patch("charter.channel.installed_commit",
-                                        return_value="a" * 40):
-            said = self._version()
-        self.assertNotIn("up to date", said)
-        self.assertIn("not checked", said)
-
-    def test_a_pinned_plane_keeps_its_lock_line_when_nothing_was_checked(self):
-        """The pin decides, and "not checked" must not stand in for it. A plane pinned to the
-        charter that is running is in sync with its lock whatever PyPI would say, so that
-        line is the verdict with the switch on and with it off; nothing about PyPI is
-        claimed by it, so there is nothing unchecked for it to qualify."""
-        pin_update_channel(self, "stable")
-        (self.tmp / root.MARKER).write_text(
-            f'schema = 1\n[charter]\nversion = "{__version__}"\n')
-        for value in ("1", None):
-            with self.subTest(switch=value), _variable(value):
-                said = self._version()
-                self.assertIn(f"in sync with the lock ({__version__})", said)
-                self.assertNotIn("not checked", said)
-                self.assertNotIn(NAME, said)
-
-    def test_a_cached_answer_is_still_up_to_date(self):
-        """The control, switch on: the cache someone filled by hand, or before they set it,
-        is still an answer."""
-        pin_update_channel(self, "stable")
-        cache = update._cache_file()
-        cache.parent.mkdir(parents=True, exist_ok=True)
-        cache.write_text(json.dumps({"latest": "0.0.1", "ts": 1.0}))
-        with _variable("1"):
-            said = self._version()
-        self.assertIn("up to date", said)
-        self.assertNotIn("not checked", said)
-
 
 #: A charter that records every detached child it would start, and starts none of them.
 #: `start_new_session=True` is charter's own shape for a background refresh (see
@@ -345,14 +219,17 @@ class ARealChildGivenTheSuitesEnvironmentForksNoGrandchild(unittest.TestCase):
         return held, self._forks(argv, payload, switch=False)
 
     def test_session_start(self):
+        """Since 0.62.2 session start forks no version check even without the switch:
+        charter-cp's last release has nothing newer to look for (`update.maybe_spawn`)."""
         held, control = self._both(["hook", "sessionstart"], {"session_id": "t"})
-        self.assertTrue(any("_version-check" in f for f in control),
-                        f"the control forked {control}: the tripwire saw nothing to stop")
+        self.assertFalse(any("_version-check" in f for f in control), control)
         self.assertEqual(held, [])
 
     def test_the_status_line(self):
         held, control = self._both(["statusline"], {"session_id": "t"})
-        self.assertTrue(any("_version-check" in f for f in control), control)
+        # The forge refresh is what the switch still holds back; the version check is off
+        # at the source since 0.62.2, switch or not.
+        self.assertFalse(any("_version-check" in f for f in control), control)
         self.assertTrue(any("gl-refresh" in f for f in control), control)
         self.assertEqual(held, [])
 

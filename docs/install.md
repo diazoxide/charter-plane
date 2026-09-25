@@ -1,5 +1,9 @@
 # Install
 
+> **charter-cp is no longer maintained — charter is now a desktop app:
+> https://github.com/diazoxide/charter/releases.** 0.62.2 is this package's last release:
+> `charter update` installs nothing, and the dev channel below has nothing to follow.
+
 **One command installs charter.**
 
 ```bash
@@ -22,7 +26,7 @@ software as a side effect of answering a question.
 Installed and checked, without looking anything up:
 
 ```
-Install charter (https://github.com/diazoxide/charter) for me:
+Install charter (https://github.com/diazoxide/charter-plane) for me:
 
 1. Run `uv tool install charter-cp`. charter needs Python 3.11+, which uv can
    fetch for me; fall back to pipx or pip only if uv is missing.
@@ -76,14 +80,13 @@ uvx --from charter-cp charter <cmd>
 
 ### What charter reaches on its own, and how to stop it
 
-charter starts two refreshes in the background, so that nothing you look at waits on the
+charter starts refreshes in the background, so that nothing you look at waits on the
 network:
 
-- **`charter _version-check`**: one unauthenticated GET of PyPI's metadata for
-  `charter-cp`, and on the [dev channel](#4-the-dev-channel--trying-main-without-cutting-a-release)
-  a second of `main`'s head from GitHub's public API. The answer lands in
-  `.charter/cache/update.json`, at most once a day and at most one attempt an hour. The
-  version chip's `↑` and `charter version`'s `latest` row read it.
+- **`charter _version-check`**: no longer started, since 0.62.2. It was one GET of PyPI's
+  metadata for `charter-cp` and, on the [dev channel](#4-the-dev-channel--gone-in-0622),
+  one of `main`'s head from GitHub. charter-cp has no newer release to find, so nothing
+  starts it. `charter version bump` still asks PyPI when you run it.
 - **`charter gl-refresh`**: `gh` or `glab` over every clone in the workspace, for the open
   change and CI columns, cached in `.charter/cache/glstate.json`.
 
@@ -198,11 +201,11 @@ By hand, if you would rather, or if `charter doctor --fix` could not (an old `cl
 network):
 
 ```bash
-claude plugin marketplace add diazoxide/charter
+claude plugin marketplace add diazoxide/charter-plane
 claude plugin install charter@charter --scope project
 ```
 
-Or inside a session: `/plugin marketplace add diazoxide/charter`, then `/plugin install
+Or inside a session: `/plugin marketplace add diazoxide/charter-plane`, then `/plugin install
 charter@charter`. Consult Claude Code's own `claude plugin --help` if that flow has moved
 on since this was written.
 
@@ -269,100 +272,15 @@ run — charter fires twice on every SessionStart, UserPromptSubmit and Bash cal
 is wrong; everything is doubled, which is harder to notice. Delete charter's block from
 `config.toml` and keep the plugin.
 
-## 4. The dev channel — trying main without cutting a release
+## 4. The dev channel — gone in 0.62.2
 
-**Opt-in, per control plane, one key.** Absent, nothing here happens and you track
-published releases as before.
-
-```toml
-[update]
-channel = "dev"     # "stable" (the default) | "dev"
-```
-
-A dev build is installed straight from git — never from PyPI:
-
-```bash
-uv tool install --force git+https://github.com/diazoxide/charter@main
-```
-
-`charter update` runs exactly that for you on a plane that declares the channel, and then
-does the two things a bare install does not: it moves this harness's charter artifact, and
-it force-refreshes the Claude Code plugin (see below for why that needs forcing).
-
-**Dev builds are never published, and that is the design rather than a limitation.** PyPI
-forbids local version identifiers, so a real dev release would have to burn `0.52.0.dev1`,
-`.dev2`, … permanently, at a rate of hundreds a month, irreversibly. And publishing on
-every push would mean running the release workflow — which holds `id-token: write` — on
-every merge, multiplying exactly the exposure that workflow is already being narrowed
-about. CI verifies the git install on every push to `main` instead: same coverage, no
-publish, no token.
-
-**Which channel you are on is in the render.** On the dev channel the frame's top row ends
-in `charter 0.51.0 dev` — the `⬢` on that row marks the workspace name, not the version —
-and `charter statusline`, wherever you run it, reads `⬢ charter 0.51.0 dev`, so an
-`↑a1b2c3d` beside it there can only mean one thing: main moved. `charter --version`
-answers the other half, which is what you are actually running:
-
-```
-$ charter --version
-charter 0.51.0+dev (main @ a1b2c3d)      # a git install
-charter 0.51.0                            # a published one
-```
-
-That is read from the dist-info's PEP 610 `direct_url.json`, which a VCS install writes and
-a PyPI install does not — so it is the install itself talking, not a number somebody
-remembered to stamp.
-
-**Nothing installs itself.** When main is ahead, charter *nudges*; you run `charter
-update`. Auto-installing unreviewed merges is committed content reaching execution without
-a moment of consent, which is the one thing charter will not do to you.
-
-**`charter version` says what it compared, and on this channel that is a commit.** On a
-git build whose commit differs from the cached head of `main`, it names both commits and
-does not say which is newer. It cannot: this cache belongs to this plane while the `charter`
-binary is shared by every plane on the machine, so an update run in another plane can leave
-the head cached here an *ancestor* of the build you are running. A build that records no
-commit, such as the PyPI wheel before your first `charter update`, has nothing to compare at
-all; for it the line says only that this plane follows `main` and this build was not
-installed from a commit of it. `charter report send` says the same sentence, in both cases.
-The next step they name is `charter update` — or a `git pull`, when the charter you are
-running is a clone you are working in, since `charter update` will not install over that
-tree. Neither surface calls a published release newer on this channel. Before #937 both did:
-a 0.60.0 wheel was told that 0.58.0 was newer, and that a commit it already contained might
-hold a fix.
-
-**A plane cannot ask for both a pin and the dev channel.** `[charter] version` names a
-published release the whole team conforms to; `main` has no such number. Declare both and
-charter installs neither, and says so at session start, even when the pin equals the version
-you are running, since a dev build prints the number of the release it was built from. So on
-this channel `charter version bump` refuses and writes nothing, and `charter version sync`
-names `charter update` rather than offering a pin. On a plane that already carries one,
-`charter version sync` refuses and installs nothing, and `charter version` names the conflict
-instead of sending you to sync. All of them name the same two ways out: drop
-`[update] channel = "dev"` to follow the pin, or remove `[charter] version` and run `charter
-update` to stay on `main`.
-
-**Going back** is one command — `charter update --to 0.51.0` installs the published release
-without editing anything — or delete the `[update]` block and run `charter update`.
-
-### The plugin needs forcing, and only on this channel
-
-`claude plugin update charter@charter` compares **version strings**, and the plugin's
-version moves once per release. The marketplace is a git clone of `main` that Claude Code
-re-fetches on its own, so between releases the clone moves and the installed copy does not,
-both still say `0.51.0`, and the update command correctly reports there is nothing to do.
-Measured on one machine: 45 files apart, `skills/secrets/SKILL.md` and
-`skills/browser/SKILL.md` among them.
-
-Hooks are unaffected — `hooks/hooks.json` invokes the `charter` on your `PATH`, so hook
-behaviour follows the CLI. **Skills are the part that goes stale**, and skills are text the
-model loads.
-
-So `charter update` on the dev channel uninstalls and reinstalls the plugin, which is the
-only mechanism that repopulates a version-keyed cache directory. And `charter doctor` now
-compares the two by **content** on *both* channels — a `plugin files` row that names the
-digests and the files that differ, because a version number that is frozen by design cannot
-answer the question.
+Up to 0.62.1 a plane could declare `[update] channel = "dev"`, and `charter update` then
+installed `git+https://github.com/diazoxide/charter@main`. That repository was renamed
+`diazoxide/charter-plane`, its `main` no longer holds this package, and `diazoxide/charter`
+is now the desktop app, so 0.62.2 removed the
+install path and switched the update check off on both channels. The key is still read and
+still accepted; it no longer changes what `charter update` does, which is print that
+charter-cp is no longer maintained and install nothing.
 
 ## First control plane
 
