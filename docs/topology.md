@@ -8,53 +8,53 @@
 
 | Repo | Kind | Stack | Branch | Description |
 | --- | --- | --- | --- | --- |
-| `ElasticPress` | app | node | `develop` | A fast and flexible search and query engine for WordPress. |
-| `ToolJet` | app | node | `develop` | Extensible low-code framework for building business applications. Connect to databases, cloud storages, GraphQL, API endpoints, Airtable, etc and build apps using drag and drop application builder. Built using JavaScript/TypeScript. 🚀 |
+| `ElasticPress` | app | unknown | `develop` | A fast and flexible search and query engine for WordPress. |
+| `ToolJet` | app | unknown | `develop` | Extensible low-code framework for building business applications. Connect to databases, cloud storages, GraphQL, API endpoints, Airtable, etc and build apps using drag and drop application builder. Built using JavaScript/TypeScript. 🚀 |
 | `actAg` | app | unknown | `master` |  |
-| `active-record` | app | php | `master` | Active Record database abstraction layer |
-| `argon2-password-hash-provider` | app | java-maven | `master` | Argon2 Password Hash Provider for Keycloak |
-| `autoteam` | app | go | `main` | Orchestrate AI agents with YAML-driven workflows via universal Model Context Protocol (MCP) |
+| `active-record` | app | unknown | `master` | Active Record database abstraction layer |
+| `argon2-password-hash-provider` | app | unknown | `master` | Argon2 Password Hash Provider for Keycloak |
+| `autoteam` | app | unknown | `main` | Orchestrate AI agents with YAML-driven workflows via universal Model Context Protocol (MCP) |
 | `awesome-claude-code-plugins` | app | unknown | `main` | Awesome Claude Code plugins — a curated list of slash commands, subagents, MCP servers, and hooks for Claude Code |
-| `awesome-go` | app | go | `main` | A curated list of awesome Go frameworks, libraries and software |
-| `bootstrap` | app | python | `master` |  |
-| `bootstrap-proxy` | app | docker | `main` |  |
-| `charter` | app | python | `main` | Control plane for your harness across many repos — durable personas, per-task workspaces, and a credential vault the model never reads from |
-| `charter-app` | app | rust | `main` | charter as one cross-platform desktop app on a Rust core: run tons of harness sessions in parallel (ADR 0025) |
-| `commission-calculation` | app | php | `master` |  |
-| `complex-cross-architecture` | app | php | `master` |  |
-| `db` | app | php | `master` | Yii Database Library |
-| `dev-log` | app | php | `master` |  |
+| `awesome-go` | app | unknown | `main` | A curated list of awesome Go frameworks, libraries and software |
+| `bootstrap` | app | unknown | `master` |  |
+| `bootstrap-proxy` | app | unknown | `main` |  |
+| `charter` | app | unknown | `main` | charter as one cross-platform desktop app on a Rust core: run tons of harness sessions in parallel (ADR 0025) |
+| `charter-plane` | app | unknown | `main` | The charter project's own plane: personas, workspaces, memory. The app is diazoxide/charter. |
+| `commission-calculation` | app | unknown | `master` |  |
+| `complex-cross-architecture` | app | unknown | `master` |  |
+| `db` | app | unknown | `master` | Yii Database Library |
+| `dev-log` | app | unknown | `master` |  |
 | `diazoxide` | app | unknown | `main` |  |
-| `easy-kafka` | app | go | `master` | Light Apache Kafka Client For Consumer/Producer Stack |
-| `email-verifier` | app | go | `main` | Will add yahoo api check |
-| `ent` | app | go | `master` | An entity framework for Go |
+| `easy-kafka` | app | unknown | `master` | Light Apache Kafka Client For Consumer/Producer Stack |
+| `email-verifier` | app | unknown | `main` | Will add yahoo api check |
+| `ent` | app | unknown | `master` | An entity framework for Go |
 | `entcloak` | app | unknown | `main` | Keycloak extension for Entgo |
-| `freqtrade-mcp` | app | python | `main` | An MCP server that integrates with the Freqtrade cryptocurrency trading bot. |
-| `godlejump` | app | go | `main` | Simple Duddle Jump game in golang |
-| `gorm` | app | go | `master` | The fantastic ORM library for Golang, aims to be developer friendly |
-| `gotcc` | app | go | `master` | A Golang package for Task Concurrency Control. It allows you to define tasks, their dependencies, and the controller will run the tasks concurrently while respecting the dependencies. |
-| `interactive-force-graph` | app | node | `main` | Created with CodeSandbox |
-| `keycloak-extension-playground` | app | java-maven | `master` | Simple project environment for creating custom Keycloak extensions |
-| `keycloak-orgs` | app | java-maven | `main` | Single realm, multi-tenancy for SaaS apps |
+| `freqtrade-mcp` | app | unknown | `main` | An MCP server that integrates with the Freqtrade cryptocurrency trading bot. |
+| `godlejump` | app | unknown | `main` | Simple Duddle Jump game in golang |
+| `gorm` | app | unknown | `master` | The fantastic ORM library for Golang, aims to be developer friendly |
+| `gotcc` | app | unknown | `master` | A Golang package for Task Concurrency Control. It allows you to define tasks, their dependencies, and the controller will run the tasks concurrently while respecting the dependencies. |
+| `interactive-force-graph` | app | unknown | `main` | Created with CodeSandbox |
+| `keycloak-extension-playground` | app | unknown | `master` | Simple project environment for creating custom Keycloak extensions |
+| `keycloak-orgs` | app | unknown | `main` | Single realm, multi-tenancy for SaaS apps |
 | `kubernetes-on-hetzner` | app | unknown | `main` |  |
-| `nardivan` | app | php | `master` | Personal development environment builder CLI application. Using custom designed JSON file to initialize local environment. |
-| `nx` | app | nx | `main` |  |
-| `phasetwo-containers` | app | docker | `main` | Docker image for Phase Two Keycloak distribution |
-| `php-helpers` | app | php | `master` | Useful php helpers functions |
-| `php74-fpm-container` | app | docker | `main` |  |
-| `sahara-cms` | app | php | `master` | Opensource lightweight CMS based on Yii2 framework |
-| `serena` | app | python | `main` | a powerful coding agent toolkit providing semantic retrieval and editing capabilities (MCP server & Agno integration) |
-| `symfony-helm` | app | helm | `main` | This is helm chart for symfony |
+| `nardivan` | app | unknown | `master` | Personal development environment builder CLI application. Using custom designed JSON file to initialize local environment. |
+| `nx` | app | unknown | `main` |  |
+| `phasetwo-containers` | app | unknown | `main` | Docker image for Phase Two Keycloak distribution |
+| `php-helpers` | app | unknown | `master` | Useful php helpers functions |
+| `php74-fpm-container` | app | unknown | `main` |  |
+| `sahara-cms` | app | unknown | `master` | Opensource lightweight CMS based on Yii2 framework |
+| `serena` | app | unknown | `main` | a powerful coding agent toolkit providing semantic retrieval and editing capabilities (MCP server & Agno integration) |
+| `symfony-helm` | app | unknown | `main` | This is helm chart for symfony |
 | `translit` | app | unknown | `main` |  |
-| `wordpress-cd` | app | python | `master` |  |
-| `wp-lib-option` | app | php | `master` | WordPress options(settings) form and dynamic fields creation library. Flexible and customizable interface with, nested forms with many types of fields. |
+| `wordpress-cd` | app | unknown | `master` |  |
+| `wp-lib-option` | app | unknown | `master` | WordPress options(settings) form and dynamic fields creation library. Flexible and customizable interface with, nested forms with many types of fields. |
 | `wp-mdm` | app | unknown | `master` | WP Mark deleted media plugin. |
-| `wp-standalone-mcp` | app | node | `main` | Integration between AI assistants and WordPress sites through the WordPress REST API |
-| `yii2-blog` | app | php | `master` | Warning: under development. Advanced Yii2 Blog module. Posts, Categories, Comments, Tags, With Slider Revolution, SEO tags, Social Tags |
-| `yii2-config` | app | php | `master` | Advanced Yii2 administrator tools |
-| `yii2-game-alias` | app | php | `master` |  |
-| `yii2-http-servers` | app | php | `master` |  |
-| `yii2-infinite-scroll` | app | php | `master` |  |
-| `yii2-monetization` | app | php | `master` | Yii2 traffic monetization module. Handle get request and create analytics data. |
-| `yii2-revslider` | app | php | `master` |  |
+| `wp-standalone-mcp` | app | unknown | `main` | Integration between AI assistants and WordPress sites through the WordPress REST API |
+| `yii2-blog` | app | unknown | `master` | Warning: under development. Advanced Yii2 Blog module. Posts, Categories, Comments, Tags, With Slider Revolution, SEO tags, Social Tags |
+| `yii2-config` | app | unknown | `master` | Advanced Yii2 administrator tools |
+| `yii2-game-alias` | app | unknown | `master` |  |
+| `yii2-http-servers` | app | unknown | `master` |  |
+| `yii2-infinite-scroll` | app | unknown | `master` |  |
+| `yii2-monetization` | app | unknown | `master` | Yii2 traffic monetization module. Handle get request and create analytics data. |
+| `yii2-revslider` | app | unknown | `master` |  |
 
