@@ -222,3 +222,6 @@ Written by the persona as it learns; committed and shared.
 - [Squash-merging a stacked PR chain in charter-app: GitHub auto-retargets](squash-merging-a-stacked-pr-chain-in-charter-app.md)
 - [In a sub-agent, charter's PreToolUse guard refuses any Bash command whos](in-a-sub-agent-charter-s-pretooluse-guard-refuse.md)
 - [On this machine cargo is not on PATH in agent shells: export PATH=/opt/h](on-this-machine-cargo-is-not-on-path-in-agent-sh.md)
+- [Sharing one CARGO_TARGET_DIR across parallel charter worktrees makes sib](sharing-one-cargo-target-dir-across-parallel-cha.md)
+- [charter-app: 'npm install <pkg>' in app/ prunes the optional @emnapi / o](charter-app-npm-install-pkg-in-app-prunes-the-op.md)
+- [charter-app strips use @dnd-kit (SI-6, PR #492). Each DndContext keeps a](charter-app-strips-use-dnd-kit-si-6-pr-492-each-.md)
