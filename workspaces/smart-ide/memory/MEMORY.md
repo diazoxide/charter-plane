@@ -9,3 +9,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [Closed todo: SI-6 Drag-to-reorder tabs at every level: project, workspac](20260926-204826-closed-todo-si-6-drag-to-reorder-tabs-at-every-l.md)
 - [Closed todo: SI-5 Plain shell tabs without a harness, plus a warning whe](20260926-213819-closed-todo-si-5-plain-shell-tabs-without-a-harn.md)
 - [Closed todo: SI-6b Drag across the pinned boundary pins optimistically, ](20260926-225356-closed-todo-si-6b-drag-across-the-pinned-boundar.md)
+- [Closed todo: Fix #493 default-encoded mouse reports reach the program (o](20260926-232421-closed-todo-fix-493-default-encoded-mouse-report.md)
