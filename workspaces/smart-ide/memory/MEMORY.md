@@ -11,3 +11,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [Closed todo: SI-6b Drag across the pinned boundary pins optimistically, ](20260926-225356-closed-todo-si-6b-drag-across-the-pinned-boundar.md)
 - [Closed todo: Fix #493 default-encoded mouse reports reach the program (o](20260926-232421-closed-todo-fix-493-default-encoded-mouse-report.md)
 - [Closed todo: SI-1 Master workspace: pinned first icon tab, sessions open](20260926-233837-closed-todo-si-1-master-workspace-pinned-first-i.md)
+- [Closed todo: Verify SI-3/5/6/7 in the real built app with screenshots](20260926-234231-closed-todo-verify-si-3-5-6-7-in-the-real-built-.md)
