@@ -23,6 +23,7 @@ Grilling round 1–2 settled (2026-09-26, operator agreed to all recommendations
 - SI-5: "New shell" catalogue action; shell tabs get claude/codex/opencode shims on PATH → `charter shell-guard <harness>`: warn, report over hook socket (tab banner "Open as chat"), exec real harness. Never blocks, never parses output.
 - SI-6: @dnd-kit/sortable; reorder within pinned/unpinned group, crossing the boundary pins/unpins; order per machine like pins; amend ADR 0039. No drag-out-to-split.
 - SI-7: user-select none by default on app chrome; opt in for xterm, inputs, markdown/memory bodies, errors, paths.
+- SI-2 reshaped (round 3): **Curation action** = core abstraction: opens a new chat tab with a prompt pre-typed (never sent). Declaring persona runs it; `on:` lists subject kinds (workspace, persona, plane). Declared one file each at personas/<p>/curation/<id>.md (frontmatter label/on/runs-in, body = template); plane-format.md + ADR 0061 first. charter's own ship in the binary, ids `charter/…`, listed first, can't be overridden (clash → lint warning + dropped visibly). Template vars only {subject.kind,name,path} {plane.root}. charter prompts are plain language naming the skill (harness-neutral). Built-ins: Safe remove, Compact & improve, Add a curation action. Persona tab lists + deletes them; CLI `charter persona curation add|list|remove`; right-click "Curate ▸" + palette rows. Glossary: "Curation action" (avoid: action, quick action, macro).
 
 ## Glossary
 
