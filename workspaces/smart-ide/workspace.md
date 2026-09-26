@@ -14,7 +14,15 @@ Make the charter IDE feel like a finished IDE: a master (plane-root) workspace, 
 <!-- Key facts, constraints, and design/architecture decisions found while working —
      the durable "why", not a chronological log. Grow this as you learn. -->
 
-_Nothing yet._
+Grilling round 1–2 settled (2026-09-26, operator agreed to all recommendations):
+- Delivery: one PR per point, order SI-7 → 4 → 6 → 3 → 5 → 1 → 2.
+- SI-1: promote the existing "Outside every workspace" pseudo-workspace (app/src/actions.ts `OUTSIDE`) to a permanent, undraggable first icon tab; tooltip "Plane — chats here start at the plane root". Root chats default to persona steward, no workspace quiz. App sets CHARTER_WORKSPACE on every chat it starts (fixes: app never sets it; CLI ignores bare workspaces/<ws> cwd).
+- SI-2: curation chat opens in a new tab; prompt is pasted as bracketed paste with NO Enter after the chat's first SessionStart hook report. Never auto-sent. Safe remove runs at plane root; Compact & improve of a workspace runs in it; persona ones at plane root. Not for todos/vaults (model never sees vaults).
+- SI-3: vault + button in panel, delete = type-name AlertDialog. Personas: create dialog, remove + safe remove; edit = external editor + harness, no in-app editor. Todos: add / done / delete in panel.
+- SI-4: Shift+Enter via attachCustomKeyEventHandler → per-harness newline sequence from the adapter (ESC CR default), verified live. Cmd/Ctrl+F = @xterm/addon-search over the pane buffer. Scrolling: measure first (alt-screen mouse wheel vs xterm scrollback), then smoothScrollDuration/sensitivity.
+- SI-5: "New shell" catalogue action; shell tabs get claude/codex/opencode shims on PATH → `charter shell-guard <harness>`: warn, report over hook socket (tab banner "Open as chat"), exec real harness. Never blocks, never parses output.
+- SI-6: @dnd-kit/sortable; reorder within pinned/unpinned group, crossing the boundary pins/unpins; order per machine like pins; amend ADR 0039. No drag-out-to-split.
+- SI-7: user-select none by default on app chrome; opt in for xterm, inputs, markdown/memory bodies, errors, paths.
 
 ## Glossary
 
