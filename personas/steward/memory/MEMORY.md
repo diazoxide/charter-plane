@@ -227,3 +227,4 @@ Written by the persona as it learns; committed and shared.
 - [charter-app strips use @dnd-kit (SI-6, PR #492). Each DndContext keeps a](charter-app-strips-use-dnd-kit-si-6-pr-492-each-.md)
 - [A CARGO_TARGET_DIR shared between parallel worktrees of charter (measure](a-cargo-target-dir-shared-between-parallel-workt.md)
 - [Shell-tab PATH shims (charter ADR 0062): a PATH handed to an interactive](shell-tab-path-shims-charter-adr-0062-a-path-han.md)
+- [A charter run in a scratch dir still resolves CHARTER_ROOT](a-charter-run-in-a-scratch-dir-still-resolves-ch.md)
