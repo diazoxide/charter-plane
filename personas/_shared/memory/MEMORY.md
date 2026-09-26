@@ -231,3 +231,5 @@ Written by the persona as it learns; committed and shared.
 - [Harness pane scrolling (SI-4, measured 2026-09-26): Claude Code under th](harness-pane-scrolling-si-4-measured-2026-09-26-.md)
 - [Shift+Enter newline for harnesses: ESC CR (\x1b\r) inserts a newline wit](shift-enter-newline-for-harnesses-esc-cr-x1b-r-i.md)
 - [xterm.js 6.0.0 wheel (SI-4, PR diazoxide/charter#495): in mouse-tracking](xterm-js-6-0-0-wheel-si-4-pr-diazoxide-charter-4.md)
+- [opencode (1.18.32): OPENCODE_CONFIG_CONTENT REPLACES array keys like ski](opencode-1-18-32-opencode-config-content-replace.md)
+- [Codex 0.147.0 has no per-session skills root: it scans only $CODEX_HOME/](codex-0-147-0-has-no-per-session-skills-root-it-.md)
