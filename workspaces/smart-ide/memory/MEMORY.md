@@ -7,3 +7,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [SI-4 scroll ruling (operator 2026-09-26): support both Claude tui modes ](20260926-202712-si-4-scroll-ruling-operator-2026-09-26-support-b.md)
 - [Closed todo: SI-3 Full CRUD in the IDE for vaults, personas, todos (and ](20260926-204254-closed-todo-si-3-full-crud-in-the-ide-for-vaults.md)
 - [Closed todo: SI-6 Drag-to-reorder tabs at every level: project, workspac](20260926-204826-closed-todo-si-6-drag-to-reorder-tabs-at-every-l.md)
+- [Closed todo: SI-5 Plain shell tabs without a harness, plus a warning whe](20260926-213819-closed-todo-si-5-plain-shell-tabs-without-a-harn.md)
