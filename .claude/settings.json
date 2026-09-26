@@ -1,25 +1,5 @@
 {
   "env": {
     "CHARTER_HARNESS": "claude-code"
-  },
-  "permissions": {
-    "ask": [
-      "Bash(charter handoff *)",
-      "Bash(charter report *--yes*)"
-    ]
-  },
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "charter hook pretooluse",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
   }
 }

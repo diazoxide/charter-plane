@@ -1,8 +1,0 @@
-{
-  "permission": {
-    "bash": {
-      "charter handoff *": "ask",
-      "charter report *--yes*": "ask"
-    }
-  }
-}
