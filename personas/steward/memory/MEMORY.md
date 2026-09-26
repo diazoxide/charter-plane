@@ -225,3 +225,5 @@ Written by the persona as it learns; committed and shared.
 - [Sharing one CARGO_TARGET_DIR across parallel charter worktrees makes sib](sharing-one-cargo-target-dir-across-parallel-cha.md)
 - [charter-app: 'npm install <pkg>' in app/ prunes the optional @emnapi / o](charter-app-npm-install-pkg-in-app-prunes-the-op.md)
 - [charter-app strips use @dnd-kit (SI-6, PR #492). Each DndContext keeps a](charter-app-strips-use-dnd-kit-si-6-pr-492-each-.md)
+- [A CARGO_TARGET_DIR shared between parallel worktrees of charter (measure](a-cargo-target-dir-shared-between-parallel-workt.md)
+- [Shell-tab PATH shims (charter ADR 0062): a PATH handed to an interactive](shell-tab-path-shims-charter-adr-0062-a-path-han.md)
