@@ -230,3 +230,4 @@ Written by the persona as it learns; committed and shared.
 - [A local clone can be several commits behind origin/main. Before verify](verify-still-true-on-main-against-origin-main.md)
 - [Harness pane scrolling (SI-4, measured 2026-09-26): Claude Code under th](harness-pane-scrolling-si-4-measured-2026-09-26-.md)
 - [Shift+Enter newline for harnesses: ESC CR (\x1b\r) inserts a newline wit](shift-enter-newline-for-harnesses-esc-cr-x1b-r-i.md)
+- [xterm.js 6.0.0 wheel (SI-4, PR diazoxide/charter#495): in mouse-tracking](xterm-js-6-0-0-wheel-si-4-pr-diazoxide-charter-4.md)
