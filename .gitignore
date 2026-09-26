@@ -19,6 +19,15 @@
 !/workspaces/ide/changes
 !/workspaces/ide/changes/**
 /workspaces/ide/changes/log/
+!/workspaces/smart-ide/workspace.json
+!/workspaces/smart-ide/workspace.md
+!/workspaces/smart-ide/memory
+!/workspaces/smart-ide/memory/**
+!/workspaces/smart-ide/todos
+!/workspaces/smart-ide/todos/**
+!/workspaces/smart-ide/changes
+!/workspaces/smart-ide/changes/**
+/workspaces/smart-ide/changes/log/
 # <<< charter live workspaces <<<
 
 # Per-developer Claude Code settings.
