@@ -13,3 +13,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [Closed todo: SI-1 Master workspace: pinned first icon tab, sessions open](20260926-233837-closed-todo-si-1-master-workspace-pinned-first-i.md)
 - [Closed todo: Verify SI-3/5/6/7 in the real built app with screenshots](20260926-234231-closed-todo-verify-si-3-5-6-7-in-the-real-built-.md)
 - [Closed todo: SI-2c Charter skills reach codex and opencode chats too (cu](20260927-003718-closed-todo-si-2c-charter-skills-reach-codex-and.md)
+- [Closed todo: SI-2d Curation hardening: reserve persona name charter, {{ ](20260927-005825-closed-todo-si-2d-curation-hardening-reserve-per.md)
