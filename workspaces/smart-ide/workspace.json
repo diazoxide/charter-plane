@@ -1,8 +1,12 @@
 {
   "name": "smart-ide",
   "description": "",
-  "repos": [],
-  "updated_at": "2026-09-26T12:27:50+00:00",
+  "repos": [
+    {
+      "name": "charter"
+    }
+  ],
+  "updated_at": "2026-09-26T12:28:11+00:00",
   "updated_by": "aharon",
-  "charter_generated": "bce78da10dd4f4c6dab77fd344d663e27d3dcb59321c1030020b4606c9c95512"
+  "charter_generated": "2ed526f42f5e3aaa02b73a0958e7216940b768876e16ca8458f761e09dc64543"
 }
