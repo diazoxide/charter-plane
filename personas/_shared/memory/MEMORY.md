@@ -228,3 +228,5 @@ Written by the persona as it learns; committed and shared.
 - [In width-critical monospace cells use East-Asian Neutral glyphs: U+25A](use-east-asian-neutral-glyphs-in-width-critical-cells.md)
 - [gh api search/issues with q='repo:diazoxide/charter-plane "term" in:body' 40](use-gh-search-issues-for-duplicate-search.md)
 - [A local clone can be several commits behind origin/main. Before verify](verify-still-true-on-main-against-origin-main.md)
+- [Harness pane scrolling (SI-4, measured 2026-09-26): Claude Code under th](harness-pane-scrolling-si-4-measured-2026-09-26-.md)
+- [Shift+Enter newline for harnesses: ESC CR (\x1b\r) inserts a newline wit](shift-enter-newline-for-harnesses-esc-cr-x1b-r-i.md)

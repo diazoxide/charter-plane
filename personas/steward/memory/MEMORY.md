@@ -221,3 +221,4 @@ Written by the persona as it learns; committed and shared.
 - [charter-app e2e locally on this Mac: build with 'npx tauri build --debug](charter-app-e2e-locally-on-this-mac-build-with-n.md)
 - [Squash-merging a stacked PR chain in charter-app: GitHub auto-retargets](squash-merging-a-stacked-pr-chain-in-charter-app.md)
 - [In a sub-agent, charter's PreToolUse guard refuses any Bash command whos](in-a-sub-agent-charter-s-pretooluse-guard-refuse.md)
+- [On this machine cargo is not on PATH in agent shells: export PATH=/opt/h](on-this-machine-cargo-is-not-on-path-in-agent-sh.md)
