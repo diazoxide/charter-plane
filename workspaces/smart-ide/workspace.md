@@ -24,6 +24,7 @@ Grilling round 1–2 settled (2026-09-26, operator agreed to all recommendations
 - SI-6: @dnd-kit/sortable; reorder within pinned/unpinned group, crossing the boundary pins/unpins; order per machine like pins; amend ADR 0039. No drag-out-to-split.
 - SI-7: user-select none by default on app chrome; opt in for xterm, inputs, markdown/memory bodies, errors, paths.
 - SI-2 reshaped (round 3): **Curation action** = core abstraction: opens a new chat tab with a prompt pre-typed (never sent). Declaring persona runs it; `on:` lists subject kinds (workspace, persona, plane). Declared one file each at personas/<p>/curation/<id>.md (frontmatter label/on/runs-in, body = template); plane-format.md + ADR 0061 first. charter's own ship in the binary, ids `charter/…`, listed first, can't be overridden (clash → lint warning + dropped visibly). Template vars only {subject.kind,name,path} {plane.root}. charter prompts are plain language naming the skill (harness-neutral). Built-ins: Safe remove, Compact & improve, Add a curation action. Persona tab lists + deletes them; CLI `charter persona curation add|list|remove`; right-click "Curate ▸" + palette rows. Glossary: "Curation action" (avoid: action, quick action, macro).
+- Q27 (2026-09-27): a harness started at the plane root from a terminal IS a plane-root session (SI-1b #505 as built) — matches the operator's original "master space where a harness runs at plane root". The default-workspace rungs no longer answer for a session standing in the plane outside every workspace.
 
 ## Glossary
 
