@@ -16,3 +16,5 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [Closed todo: SI-2d Curation hardening: reserve persona name charter, {{ ](20260927-005825-closed-todo-si-2d-curation-hardening-reserve-per.md)
 - [Closed todo: SI-1b Root chats: handoff stamp, footer, and any non-worksp](20260927-100353-closed-todo-si-1b-root-chats-handoff-stamp-foote.md)
 - [Closed todo: SI-2 Harness-driven curation: right-click Safe remove (keep](20260927-212705-closed-todo-si-2-harness-driven-curation-right-c.md)
+- [Closed todo: Release prep: CHANGELOG + version bump PR for the smart-ide](20260927-221509-closed-todo-release-prep-changelog-version-bump-.md)
+- [v0.4.0 released 2026-09-27 (tag on 9e678d5, release run 36337996837: mac](20260927-221509-v0-4-0-released-2026-09-27-tag-on-9e678d5-releas.md)
