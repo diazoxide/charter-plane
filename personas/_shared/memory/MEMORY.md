@@ -234,3 +234,4 @@ Written by the persona as it learns; committed and shared.
 - [opencode (1.18.32): OPENCODE_CONFIG_CONTENT REPLACES array keys like ski](opencode-1-18-32-opencode-config-content-replace.md)
 - [Codex 0.147.0 has no per-session skills root: it scans only $CODEX_HOME/](codex-0-147-0-has-no-per-session-skills-root-it-.md)
 - [WebdriverIO 9: reading an element that has left the DOM does not fail fa](webdriverio-9-reading-an-element-that-has-left-t.md)
+- [charter Board: needs_you is set by every Stop AND by Claude Code's idle-](charter-board-needs-you-is-set-by-every-stop-and.md)
