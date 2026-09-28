@@ -21,3 +21,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [Closed todo: SI-8e Smart close finish: pre-allow session record, profile](20260928-163323-closed-todo-si-8e-smart-close-finish-pre-allow-s.md)
 - [Closed todo: SI-9a Memory CRUD core: in-place edit (slug kept, index ret](20260928-164952-closed-todo-si-9a-memory-crud-core-in-place-edit.md)
 - [SI-9a merged: memory edit/archive core API (PR #519, f54402c)](20260928-165001-si-9a-merged-memory-edit-archive-core-api-pr-519.md)
+- [Closed todo: SI-8f Smart close goes to the background (compact chip, foc](20260928-174100-closed-todo-si-8f-smart-close-goes-to-the-backgr.md)
