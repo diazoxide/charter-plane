@@ -26,3 +26,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [Closed todo: SI-8 Smart close: closing a chat can first save a session r](20260928-205300-closed-todo-si-8-smart-close-closing-a-chat-can-.md)
 - [Closed todo: SI-9c Workspace Memory section under Todos + shared row in ](20260928-211740-closed-todo-si-9c-workspace-memory-section-under.md)
 - [Closed todo: SI-9d Memory CRUD review fixes: exact-name resolve for open](20260928-222520-closed-todo-si-9d-memory-crud-review-fixes-exact.md)
+- [Closed todo: SI-9e Memory index loose ends: curate::apply_safe index_app](20260928-230511-closed-todo-si-9e-memory-index-loose-ends-curate.md)
