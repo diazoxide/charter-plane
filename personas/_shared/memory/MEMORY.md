@@ -237,3 +237,4 @@ Written by the persona as it learns; committed and shared.
 - [charter Board: needs_you is set by every Stop AND by Claude Code's idle-](charter-board-needs-you-is-set-by-every-stop-and.md)
 - [Claude Code 2.1.283: --resume <id> finds the conversation from ANY direc](claude-code-2-1-283-resume-id-finds-the-conversa.md)
 - [Codex 0.147.0 workspace-write sandbox: tool commands may write only unde](codex-0-147-0-workspace-write-sandbox-tool-comma.md)
+- [git --no-optional-locks does NOT stop porcelain 'git diff' refreshing .g](git-no-optional-locks-does-not-stop-porcelain-gi.md)
