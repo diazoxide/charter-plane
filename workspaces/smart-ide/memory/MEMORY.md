@@ -23,3 +23,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [SI-9a merged: memory edit/archive core API (PR #519, f54402c)](20260928-165001-si-9a-merged-memory-edit-archive-core-api-pr-519.md)
 - [Closed todo: SI-8f Smart close goes to the background (compact chip, foc](20260928-174100-closed-todo-si-8f-smart-close-goes-to-the-backgr.md)
 - [Closed todo: SI-9b Memory view tab: preview tab with rendered markdown, ](20260928-204142-closed-todo-si-9b-memory-view-tab-preview-tab-wi.md)
+- [Closed todo: SI-8 Smart close: closing a chat can first save a session r](20260928-205300-closed-todo-si-8-smart-close-closing-a-chat-can-.md)
