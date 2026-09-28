@@ -19,3 +19,5 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [Closed todo: Release prep: CHANGELOG + version bump PR for the smart-ide](20260927-221509-closed-todo-release-prep-changelog-version-bump-.md)
 - [v0.4.0 released 2026-09-27 (tag on 9e678d5, release run 36337996837: mac](20260927-221509-v0-4-0-released-2026-09-27-tag-on-9e678d5-releas.md)
 - [Closed todo: SI-8e Smart close finish: pre-allow session record, profile](20260928-163323-closed-todo-si-8e-smart-close-finish-pre-allow-s.md)
+- [Closed todo: SI-9a Memory CRUD core: in-place edit (slug kept, index ret](20260928-164952-closed-todo-si-9a-memory-crud-core-in-place-edit.md)
+- [SI-9a merged: memory edit/archive core API (PR #519, f54402c)](20260928-165001-si-9a-merged-memory-edit-archive-core-api-pr-519.md)
