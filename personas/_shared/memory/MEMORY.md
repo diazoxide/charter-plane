@@ -235,3 +235,4 @@ Written by the persona as it learns; committed and shared.
 - [Codex 0.147.0 has no per-session skills root: it scans only $CODEX_HOME/](codex-0-147-0-has-no-per-session-skills-root-it-.md)
 - [WebdriverIO 9: reading an element that has left the DOM does not fail fa](webdriverio-9-reading-an-element-that-has-left-t.md)
 - [charter Board: needs_you is set by every Stop AND by Claude Code's idle-](charter-board-needs-you-is-set-by-every-stop-and.md)
+- [Claude Code 2.1.283: --resume <id> finds the conversation from ANY direc](claude-code-2-1-283-resume-id-finds-the-conversa.md)

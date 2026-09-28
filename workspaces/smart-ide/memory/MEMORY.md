@@ -18,3 +18,4 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [Closed todo: SI-2 Harness-driven curation: right-click Safe remove (keep](20260927-212705-closed-todo-si-2-harness-driven-curation-right-c.md)
 - [Closed todo: Release prep: CHANGELOG + version bump PR for the smart-ide](20260927-221509-closed-todo-release-prep-changelog-version-bump-.md)
 - [v0.4.0 released 2026-09-27 (tag on 9e678d5, release run 36337996837: mac](20260927-221509-v0-4-0-released-2026-09-27-tag-on-9e678d5-releas.md)
+- [Closed todo: SI-8e Smart close finish: pre-allow session record, profile](20260928-163323-closed-todo-si-8e-smart-close-finish-pre-allow-s.md)
