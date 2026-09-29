@@ -44,6 +44,22 @@ Rebuild charter as one lightweight cross-platform desktop app (repo charter-app)
   detached). The words must match `reposave`'s steps: a PR save on the base or default branch
   commits there first, then pushes that commit as `charter/<ws>/…`.
 
+### Repos, releases and guard rules (operator rulings 2026-09-25 to 09-26)
+
+- **`diazoxide/charter` is the app, `diazoxide/charter-plane` is the plane** (ADR 0056). Never
+  create a repo named `charter-app`: installed builds reach their updater through its redirect.
+- **Release signing lives in the protected `release` environment** (branch `main` + tag `v*`
+  only). The repo-level copies are deleted. The updater key must never be regenerated: installed
+  apps trust only its public key.
+- **Process substitution** (`<(…)`, `>(…)`, zsh `=(…)`) is refused wherever `$(…)` is, including
+  inside arithmetic (D8, D12).
+- **`charter report --yes`** stays, behind a default harness **ask** rule (D11, ADR 0059).
+- **Rename warns** by name which Claude Code chats will start a fresh conversation (D10).
+- **The cross-repo change:** T1–T5 are shipped; push, land and revert (#471–#474) wait until the
+  operator has used them (D1).
+- **Parallel agents on this Mac:** cap each at 10 GB of scratch, build only the crates touched,
+  and stop below 15 GB free. cargo-mutants runs `--in-place -j 1 -f <file>`.
+
 ## Glossary
 
 <!-- Task/domain vocabulary so a teammate or a fork isn't lost: `term` — definition. -->
@@ -57,4 +73,4 @@ Chronological "what was done" lives in the task memo — `memory/notes.md`
 
 ## Sessions
 
-1 session record — the latest is [Title-bar Save saves the plane only; Save all asks first (#404)](sessions/20260929-175318-title-bar-save-saves-the-plane-only-save-all-ask.md) (2026-09-29 17:53); all of them, newest first, in [sessions/index.md](sessions/index.md).
+2 session records — the latest is [Repo rename, security alerts and the 48-issue cleanup of diazoxide/charter](sessions/20260929-175343-repo-rename-security-alerts-and-the-48-issue-cle.md) (2026-09-29 17:53); all of them, newest first, in [sessions/index.md](sessions/index.md).
