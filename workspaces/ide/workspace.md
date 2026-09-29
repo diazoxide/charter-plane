@@ -60,6 +60,17 @@ Rebuild charter as one lightweight cross-platform desktop app (repo charter-app)
 - **Parallel agents on this Mac:** cap each at 10 GB of scratch, build only the crates touched,
   and stop below 15 GB free. cargo-mutants runs `--in-place -j 1 -f <file>`.
 
+### The plane repo is plane-only (2026-09-25, charter-plane#1186)
+
+- **The Python charter left the plane repo at tag `cli-final`.** Nothing that ships lives there.
+  Only `steward` (persona) and `ide` (workspace, LIVE) remain. Old issues were moved to the app
+  or closed, and the gaps are filed on the app.
+- **No new ADRs in the plane repo.** The numbering belongs to the app. `docs/adr/` holds history
+  only, and `docs/adr/README.md` says so.
+- **The old `charter@charter` plugin is gone** from Claude Code's and Codex's caches and from
+  `~/.codex/config.toml`. A terminal `claude`/`codex` outside the app now has no charter guard
+  (app #374).
+
 ## Glossary
 
 <!-- Task/domain vocabulary so a teammate or a fork isn't lost: `term` — definition. -->
@@ -73,4 +84,4 @@ Chronological "what was done" lives in the task memo — `memory/notes.md`
 
 ## Sessions
 
-2 session records — the latest is [Repo rename, security alerts and the 48-issue cleanup of diazoxide/charter](sessions/20260929-175343-repo-rename-security-alerts-and-the-48-issue-cle.md) (2026-09-29 17:53); all of them, newest first, in [sessions/index.md](sessions/index.md).
+3 session records — the latest is [The charter repo became a plane-only repo: Python charter retired at cli-final, one persona, one workspace](sessions/20260929-175406-the-charter-repo-became-a-plane-only-repo-python.md) (2026-09-29 17:54); all of them, newest first, in [sessions/index.md](sessions/index.md).
