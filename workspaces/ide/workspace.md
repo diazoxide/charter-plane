@@ -33,6 +33,17 @@ Rebuild charter as one lightweight cross-platform desktop app (repo charter-app)
   untick removes the clone only past the `work_at_risk` guard.
 - **No gh auth:** inline "run `gh auth login`" notice + retry; creating without repos still works.
 
+### Saving repos (operator's ruling 2026-09-25, ADR 0051 amended; shipped in charter-app #404)
+
+- **The title-bar Save saves the plane only.** A workspace repo is a developer's: charter never
+  commits or pushes one from a press that did not name it.
+- **Save all lives only in the Saving tab**, behind a confirmation listing each repo, its branch,
+  what it takes and where its save goes. It saves exactly the list it showed.
+- **An unconfigured repo is `off`**; charter saves no repo until `[repos.<name>] mode` says how.
+- **Each repo row says where its Save goes**, including where it stops short (no forge, no target,
+  detached). The words must match `reposave`'s steps: a PR save on the base or default branch
+  commits there first, then pushes that commit as `charter/<ws>/…`.
+
 ## Glossary
 
 <!-- Task/domain vocabulary so a teammate or a fork isn't lost: `term` — definition. -->
@@ -43,3 +54,7 @@ _Nothing yet._
 
 Chronological "what was done" lives in the task memo — `memory/notes.md`
 (append with `charter workspace note "…"`).
+
+## Sessions
+
+1 session record — the latest is [Title-bar Save saves the plane only; Save all asks first (#404)](sessions/20260929-175318-title-bar-save-saves-the-plane-only-save-all-ask.md) (2026-09-29 17:53); all of them, newest first, in [sessions/index.md](sessions/index.md).
