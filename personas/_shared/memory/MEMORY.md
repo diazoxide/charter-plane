@@ -238,3 +238,8 @@ Written by the persona as it learns; committed and shared.
 - [Claude Code 2.1.283: --resume <id> finds the conversation from ANY direc](claude-code-2-1-283-resume-id-finds-the-conversa.md)
 - [Codex 0.147.0 workspace-write sandbox: tool commands may write only unde](codex-0-147-0-workspace-write-sandbox-tool-comma.md)
 - [git --no-optional-locks does NOT stop porcelain 'git diff' refreshing .g](git-no-optional-locks-does-not-stop-porcelain-gi.md)
+- [Saving workspace repos (operator ruling 2026-09-25, app ADR 0051 amended](saving-workspace-repos-operator-ruling-2026-09-2.md)
+- [Repos and releases (operator rulings 2026-09-25/26, app ADR 0056): diazo](repos-and-releases-operator-rulings-2026-09-25-2.md)
+- [Guard rulings (operator 2026-09-25/26): process substitution <(…), >(…)](guard-rulings-operator-2026-09-25-26-process-sub.md)
+- [Parallel agents on the operator's Mac (ruling 2026-09-26): cap each agen](parallel-agents-on-the-operator-s-mac-ruling-202.md)
+- [The plane repo diazoxide/charter-plane is plane-only since 2026-09-25 (c](the-plane-repo-diazoxide-charter-plane-is-plane-.md)
