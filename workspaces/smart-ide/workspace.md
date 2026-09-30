@@ -34,9 +34,17 @@ Grilling round 1–2 settled (2026-09-26, operator agreed to all recommendations
 
 <!-- Task/domain vocabulary so a teammate or a fork isn't lost: `term` — definition. -->
 
-_Nothing yet._
+- `Plane root` — the fixed first tab of the workspace strip (internally OUTSIDE); a chat there is in no workspace on purpose and manages workspaces (SI-1, #498/#505).
+- `Curation action` — a chat opened on a workspace/persona/plane with its prompt typed and never sent; charter's three built-ins + one file per persona action (ADR 0061).
+- `Shell tab` — a plain shell tab; `claude`/`codex`/`opencode` started in it warn and offer "Open as chat" (ADR 0062).
+- `Session record` — a summary of a chat (Goal/Done/Decisions/Open/How to resume) in `sessions/`, written by `charter session record` (ADR 0064).
+- `Smart close` — closing a chat by having it write its session record first; the tab becomes a background chip until the record lands (ADR 0064).
 
 ## Log
 
 Chronological "what was done" lives in the task memo — `memory/notes.md`
 (append with `charter workspace note "…"`).
+
+## Sessions
+
+4 session records — the latest is [SI-1–SI-8: plane root, curation, CRUD, pane UX, shell tabs, drag, no-select, Smart close; v0.4.0 released](sessions/20260930-213238-si-1-si-8-plane-root-curation-crud-pane-ux-shell.md) (2026-09-30 21:32); all of them, newest first, in [sessions/index.md](sessions/index.md).
