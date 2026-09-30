@@ -325,3 +325,6 @@
 {"persona": "steward", "skill": "mattpocock-skills:code-review", "ts": "2026-09-30T23:39:24+00:00"}
 {"persona": "steward", "skill": "mattpocock-skills:domain-modeling", "ts": "2026-09-30T23:41:53+00:00"}
 {"persona": "steward", "skill": "mattpocock-skills:domain-modeling", "ts": "2026-09-30T23:41:55+00:00"}
+{"persona": "steward", "skill": "mattpocock-skills:grilling", "ts": "2026-09-30T23:43:33+00:00"}
+{"persona": "steward", "skill": "mattpocock-skills:tdd", "ts": "2026-09-30T23:43:55+00:00"}
+{"persona": "steward", "skill": "mattpocock-skills:tdd", "ts": "2026-09-30T23:43:56+00:00"}
