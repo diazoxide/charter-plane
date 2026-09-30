@@ -28,3 +28,5 @@ merge-conflict on. Files are timestamp-prefixed, so this index (and the director
 - [Closed todo: SI-9d Memory CRUD review fixes: exact-name resolve for open](20260928-222520-closed-todo-si-9d-memory-crud-review-fixes-exact.md)
 - [Closed todo: SI-9e Memory index loose ends: curate::apply_safe index_app](20260928-230511-closed-todo-si-9e-memory-index-loose-ends-curate.md)
 - [Closed todo: SI-9f Legacy notes.md index: remember/scaffold_memory call ](20260928-232941-closed-todo-si-9f-legacy-notes-md-index-remember.md)
+- [SI-4 closed as done (HY-5, Q17)](20260930-225108-si-4-closed-as-done-hy-5-q17.md)
+- [Closed todo: SI-4 Harness pane UX: cmd/ctrl+F find, shift+enter newline ](20260930-225113-closed-todo-si-4-harness-pane-ux-cmd-ctrl-f-find.md)
