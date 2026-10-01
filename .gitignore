@@ -38,3 +38,6 @@
 
 # added by `charter reinit` — harness profiles stay on this machine
 /charter.local.toml
+
+# added by `charter reinit` — the plane root's session records stay on this machine
+/sessions/
