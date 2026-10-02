@@ -231,3 +231,4 @@ Written by the persona as it learns; committed and shared.
 - [charter-app chats carry where they started (SI-1, PR #498): start::ready](charter-app-chats-carry-where-they-started-si-1-.md)
 - [Shared cargo target across worktrees (.worktrees/_target) can leave a bu](shared-cargo-target-across-worktrees-worktrees-t.md)
 - [charter-app e2e: one app process serves the whole wdio run, so a spec's](charter-app-e2e-one-app-process-serves-the-whole.md)
+- [The plane's remote is diazoxide/charter-plane, not diazoxide/charter. di](the-plane-s-remote-is-diazoxide-charter-plane-no.md)
